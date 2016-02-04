@@ -39,7 +39,7 @@ u is 4 - 3
 
 ### Relational Operations
 
-### isEqual
+### Equivalency
 Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required.
 
 ```
