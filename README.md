@@ -36,8 +36,21 @@ u is 4 - 3
 4evah dog is 2
 
 ```
+### Strings
+Yahscript supporst string concatenation and borrows some elements from swift.
 
-### Relational Operations
+```
+stringOne is "sup"
+stringTwo is "bruh"
+banana is 10
+
+stringThree is "sup \(StringTwo) here's \(banana) dollars"
+
+print(stringThree)
+
+// this would print "sup bruh here's 10 dollars"
+```
+
 
 ### Equivalency and other Relational operations
 Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required. Other relational operations preform the same way. 
@@ -55,7 +68,16 @@ lt 10,12,1,1,1,1,1
 geq 11,11,1,1,1,1,1
 leq 12,12,1,1,1,1,1
 ```
+### Functions
+Declaring a function is simple. See the examples below.
+```
+// Declaring a function named printParam
+printParam is (x) -> print(x)
 
+printParam("Hello")
+// output is Hello
+
+```
 
 
 
