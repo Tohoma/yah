@@ -1,7 +1,7 @@
 # Yahscript      ( ͡° ͜ʖ ͡°) 
 A language for CMSI 488
 
-Yahscript is a small language that will compile too javascript.
+Yahscript is a small language that will compile to javascript.
 
 ### Features
 
@@ -9,7 +9,7 @@ Yahscript is a small language that will compile too javascript.
 A single line comment is created with two foward slash characters. Multiline comments are started with two foward slashes followed by a backslash and ends with two back slashes followed by a single foward slash. 
 
 ```
-//This is a single line commnet
+//This is a single line comment
 
 //\
 This is a 
@@ -23,7 +23,7 @@ Multiline comment ends below.
 ```
 
 ### Assignment
-Unlike javascript we do not need var to declare assignment. Yahscript also supports constants and unlike javascript you cannot edit the properties of an object constant.
+Unlike Javascript we do not use var to declare assignment. Yahscript also supports constants and, unlike javascript, you cannot edit the properties of an object constant.
 
 ```
 //Example of declaring and assigning to four variables
