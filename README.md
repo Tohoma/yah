@@ -45,6 +45,12 @@ Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not r
 ```
 print(eq 2,2 )
 // yah would be the output
+
+print(eq 1,2 )
+// nah would be the output
 ```
-### Less than
-Less than works a lot like Equivalency.
+
+
+### Greater than, Greater than or equal, Less than and Less than or equal too
+Less than works a lot like equivalency. It takes the form of lt(var1,var2).
+
