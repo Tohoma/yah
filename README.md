@@ -47,3 +47,4 @@ print(eq 2,2 )
 // yah would be the output
 ```
 ### Less than
+Less than works a lot like Equivalency.
