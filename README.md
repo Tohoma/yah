@@ -39,8 +39,9 @@ u is 4 - 3
 
 ### Relational Operations
 
-### Equivalency
-Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required.
+### Equivalency and other Relational operations
+Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required. Other relational operations preform the same way. 
+
 
 ```
 print(eq 2,2 )
@@ -48,9 +49,13 @@ print(eq 2,2 )
 
 print(eq 1,2 )
 // nah would be the output
+
+gt 10,11,11,1,1,1,1
+lt 10,12,1,1,1,1,1
+geq 11,11,1,1,1,1,1
+leq 12,12,1,1,1,1,1
 ```
 
 
-### Greater than, Greater than or equal, Less than and Less than or equal too
-Less than works a lot like equivalency. It takes the form of lt(var1,var2).
+
 
