@@ -21,6 +21,22 @@ Multiline comment ends below.
 \\/
 
 ```
+### Primitive and Reference types
+
+```
+a is 2          // integer
+b is "what"     // string
+c is yah        // true boolean
+d is nah        // false boolean
+
+e is ͡° ͜ʖ ͡°   //undefined
+f is ಠ_ಠ       //null
+g is :^)       //NaN
+
+h is [1,2,3,4,5] //List
+i is (1,2,3,4,5) // Tuple
+
+```
 
 ### Assignment
 Unlike Javascript we do not use var to declare assignment. Yahscript also supports constants and, unlike javascript, you cannot edit the properties of an object constant.
@@ -51,6 +67,17 @@ print(stringThree)
 // this would print "sup bruh here's 10 dollars"
 ```
 
+### If and Else
+Exactly the same as python's if and else statements
+
+```
+//if and else statements
+if eq x,y,z,u:
+    spit yah
+else:
+    spit nah
+```
+
 
 ### Equivalency and other Relational operations
 Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required. Other relational operations preform the same way. 
@@ -78,6 +105,24 @@ printParam("Hello")
 // output is Hello
 
 ```
+### Code examples
+Prime Function
+```
 
+prime is (n) ->
+    for i in (0...n/2):
+        if eq n % i, 0:
+            spit nah
+        i++
+    spit yah
+```
+Callback function usage
+```
+sample is (functionvar) ->
+  functionvar("dog")
 
+sample((x) -> print(x))
+
+// The output would be "dog"
+```
 
