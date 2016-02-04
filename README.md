@@ -36,3 +36,13 @@ u is 4 - 3
 4evah dog is 2
 
 ```
+
+### Relational Operations
+
+### isEqual
+Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required.
+
+```
+print(eq 2,2 )
+// yah would be the output
+```
