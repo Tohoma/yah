@@ -105,6 +105,49 @@ printParam("Hello")
 // output is Hello
 
 ```
+
+###Scoping
+Scpoing in Yahscript is similar to python's LEGB rule.
+Local -> Enclosed -> Global -> Built In
+Yahscript first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, Yahscirpt continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, Yahscript looks in the global namespace followed by the namespace of built in / reserved names.
+
+The following code would output:
+5
+10
+5
+
+```
+i is 5
+
+bar is () ->
+    print i
+
+foo is () ->
+    i is 10
+    print i
+
+bar()
+foo()
+print i
+
+```
+Yahscript allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
+5
+15
+
+```
+i is 5
+
+apple is () ->
+    noscope i
+    i is 15
+    print i
+
+print i
+apple()
+
+```
+
 ### Code examples
 Prime Function
 ```
@@ -124,5 +167,3 @@ sample is (functionvar) ->
 sample((x) -> print(x))
 
 // The output would be "dog"
-```
-
