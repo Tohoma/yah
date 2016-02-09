@@ -114,7 +114,7 @@ printParam("Hello")
 Functions may also have default values for arguments, for missing arguments.
 
 ```
-cat is (weight, personality = "cuddly") ->
+cat is (weight, personality is "cuddly") ->
   spit "Free cats available, weighing \{container} pounds,  with \{personality} personalities"
 
 ```
