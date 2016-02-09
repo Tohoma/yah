@@ -83,7 +83,7 @@ else:
 
 
 ### Equivalency and other Relational operations
-Equivalency in Yahscript takes the form of eq(var1, var2). Paranthesis are not required. Other relational operations preform the same way. 
+Equivalency in Yahscript takes the form of eq(var1, var2). Parentheses are not required. Other relational operations preform the same way. 
 
 
 ```
