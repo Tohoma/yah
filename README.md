@@ -51,6 +51,9 @@ u is 4 - 3
 //Example use of constants
 4evah dog is 2
 
+dog is 3
+//This would produce an error
+
 ```
 ### Strings
 Yahscript supporst string concatenation and borrows some elements from swift.
@@ -94,6 +97,7 @@ gt 10,11,11,1,1,1,1
 lt 10,12,1,1,1,1,1
 geq 11,11,1,1,1,1,1
 leq 12,12,1,1,1,1,1
+
 ```
 ### Functions
 Declaring a function is simple. See the examples below.
