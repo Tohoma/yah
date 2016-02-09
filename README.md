@@ -83,20 +83,29 @@ else:
 
 
 ### Equivalency and other Relational operations
-Equivalency in Yahscript takes the form of eq(var1, var2). Parentheses are not required. Other relational operations preform the same way. 
-
+Equivalency in Yahscript takes the form of `eq var1, var2, ..., vari`. Other relational operations preform the same way. 
+Arguments are evaluated from left to right.
 
 ```
-print(eq 2,2 )
-// yah would be the output
+spit eq 2,2
+// JS equivalent of return 2 === 2, where yah is the output
 
-print(eq 1,2 )
-// nah would be the output
+spit (eq 1,2 )
+// JS equivalent of return 1 === 2, where nah is the output
 
-gt 10,11,11,1,1,1,1
-lt 10,12,1,1,1,1,1
+spit gt 10,11,12,1
+// JS equivalent of strictly greater than
+// return (10 > 11 && 11 > 12 && 12 > 1)
+
+temp is 40
+lt 10,12,temp,100
+// JS equivalent of strictly less than
+// return (10 < 12 && 12 < temp && temp < 100)
+
 geq 11,11,1,1,1,1,1
+// JS equivalent of less than or equal to
 leq 12,12,1,1,1,1,1
+// JS equivalent of greater than or equal to
 
 ```
 ### Functions
