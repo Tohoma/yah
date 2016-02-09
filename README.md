@@ -148,6 +148,25 @@ apple()
 
 ```
 
+By calling noscope multiple times, multiple namespace levels can be skipped.
+
+```
+k is 10
+
+sup is () ->
+    k is 20
+    bruh is () ->
+        noscope noscope k
+        k is 99
+        print k
+    bruh()
+
+print k
+sup()
+print k
+```
+This would output: 10 99 99
+
 ### Code examples
 Prime Function
 ```
