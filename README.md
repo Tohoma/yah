@@ -100,15 +100,25 @@ leq 12,12,1,1,1,1,1
 
 ```
 ### Functions
-Declaring a function is simple. See the examples below.
+Functions are defined by an optional list of parameters in parentheses, an arrow, and the function body.
+
 ```
 // Declaring a function named printParam
-printParam is (x) -> print(x)
+printParam is (x) -> spit x
 
 printParam("Hello")
 // output is Hello
 
 ```
+
+Functions may also have default values for arguments, for missing arguments.
+
+```
+cat is (weight, personality = "cuddly") ->
+  spit "Free cats available, weighing \{container} pounds,  with \{personality} personalities"
+
+```
+
 
 ###Scoping
 Scpoing in Yahscript is similar to python's LEGB rule.
