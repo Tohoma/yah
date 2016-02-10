@@ -1,8 +1,9 @@
-# Yahscript      ( ͡° ͜ʖ ͡°) 
+# YahScript      ( ͡° ͜ʖ ͡°) 
 A language for CMSI 488
 
-Yahscript is a small language that will compile to javascript.
-
+YahScript is a statically typed programming language with all of the dynamic benefits. It allows for coding how you want, with multiple different options to accomplish what you want. Prefer using
+&& instead of and, or ^ instead of **? We got your back. Taking a dash of Javascript, a sprinkle of Python, a splash of CoffeeScript and compiling into Javascript gives you the glorious and infamous
+YahScript.
 ### Features
 
 #### Comments
@@ -39,7 +40,7 @@ i is (1,2,3,4,5) // Tuple
 ```
 
 ### Assignment
-Unlike Javascript we do not use var to declare assignment. Yahscript also supports constants and, unlike javascript, you cannot edit the properties of an object constant.
+Unlike Javascript we do not use var to declare assignment. YahScript also supports constants and, unlike javascript, you cannot edit the properties of an object constant.
 
 ```
 //Example of declaring and assigning to four variables
@@ -56,7 +57,7 @@ dog is 3
 
 ```
 ### Strings
-Yahscript supporst string concatenation and borrows some elements from swift.
+YahScript supporst string concatenation and borrows some elements from swift.
 
 ```
 stringOne is "sup"
@@ -83,7 +84,7 @@ else:
 
 
 ### Equivalency and other Relational operations
-Equivalency in Yahscript takes the form of `eq var1, var2, ..., vari`. Other relational operations preform the same way. 
+Equivalency in YahScript takes the form of `eq var1, var2, ..., vari`. Other relational operations preform the same way. 
 Arguments are evaluated from left to right.
 
 ```
@@ -162,9 +163,9 @@ cat is (weight, personality is "cuddly") ->
 
 
 ###Scoping
-Scpoing in Yahscript is similar to python's LEGB rule.
+Scpoing in YahScript is similar to python's LEGB rule.
 Local -> Enclosed -> Global -> Built In
-Yahscript first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, Yahscirpt continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, Yahscript looks in the global namespace followed by the namespace of built in / reserved names.
+YahScript first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, Yahscirpt continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, YahScript looks in the global namespace followed by the namespace of built in / reserved names.
 
 The following code would output:
 5
@@ -186,7 +187,7 @@ foo()
 print i
 
 ```
-Yahscript allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
+YahScript allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
 5
 15
 
