@@ -118,15 +118,23 @@ YahScript provides multiple ways to perform a set of statements multiple times. 
 basket = ["banana", "orange", "grapefruit"]
 
 for each fruit in basket:
-  spit "stop eating my \(fruit)"
+  print "stop eating my \(fruit)"
 
 for i in (0 .. basket.length):
-  spit "stop eating my \(basket[i])"
+  print "stop eating my \(basket[i])"
 
+
+times 3 where i is 0:
+  print "stop eating my \(basket[i])"
+  i++
+
+
+//where i = 0 is an optional for times iteration, and it can be also written as:
+
+i is 0
 
 times 3:
-  i = 0
-  spit "stop eating my \(basket[i])"
+  print "stop eating my \(basket[i])"
   i++
 
 
