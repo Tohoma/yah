@@ -113,21 +113,22 @@ leq 12,12,1,1,1,1,1
 YahScript provides multiple ways to perform a set of statements multiple times. there is a for loop, for each, while, and the much simpler times operator.
 
 ```
+//All three iterations will output the same values
+
 basket = ["banana", "orange", "grapefruit"]
+
 for each fruit in basket:
   spit "stop eating my \(fruit)"
 
 for i in (0 .. basket.length):
   spit "stop eating my \(basket[i])"
 
-//the simplest way to iterate an operation n times is using times:
 
 times 3:
   i = 0
   spit "stop eating my \(basket[i])"
   i++
 
-//All three iterations above will output the same values
 
 ```
 
