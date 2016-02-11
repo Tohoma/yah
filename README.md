@@ -11,7 +11,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 # Features
 
 ### Primitive and Reference types
-yah allows for many different ways to represent the same implementation. For instance, notice the two ways to describe undefined, nil, and NaN below.
+yah allows for many different ways to represent the same implementation. For instance, notice the two ways to describe 'undefined', 'nil', and 'NaN' below.
 
 ```
 a is 2                                                      var a = 2;
@@ -19,12 +19,11 @@ b is "what"                                                 var b = "what";
 c is yah                                                    var c = true;
 d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°                                               var e = undefined;                                            
+e is ͡° ͜ʖ ͡°                                               var e = undefined;  
+banana is undefined                                         var banana = undefined;                                
 f is ಠ_ಠ                                                    var f = null;
-g is :^)                                                    var g = NaN;
-
-banana is undefined                                         var banana = undefined;
 apple is nil                                                var apple = null;
+g is :^)                                                    var g = NaN;
 orange is NaN                                               var orange = NaN;
 
 h is [1,2,3,4,5] // Like Python, lists are mutable          var h = [1,2,3,4,5];
@@ -72,14 +71,10 @@ print stringThree                                          console.log(stringThr
 The following are some string operations.
 
 ```
-//Adding strings creates a new string with the string on the right appended to the string on the left
-print "Hello " + "World"                                   console.log("Hello " + "World");
+greeting is "Hello " + "World"                             var greeting = "Hello " + "World";
+greeting.uppercase()                                       greeting.toUpperCase()
+print "Hello " * 3                                         console.log("Hello Hello Hello ");
 
-//Multiplying a string repeats the string
-
-print "Hello " * 3                                         
-
-// This would print "Hello Hello Hello "
 
 ```
 
