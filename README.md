@@ -81,29 +81,38 @@ stringThree is "sup \(StringTwo)                            var stringThree = "s
     here's \(banana) dollars"                                   stringTwo + " here's " + 
                                                                 banana + " dollars";
                                                                 
-print(stringThree)                                          console.log(stringThree);       
+print stringThree                                          console.log(stringThree);       
 
 // You can perform operations on  strings
 
 //Adding strings creates a new string with the string on the right appended to the string on the left
 
-print("Hello " + "World") 
+print "Hello " + "World"
 
 //Multiplying a string repeats the string
+
 print("Hello " * 3)
+
 // This would print "Hello Hello Hello "
 
 ```
 
-### If and Else
-Exactly the same as python's if and else statements
+### If, Else and Conditional Statements.
+If and Else can be written without parantheses or curly braces. If statements can also use the reserved word then to allow for a one-liner statement.
+
 
 ```
 if eq x,y,z,u:                                              if (x === y && y === z && z === u) {
-    spit yah                                                    return true;         // lolz sorry Toal ;)
+    spit yah                                                    return true;
 else:                                                       else {
     spit nah                                                    return false;
-                                                            } 
+                                                            }
+
+//one-liner
+spit yah if eq x,y                                          if (x === y) return true;
+
+eq x,y ? yah : nah                                          (x === y) ? true : false;
+
 ```
 
 ### Equivalency and other Relational operations
