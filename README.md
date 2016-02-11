@@ -36,16 +36,19 @@ b is "what"                                                 var b = "what";
 c is yah                                                    var c = true;
 d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°                                               var e = undefined                                            
-f is ಠ_ಠ                                                    var f = nil
-g is :^)                                                    var g = NaN
+e is ͡° ͜ʖ ͡°                                               var e = undefined;                                            
+f is ಠ_ಠ                                                    var f = null;
+g is :^)                                                    var g = NaN;
 
-banana is undefined                                         var banana = undefined
-apple is nil                                                var apple = nil
-orange is NaN                                               var orange = NaN
+banana is undefined                                         var banana = undefined;
+apple is nil                                                var apple = null;
+orange is NaN                                               var orange = NaN;
 
-h is [1,2,3,4,5] // List                                    var h = [1,2,3,4,5];
-i is (1,2,3,4,5) // Tuple                                   var i = ;
+h is [1,2,3,4,5] // Like Python, lists are mutable          var h = [1,2,3,4,5];
+i is (1,2,3,4,5) // Tuples are immutable                    var i = [1,2,3,4,5];
+
+h[0] is 6        // This would result in [6,2,3,4,5]        h[0] = 6;
+i[0] is 6        // This would cause a runtime error
 
 ```
 
