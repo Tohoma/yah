@@ -30,17 +30,17 @@ Multiline comment ends below.
 ### Primitive and Reference types
 
 ```
-a is 2          // integer
-b is "what"     // string
-c is yah        // true boolean
-d is nah        // false boolean
+a is 2                                                      var a = 2;
+b is "what"                                                 var b = "what";
+c is yah                                                    var c = true;
+d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°   //undefined
-f is ಠ_ಠ       //null
-g is :^)       //NaN
+e is ͡° ͜ʖ ͡°                                               
+f is ಠ_ಠ         
+g is :^)         
 
-h is [1,2,3,4,5] //List
-i is (1,2,3,4,5) // Tuple
+h is [1,2,3,4,5] // List                                    var h = [1,2,3,4,5];
+i is (1,2,3,4,5) // Tuple                                   var i = ;
 
 ```
 
@@ -48,43 +48,43 @@ i is (1,2,3,4,5) // Tuple
 Unlike Javascript we do not use var to declare assignment. YahScript also supports constants and, unlike javascript, you cannot edit the properties of an object constant.
 
 ```
-//Example of declaring and assigning to four variables
-x is 1
-y is 2 - 1
-z is 3 - 2
-u is 4 - 3
+// Example of declaring and assigning to four variables
+x is 1                                                      var x = 1;
+y is 2 - x                                                  var y = 2 - x;
+z is 3 - y                                                  var z = 3 - y;
+u is 4 - z                                                  var u = 4 - z;
 
-//Example use of constants
-4evah dog is 2
+// Example use of constants
+4evah dog is 2                                              const dog = 2;
 
 dog is 3
-//This would produce an error
+// This would produce an error
 
 ```
 ### Strings
 YahScript supporst string concatenation and borrows some elements from swift.
 
 ```
-stringOne is "sup"
-stringTwo is "bruh"
-banana is 10
+stringOne is "sup"                                          var stringOne = "sup";
+stringTwo is "bruh"                                         var stringTwo = "bruh";
+banana is 10                                                var banana = 10;
 
-stringThree is "sup \(StringTwo) here's \(banana) dollars"
-
-print(stringThree)
-
-// this would print "sup bruh here's 10 dollars"
+stringThree is "sup \(StringTwo)                            var stringThree = "sup " + 
+       here's \(banana) dollars"                                stringTwo + " here's " + 
+                                                                banana + " dollars";
+                                                                
+print(stringThree)                                          console.log(stringThree);       
 ```
 
 ### If and Else
 Exactly the same as python's if and else statements
 
 ```
-//if and else statements
-if eq x,y,z,u:
-    spit yah
-else:
-    spit nah
+if eq x,y,z,u:                                              if (x === y && y === z && z === u) {
+    spit yah                                                    return true;         // lolz sorry Toal ;)
+else:                                                       else {
+    spit nah                                                    return false;
+                                                            } 
 ```
 
 
@@ -93,26 +93,19 @@ Equivalency in YahScript takes the form of `eq var1, var2, ..., vari`. Other rel
 Arguments are evaluated from left to right.
 
 ```
-spit eq 2,2
-// JS equivalent of return 2 === 2, where yah is the output
+spit eq 2,2                                                 return 2 === 2;
+// returns yah
 
-spit (eq 1,2 )
-// JS equivalent of return 1 === 2, where nah is the output
+spit (eq 1,2 )                                              return 1 === 2;
+// returns nah
 
-spit gt 10,11,12,1
-// JS equivalent of strictly greater than
-// return (10 > 11 && 11 > 12 && 12 > 1)
+spit gt 10,11,12,1                                          return 10 > 11 && 11 > 12 && 12 > 1;
 
-temp is 40
-lt 10,12,temp,100
-// JS equivalent of strictly less than
-// return (10 < 12 && 12 < temp && temp < 100)
+temp is 40                                                  var temp = 40;
+spit lt 10,12,temp,100                                      return 10 < 12 && 12 < temp && temp < 100;     
 
-geq 11,11,1,1,1,1,1
-// JS equivalent of less than or equal to
-leq 12,12,1,1,1,1,1
-// JS equivalent of greater than or equal to
-
+geq 11,2,1                                                  11 >= 2 && 2 >= 1;
+leq 12,1,0                                                  12 <= 1 && 1 <= 0;
 ```
 
 ### Loops and Iterations
@@ -121,29 +114,18 @@ YahScript provides multiple ways to perform a set of statements multiple times. 
 ```
 //All three iterations will output the same values
 
-basket = ["banana", "orange", "grapefruit"]
+basket = ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
 
-for each fruit in basket:
+for each fruit in basket:                                   
   print "stop eating my \(fruit)"
 
-for i in (0 .. basket.length):
-  print "stop eating my \(basket[i])"
+for i in (0 .. basket.length):                              for (var i = 0; i < basket.length; i++) {
+  print "stop eating my \(basket[i])"                           console.log("stop eating my " + basket[i]);
+                                                            }
 
-
-times 3 where i is 0:
-  print "stop eating my \(basket[i])"
-  i++
-
-
-//where i = 0 is an optional for times iteration, and it can be also written as:
-
-i is 0
-
-times 3:
-  print "stop eating my \(basket[i])"
-  i++
-
-
+times 3:                                                    for (var i = 0; i < 3; i++) {
+  print "stop eating my \(basket[i])"                           console.log("stop eating my " + basket[i]);
+                                                            }
 ```
 
 ### Functions
@@ -151,18 +133,23 @@ Functions are defined by an optional list of parameters in parentheses, an arrow
 
 ```
 // Declaring a function named printParam
-printParam is (x) -> spit x
+printParam is (x) -> spit x                                 var printParam = function (x) {
+                                                                return x;
+                                                            }
 
-printParam("Hello")
+printParam("Hello")                                         console.log(printParam("Hello"));
 // output is Hello
-
 ```
 
 Functions may also have default values for arguments, for missing arguments.
 
 ```
-cat is (weight, personality is "cuddly") ->
-  spit "Free cats available, weighing \{container} pounds,  with \{personality} personalities"
+cat is (weight, personality is "cuddly") ->                 var cat = function (weight, personality) {
+  spit "Free cats available,                                    personality = "cuddly";
+      weighing \{weight} pounds,                                return "Free cats available, 
+         with \{personality} personalities"                         weighing " + weight + " pounds,
+                                                                    with " + personality + " personalities";
+                                                            }
 
 ```
 
@@ -180,7 +167,7 @@ The following code would output:
 ```
 i is 5
 
-bar is () ->
+bar is () ->                            
     print i
 
 foo is () ->
