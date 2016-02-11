@@ -175,18 +175,20 @@ The following code would output:
 5
 
 ```
-i is 5
+i is 5                                                      var i = 5;
 
-bar is () ->                            
-    print i
+bar is () ->                                                var bar = function () {
+    print i                                                     console.log(i);
+                                                            }
 
-foo is () ->
-    i is 10
-    print i
+foo is () ->                                                var foo = function () {
+    i is 10                                                     var i = 10;
+    print i                                                     console.log(i);
+                                                            }
 
-bar()
-foo()
-print i
+bar()                                                       bar();
+foo()                                                       foo();
+print i                                                     console.log(i);
 
 ```
 YahScript allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
@@ -194,28 +196,28 @@ YahScript allows for skipping namespace levels by using the reserved word noscop
 15
 
 ```
-i is 5
+i is 5                                                      var i = 5;
 
-apple is () ->
-    noscope i
-    i is 15
-    print i
+apple is () ->                                              var apple = function () {
+    noscope i                                                   i = 15;
+    i is 15                                                     console.log(i);
+    print i                                                 }
 
-print i
-apple()
+print i                                                     console.log(i);
+apple()                                                     apple();
 
 ```
 
 By calling noscope multiple times, multiple namespace levels can be skipped.
 
 ```
-k is 10
+k is 10                                                     var k = 10;
 
-sup is () ->
-    k is 20
-    bruh is () ->
-        noscope noscope k
-        k is 99
+sup is () ->                                                var sup = function () {
+    k is 20                                                     var k = 20;
+    bruh is () ->                                               var bruh = function () {
+         noscope noscope k                                          k = 99;
+        k is 99                                                     console.log(k);
         print k
     bruh()
 
