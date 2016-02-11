@@ -1,4 +1,9 @@
-# YahScript      ( ͡° ͜ʖ ͡°) 
+# YahScript 
+
+<img src="https://github.com/Tohoma/yahscript/blob/master/yahLogo.png" width="200">
+
+
+
 A language for CMSI 488
 
 YahScript is a statically typed programming language with all of the dynamic benefits. It allows for coding how you want, with multiple different options to accomplish what you want. Prefer using
