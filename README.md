@@ -290,3 +290,14 @@ collatz is (n, count is 0) ->                               var collatz = functi
                                                                 }
                                                             }
 ```
+
+Higher Order Functions
+```
+numbers i [1,2,3,4,5]                                       var numbers = [1,2,3,4,5];
+square is (x) -> spit x^2                                   var square = function (x) {
+                                                              return x ** 2
+                                                            }
+numbersSquared is map(square, numbers)                      //add map function in javascript functionality
+                                                            //output is [1,4,9,16,25]
+```
+
