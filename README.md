@@ -10,22 +10,6 @@ yah is a statically typed programming language with all of the dynamic benefits.
 
 ### Features
 
-#### Comments
-A single line comment is created with two foward slash characters. Multiline comments are started with two foward slashes followed by a backslash and ends with two back slashes followed by a single foward slash. 
-
-```
-//This is a single line comment
-
-///
-This is a 
-multiline comment
-
-Still multiline
-
-Multiline comment ends below. 
-///
-
-```
 ### Primitive and Reference types
 yah allows for many different ways to represent the same implementation. For instance, notice the two ways to describe undefined, nil, and NaN below.
 
@@ -67,7 +51,7 @@ cat is 10                                                   // Produces a compil
 
 // Example use of constants
 swag dog is 2                                              const dog = 2;
-dog is 3                                                    // Produces a compile-time error
+dog is 3                                                   // Produces a compile-time error
 
 ```
 ### Strings
@@ -180,7 +164,22 @@ cat is (weight, personality is "cuddly") ->                 var cat = function (
                                                             }
 
 ```
+#### Comments
+A single line comment is created with two foward slash characters. Multiline comments are started with two foward slashes followed by a backslash and ends with two back slashes followed by a single foward slash. 
 
+```
+//This is a single line comment
+
+///
+This is a 
+multiline comment
+
+Still multiline
+
+Multiline comment ends below. 
+///
+
+```
 
 ###Scoping
 Scpoing in YahScript is similar to python's LEGB rule.
