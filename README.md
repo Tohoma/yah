@@ -17,17 +17,18 @@ A single line comment is created with two foward slash characters. Multiline com
 ```
 //This is a single line comment
 
-//\
+///
 This is a 
 multiline comment
 
 Still multiline
 
 Multiline comment ends below. 
-\\/
+///
 
 ```
 ### Primitive and Reference types
+yah allows for many different ways to represent the same implementation. For instance, notice the two ways to describe undefined, nil, and NaN below.
 
 ```
 a is 2                                                      var a = 2;
@@ -35,9 +36,13 @@ b is "what"                                                 var b = "what";
 c is yah                                                    var c = true;
 d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°                                               
-f is ಠ_ಠ         
-g is :^)         
+e is ͡° ͜ʖ ͡°                                               var e = undefined                                            
+f is ಠ_ಠ                                                    var f = nil
+g is :^)                                                    var g = NaN
+
+banana is undefined                                         var banana = undefined
+apple is nil                                                var apple = nil
+orange is NaN                                               var orange = NaN
 
 h is [1,2,3,4,5] // List                                    var h = [1,2,3,4,5];
 i is (1,2,3,4,5) // Tuple                                   var i = ;
