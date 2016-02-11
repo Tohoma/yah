@@ -88,6 +88,18 @@ else:                                                       } else {
     spit nah                                                    return false;
                                                             }
 
+//Allows for both else if and elif
+
+if 5 > 10:                                                  if (5 > 10) {
+  print "amazing"                                             console.log("amazing");
+elif 6 > 10:                                                else if (6 > 10) {
+  print "still amazing"                                       console.log("still amazing");
+else if 7 > 10:                                             else if (7 > 10) {
+  print "still amazinger"                                     console.log("still amazinger");
+else:                                                       } else {
+  print "logical"                                             console.log("logical")
+                                                            }
+
 //one-liner
 spit yah if eq x,y                                          if (x === y) return true;
 
