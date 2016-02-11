@@ -179,6 +179,10 @@ Multiline comment ends below.
 
 ```
 
+### List Operations
+Yah supports list operations
+
+
 ###Scoping
 Scoping in yah is similar to python's LEGB rule.
 Local -> Enclosed -> Global -> Built In
