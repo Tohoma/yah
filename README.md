@@ -1,12 +1,12 @@
 # yah
 
-<img src="https://github.com/Tohoma/yahscript/blob/master/images/yahLogo.png" width="200">
+<img src="https://github.com/Tohoma/yah/blob/master/images/yahLogo.png" width="200">
 
 
 
 A language for CMSI 488
 
-yah is a statically typed programming language with all of the dynamic benefits. It allows for coding how you want, with multiple different options to accomplish what you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of Javascript, a sprinkle of Python, a splash of CoffeeScript and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
+yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
 # Features
 
@@ -55,7 +55,7 @@ dog is 3                                                   // Produces a compile
 
 ```
 ### Strings
-YahScript supporst string concatenation and borrows some elements from swift.
+yah supporst string concatenation and borrows some elements from swift.
 
 ```
 stringOne is "sup"                                          var stringOne = "sup";
@@ -101,7 +101,7 @@ eq x,y ? yah : nah                                          (x === y) ? true : f
 ```
 
 ### Equivalency and other Relational operations
-Equivalency in YahScript takes the form of `eq var1, var2, ..., vari`. Other relational operations preform the same way. 
+Equivalency in yah takes the form of `eq var1, var2, ..., vari`. Other relational operations preform the same way. 
 Arguments are evaluated from left to right.
 
 ```
@@ -121,7 +121,7 @@ leq 12,1,0                                                  12 <= 1 && 1 <= 0;
 ```
 
 ### Loops and Iterations
-YahScript provides multiple ways to perform a set of statements multiple times. there is a for loop, for each, while, and the much simpler times operator.
+yah provides multiple ways to perform a set of statements multiple times. there is a for loop, for each, while, and the much simpler times operator.
 
 ```
 //All three iterations will output the same values
@@ -185,9 +185,9 @@ Multiline comment ends below.
 ```
 
 ###Scoping
-Scpoing in YahScript is similar to python's LEGB rule.
+Scpoing in yah is similar to python's LEGB rule.
 Local -> Enclosed -> Global -> Built In
-YahScript first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, Yahscirpt continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, YahScript looks in the global namespace followed by the namespace of built in / reserved names.
+yah first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, Yahscirpt continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, yah looks in the global namespace followed by the namespace of built in / reserved names.
 
 The following code would output:
 5
@@ -211,7 +211,7 @@ foo()                                                       foo();
 print i                                                     console.log(i);
 
 ```
-YahScript allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
+yah allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
 5
 15
 
