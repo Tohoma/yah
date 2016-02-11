@@ -1,4 +1,4 @@
-# YahScript 
+# yah
 
 <img src="https://github.com/Tohoma/yahscript/blob/master/yahLogo.png" width="200">
 
