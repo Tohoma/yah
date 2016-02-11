@@ -1,6 +1,6 @@
 # yah
 
-<img src="https://github.com/Tohoma/yahscript/blob/master/yahLogo.png" width="200">
+<img src="https://github.com/Tohoma/yahscript/blob/master/images/yahLogo.png" width="200">
 
 
 
@@ -223,31 +223,35 @@ sup is () ->                                                var sup = function (
     bruh is () ->                                               var bruh = function () {
          noscope noscope k                                          k = 99;
         k is 99                                                     console.log(k);
-        print k
-    bruh()
+        print k                                                 }
+    bruh()                                                      bruh();
+                                                            }
 
-print k
-sup()
-print k
+print k                                                     console.log(k);
+sup()                                                       sup();
+print k                                                     console.log(k);
 ```
 This would output: 10 99 99
 
 ### Code examples
 Prime Function
 ```
-
-prime is (n) ->
-    for i in (0...n/2):
-        if eq n % i, 0:
-            spit nah
-        i++
-    spit yah
+prime is (n) ->                                             var prime = function (n) {
+    for i in (0...n/2):                                         for (var i = 0; i < n/2; i++) {
+        if eq n % i, 0:                                             if (n % i === 0) {
+            spit nah                                                    return false;
+        i++                                                         }
+    spit yah                                                    return true;
+                                                            }
 ```
 Callback function usage
 ```
-sample is (functionvar) ->
-  functionvar("dog")
+sample is (functionvar) ->                                  var sample = function (functionvar) {
+  functionvar("dog")                                            functionvar("dog");
+                                                            }
 
-sample((x) -> print(x))
+sample((x) -> print(x))                                     sample(function (x) {
+                                                                console.log(x);
+                                                            })
 
 // The output would be "dog"
