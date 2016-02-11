@@ -89,7 +89,7 @@ If and Else can be written without parantheses or curly braces. If statements ca
 ```
 if eq x,y,z,u:                                              if (x === y && y === z && z === u) {
     spit yah                                                    return true;
-else:                                                       else {
+else:                                                       } else {
     spit nah                                                    return false;
                                                             }
 
@@ -156,13 +156,11 @@ printParam("Hello")                                         console.log(printPar
 Functions may also have default values for arguments, for missing arguments.
 
 ```
-cat is (weight, personality is "cuddly") ->                 var cat = function (weight, personality) {
-  spit "Free cats available,                                    personality = "cuddly";
-      weighing \{weight} pounds,                                return "Free cats available, 
-         with \{personality} personalities"                         weighing " + weight + " pounds,
-                                                                    with " + personality + " personalities";
+cat is (weight, personality is "cuddly") ->                 var cat = function (weight, personality = "cuddly") {
+  spit "Free cats available,                                    return "Free cats available,
+      weighing \{weight} pounds,                                weighing " + weight + " pounds,
+         with \{personality} personalities"                         with " + personality + " personalities";
                                                             }
-
 ```
 #### Comments
 A single line comment is created with two foward slash characters. Multiline comments are started with two foward slashes followed by a backslash and ends with two back slashes followed by a single foward slash. 
@@ -265,5 +263,16 @@ sample is (functionvar) ->                                  var sample = functio
 sample((x) -> print(x))                                     sample(function (x) {
                                                                 console.log(x);
                                                             })
-
 // The output would be "dog"
+```
+
+Collatz
+```                                                 
+collatz is (n:int, count is 0) ->                           var collatz = function (n) {
+  if eq n,1:                                                    if (n === 1) {
+    spit count                                                      return count;
+  else:                                                         } else {
+    spit collatz((eq n % 2, 0 ? n / 2 : 3 * n + 1),                 return collatz(n % 2 === 0 ? n / 2 : 3 * n + 1, count+=1);
+      count++)                                                  }
+                                                            }
+```
