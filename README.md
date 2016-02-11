@@ -67,16 +67,17 @@ stringThree is "sup \(StringTwo)                            var stringThree = "s
                                                                 banana + " dollars";
                                                                 
 print stringThree                                          console.log(stringThree);       
+```
 
-// You can perform operations on  strings
+The following are some string operations.
 
+```
 //Adding strings creates a new string with the string on the right appended to the string on the left
-
-print "Hello " + "World"
+print "Hello " + "World"                                   console.log("Hello " + "World");
 
 //Multiplying a string repeats the string
 
-print("Hello " * 3)
+print "Hello " * 3                                         
 
 // This would print "Hello Hello Hello "
 
@@ -84,7 +85,6 @@ print("Hello " * 3)
 
 ### If, Else and Conditional Statements.
 If and Else can be written without parantheses or curly braces. If statements can also use the reserved word then to allow for a one-liner statement.
-
 
 ```
 if eq x,y,z,u:                                              if (x === y && y === z && z === u) {
@@ -128,8 +128,9 @@ YahScript provides multiple ways to perform a set of statements multiple times. 
 
 basket = ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
 
-for each fruit in basket:                                   
-  print "stop eating my \(fruit)"
+for each fruit in basket:                                   for each (var fruit in basket) {
+  print "stop eating my \(fruit)"                               console.log("stop eating my " + fruit);
+                                                            }
 
 for i in (0 .. basket.length):                              for (var i = 0; i < basket.length; i++) {
   print "stop eating my \(basket[i])"                           console.log("stop eating my " + basket[i]);
@@ -254,6 +255,7 @@ prime is (n) ->                                             var prime = function
     spit yah                                                    return true;
                                                             }
 ```
+
 Callback function usage
 ```
 sample is (functionvar) ->                                  var sample = function (functionvar) {
@@ -261,9 +263,9 @@ sample is (functionvar) ->                                  var sample = functio
                                                             }
 
 sample((x) -> print(x))                                     sample(function (x) {
-                                                                console.log(x);
+// The output would be "dog"                                    console.log(x);
                                                             })
-// The output would be "dog"
+
 ```
 
 Collatz
@@ -272,7 +274,8 @@ collatz is (n, count is 0) ->                               var collatz = functi
   if eq n,1:                                                    if (n === 1) {
     spit count                                                      return count;
   else:                                                         } else {
-    spit collatz((eq n % 2, 0 ? n / 2 : 3 * n + 1),                 return collatz(n % 2 === 0 ? n / 2 : 3 * n + 1, count+=1);
-      count++)                                                  }
+    spit collatz((eq n % 2, 0 ? n / 2 : 3 * n + 1),                 return collatz(n % 2 === 0 ? n / 2 : 
+      count++)                                                      3 * n + 1, count+=1);
+                                                                }
                                                             }
 ```
