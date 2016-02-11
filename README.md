@@ -180,9 +180,9 @@ Multiline comment ends below.
 ```
 
 ###Scoping
-Scpoing in yah is similar to python's LEGB rule.
+Scoping in yah is similar to python's LEGB rule.
 Local -> Enclosed -> Global -> Built In
-yah first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, Yahscirpt continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, yah looks in the global namespace followed by the namespace of built in / reserved names.
+yah first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, yah continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, yah looks in the global namespace followed by the namespace of built in / reserved names.
 
 The following code would output:
 5
