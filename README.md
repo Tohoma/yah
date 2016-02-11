@@ -8,7 +8,7 @@ A language for CMSI 488
 
 yah is a statically typed programming language with all of the dynamic benefits. It allows for coding how you want, with multiple different options to accomplish what you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of Javascript, a sprinkle of Python, a splash of CoffeeScript and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
-### Features
+# Features
 
 ### Primitive and Reference types
 yah allows for many different ways to represent the same implementation. For instance, notice the two ways to describe undefined, nil, and NaN below.
