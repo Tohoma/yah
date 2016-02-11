@@ -52,7 +52,7 @@ i[0] is 6        // This would cause a runtime error
 ```
 
 ### Assignment
-Unlike Javascript we do not use var to declare assignment. YahScript also supports constants and, unlike javascript, you cannot edit the properties of an object constant.
+Unlike Javascript yah does not use var to declare assignments. yah uses type inference, however it also allows for explicit restrictions. yah also supports constants and, unlike javascript, you cannot edit the properties of an object constant. The keyword `swag` is placed before the variable declaration to indicate an object constant. Please see the code below for basic assignments, explicit restrictive assignments, and the use of object constants.
 
 ```
 // Example of declaring and assigning to four variables
@@ -61,11 +61,13 @@ y is 2 - x                                                  var y = 2 - x;
 z is 3 - y                                                  var z = 3 - y;
 u is 4 - z                                                  var u = 4 - z;
 
-// Example use of constants
-4evah dog is 2                                              const dog = 2;
+dog:int is 5                                                var dog = 5;
+cat:String is "furry"                                       var cat = "furry";
+cat is 10                                                   // Produces a compile-time error
 
-dog is 3
-// This would produce an error
+// Example use of constants
+swag dog is 2                                              const dog = 2;
+dog is 3                                                    // Produces a compile-time error
 
 ```
 ### Strings
