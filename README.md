@@ -74,6 +74,19 @@ stringThree is "sup \(StringTwo) here's \(banana) dollars"
 print(stringThree)
 
 // this would print "sup bruh here's 10 dollars"
+
+// You can perform operations on  strings
+
+//Adding strings creates a new string with the string on the right appended to the string on the left
+
+print("Hello " + "World")
+
+//Multiplying a string repeats the string
+print("Hello " * 3)
+// This would print "Hello Hello Hello "
+
+
+
 ```
 
 ### If and Else
