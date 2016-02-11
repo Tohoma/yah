@@ -233,6 +233,17 @@ print k                                                     console.log(k);
 ```
 This would output: 10 99 99
 
+
+### Objects
+Objects in yah work much like objects in javascript.
+```
+obj is {x:20}                                             var obj = {x:20};
+obj.y is 25                                               obj.y = 25;
+obj["dog"] is 10                                          obj["dog"] = 10;
+print(obj)                                                console.log(obj);
+
+```
+
 ### Code examples
 Prime Function
 ```
