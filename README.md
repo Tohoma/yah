@@ -137,7 +137,11 @@ for i in (0 .. basket.length):                              for (var i = 0; i < 
                                                             }
 
 times 3:                                                    for (var i = 0; i < 3; i++) {
-  print "stop eating my \(basket[i])"                           console.log("stop eating my " + basket[i]);
+  print "WAT"                                                   console.log("WAT");
+                                                            }
+
+times 3 suh:                                                for (var suh = 0; suh < 3; suh++) {
+  print "stop eating my \(basket[suh])"                         console.log("stop eating my " + basket[suh]);
                                                             }
 ```
 
