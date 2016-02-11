@@ -70,10 +70,21 @@ stringTwo is "bruh"                                         var stringTwo = "bru
 banana is 10                                                var banana = 10;
 
 stringThree is "sup \(StringTwo)                            var stringThree = "sup " + 
-       here's \(banana) dollars"                                stringTwo + " here's " + 
+    here's \(banana) dollars"                                   stringTwo + " here's " + 
                                                                 banana + " dollars";
                                                                 
 print(stringThree)                                          console.log(stringThree);       
+
+// You can perform operations on  strings
+
+//Adding strings creates a new string with the string on the right appended to the string on the left
+
+print("Hello " + "World") 
+
+//Multiplying a string repeats the string
+print("Hello " * 3)
+// This would print "Hello Hello Hello "
+
 ```
 
 ### If and Else
@@ -86,7 +97,6 @@ else:                                                       else {
     spit nah                                                    return false;
                                                             } 
 ```
-
 
 ### Equivalency and other Relational operations
 Equivalency in YahScript takes the form of `eq var1, var2, ..., vari`. Other relational operations preform the same way. 
