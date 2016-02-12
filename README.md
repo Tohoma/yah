@@ -269,7 +269,7 @@ sample((x) -> print(x))                                     sample(function (x) 
 
 Collatz
 ```                                                 
-collatz is (n, count is 0) ->                               var collatz = function (n) {
+collatz is (n, count is 0) ->                               var collatz = function (n, count = 0) {
   if eq n,1:                                                    if (n === 1) {
     spit count                                                      return count;
   else:                                                         } else {
