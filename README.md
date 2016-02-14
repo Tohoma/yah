@@ -19,7 +19,7 @@ b is "what"                                                 var b = "what";
 c is yah                                                    var c = true;
 d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°                                               var e = undefined;  
+e is ͡° ͜ʖ ͡°                                                  var e = undefined;  
 banana is undefined                                         var banana = undefined;                                
 f is ಠ_ಠ                                                    var f = null;
 apple is nil                                                var apple = null;
@@ -28,9 +28,12 @@ orange is NaN                                               var orange = NaN;
 
 h is [1,2,3,4,5] // Like Python, lists are mutable          var h = [1,2,3,4,5];
 i is (1,2,3,4,5) // Tuples are immutable                    var i = [1,2,3,4,5];
+j is {0:1, 2:3} // Dictionaries are mutable                 var j = {0:1, 2:3};
+
 
 h[0] is 6        // This would result in [6,2,3,4,5]        h[0] = 6;
 i[0] is 6        // This would cause a runtime error
+j[2] is 5        // This would result in {0:5, 2:3}         j[2] = 5;
 
 ```
 
@@ -253,7 +256,6 @@ print k                                                     console.log(k);
 sup()                                                       sup();
 print k                                                     console.log(k);
 ```
-This would output: 10 99 99
 
 ### Code examples
 Prime Function
