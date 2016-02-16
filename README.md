@@ -8,6 +8,37 @@ A language for CMSI 488
 
 yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
+# Grammar
+
+## Microsyntax
+
+newline   -> \s* (\r*\n)+
+letter    -> [a-zA-z]
+digit     -> [0-9]
+keyword   -> 'class'
+          | 'for' | 'in' | 'while' | 'and' | 'or'
+          | 'is'  | 'if' | 'else'  | 'not' | 'yah'
+          | 'nah' | 'spit' | 'nil' | 'undefined' | 'NaN'
+id        -> (letter | '_') (letter | digit | '_')*
+intlit    -> digit+
+assignop  -> 'is'
+boolop    -> 'and' | 'or'
+relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
+addop     -> '+'   | '-'
+mulop     -> '*'   | '/' | '%' | '^'
+prefixop  -> '-'   | 'not' | '!'
+boollit   -> 'yah' | 'nah'
+escape    -> [\\] [rnst'"\\]
+char      -> [^\x00-\x1F'"\\] | escape
+string    -> ('"' char* '"') | (\x27 char* \x27)
+comment   -> '//' [^\n]* newline | '///' .*? '///'
+
+## Macrosyntax
+
+TernaryExp -> Exp0 ('if' Exp0 ('else' TernaryExp)?)?
+Exp0       -> Exp1 ('or' Exp1)*
+Exp1       -> Exp2 ('and' Exp2)*
+
 # Features
 
 ### Primitive and Reference types
