@@ -12,6 +12,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 
 ## Microsyntax
 
+```
 newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
@@ -32,12 +33,15 @@ escape    -> [\\] [rnst'"\\]
 char      -> [^\x00-\x1F'"\\] | escape
 string    -> ('"' char* '"') | (\x27 char* \x27)
 comment   -> '//' [^\n]* newline | '///' .*? '///'
+```
 
 ## Macrosyntax
 
+```
 TernaryExp -> Exp0 ('if' Exp0 ('else' TernaryExp)?)?
 Exp0       -> Exp1 ('or' Exp1)*
 Exp1       -> Exp2 ('and' Exp2)*
+```
 
 # Features
 
