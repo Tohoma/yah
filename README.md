@@ -195,8 +195,8 @@ printParam is (x) -> spit x                                 var printParam = fun
                                                                 return x;
                                                             }
 
-printParam("Hello")                                         console.log(printParam("Hello"));
-// output is Hello
+print(printParam("Hello"))                                  console.log(printParam("Hello"));
+
 ```
 
 Functions may also have default values for arguments, for missing arguments.
