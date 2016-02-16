@@ -1,11 +1,11 @@
-fs = require(fs)
-byline = require(byline)
-{XRegExp} = require(xregexp)
+fs = require('fs')
+byline = require('byline')
+XRegExp = require('xregexp')
 
 module.exports = function(filename, callback) {
 	var baseStream = fs.createReadStream(filename,{encoding: 'utf8'})
 	//Current error is a placeholder
-	baseStream.on('error', function(){console.log("Whoops")})
+	//baseStream.on('error', function(){console.log("I got an error")})
 
 	var stream = byline(baseStream, {keepEmptyLines: true})
 	var tokens = []
@@ -17,4 +17,8 @@ module.exports = function(filename, callback) {
 		tokens.push({kind: 'EOF', lexeme:'EOF'})
 		callback(tokens)
 	})
+}
+
+var scan = function(line, linenumber, tokens) {
+	return tokens
 }
