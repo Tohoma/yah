@@ -20,5 +20,31 @@ module.exports = function(filename, callback) {
 }
 
 var scan = function(line, linenumber, tokens) {
-	return tokens
+	var pos = 0;
+	var start = 0;
+
+	var emit = function(type,word, indentation){
+		tokens.push({kind:type, lexeme:word, idlevel: indentation})
+	}
+
+	if(!line){return}
+
+	while(true){
+		//Single line comments
+		if(line[pos]==="/"&&line[pos + 1] === "/") {break}
+
+		//Reserved words
+		//if ()
+		if(line[pos]){ 
+		console.log(pos)
+		console.log(line[pos]);
+		pos++;
+		console.log(pos);
+		
+		} else{
+			console.log(line);
+			break}
+	}
+	
+	//console.log(line[pos]);
 }
