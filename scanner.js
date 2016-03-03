@@ -2,7 +2,7 @@ fs = require('fs')
 byline = require('byline')
 XRegExp = require('xregexp')
 
-//const WORD_CHAR = XRegExp '[\\p{L}\\p{Nd}_]';
+const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename,{encoding: 'utf8'})
@@ -52,11 +52,7 @@ var scan = function(line, linenumber, tokens) {
         if(line[pos]==="/" &&line[pos + 1] === "/") {break}
 
         if(line[pos]){ 
-        //Should print out character and position. Will remove later.
-        console.log(line[pos]);
         pos++;
-        console.log(pos);
-        
         } else{
             console.log(line);
             console.log("The id level is " + idlevel);
