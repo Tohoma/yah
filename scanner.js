@@ -30,6 +30,12 @@ var scan = function(line, linenumber, tokens) {
     if(!line){return}
 
     while(true){
+        // Skips over non indent spaces
+        while (/\s/.test(line[pos])){
+            pos++
+        } 
+
+        start = pos
         //Single line comments
         if(line[pos]==="/" &&line[pos + 1] === "/") {break}
 
