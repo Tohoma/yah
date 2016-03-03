@@ -2,6 +2,8 @@ fs = require('fs')
 byline = require('byline')
 XRegExp = require('xregexp')
 
+const WORD_CHAR = XRegExp '[\\p{L}\\p{Nd}_]';
+
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename,{encoding: 'utf8'})
     //Current error is a placeholder
@@ -14,7 +16,7 @@ module.exports = function(filename, callback) {
         scan(stream.read(),linenumber++,tokens)
     })
     stream.once('end', function() {
-        tokens.push({kind: 'EOF', lexeme:'EOF', idlevel: 1})
+        tokens.push({kind: 'EOF', lexeme:'EOF', idlevel: 0})
         callback(tokens)
     })
 }
@@ -22,6 +24,8 @@ module.exports = function(filename, callback) {
 var scan = function(line, linenumber, tokens) {
     var pos = 0;
     var start = 0;
+    var indentMode = true;
+    var indentationStack = {}
 
     var emit = function(type,word, indentation){
         tokens.push({kind:type, lexeme:word, idlevel: indentation})
@@ -30,8 +34,10 @@ var scan = function(line, linenumber, tokens) {
     if(!line){return}
 
     while(true){
+        //calculates indentation
+        while(/\s/.test(line[pos])&&indentMode)
         // Skips over non indent spaces
-        while (/\s/.test(line[pos])){
+        while (/\s/.test(line[pos])&&!indentMode){
             pos++
         } 
 
@@ -47,6 +53,7 @@ var scan = function(line, linenumber, tokens) {
         
         } else{
             console.log(line);
+            indentMode = true;
             break}
     }
     
