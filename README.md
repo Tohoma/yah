@@ -318,11 +318,7 @@ sample((x) -> print(x))                                     sample(function (x) 
 
 Collatz
 ```                                                 
-<<<<<<< HEAD
-collatz is (n, count is 0) ->                               var collatz = function (n, count = 0) {
-=======
 collatz is (n, count is 0) ->                               var collatz = function (n, count  = 0) {
->>>>>>> PC-Scanner
   if eq n,1:                                                    if (n === 1) {
     spit count                                                      return count;
   else:                                                         } else {
