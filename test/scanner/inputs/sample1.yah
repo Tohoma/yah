@@ -1,6 +1,6 @@
 x is 3 * 4 / 2
 y is yah
-z is nah
+
 trix is "4kdz"		// Comment here
 
 addOne is (p) ->
@@ -10,8 +10,8 @@ a is nil
 b is undefined
 c is NaN
 
-l is [1,2,3]
-t is (1,2,3)
+l is [1,2,x]
+t is (a,y,trix)
 
 sample((x) -> print(x))  
 
@@ -20,6 +20,7 @@ sample((x) -> print(x))
 
 
 yaaaaahhhhhh
+
 
 
 ///
