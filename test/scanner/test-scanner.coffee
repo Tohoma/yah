@@ -7,7 +7,7 @@ tokenFile = require './outputs.coffee'
 describe 'The scanner', ->
   expectedTokens = tokenFile.sample1_tokens
 
-  it 'scans sample 1 program', (done) ->
+  it 'scans program1', (done) ->
     scan 'test/inputs/program1.yah', (tokens) ->
       tokens.length.should.equal 4
       i(tokens[0]).should.equal i {kind:'write',lexeme:'write',line:1,col:1}

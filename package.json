@@ -25,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/Tohoma/yah/issues"
   },
-  "homepage": "https://github.com/Tohoma/yah#readme"
+  "homepage": "https://github.com/Tohoma/yahscript#readme",
+  "dependencies": {
+    "byline": "^4.2.1",
+    "fs": "0.0.2",
+    "xregexp": "^3.0.0"
+  }
 }
