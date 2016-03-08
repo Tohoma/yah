@@ -1,0 +1,28 @@
+x is 3 * 4 / 2
+y is yah
+z is nah
+trix is "4kdz"		// Comment here
+
+addOne is (p) ->
+  spit p + 1
+
+a is nil
+b is undefined
+c is NaN
+
+l is [1,2,3]
+t is (1,2,3)
+
+sample((x) -> print(x))  
+
+
+///
+
+
+yaaaaahhhhhh
+
+
+
+///
+
+
