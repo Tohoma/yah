@@ -16,12 +16,14 @@ yah is a statically typed programming language with all of the dynamic benefits.
 newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
-keyword   -> 'class'
-          | 'for' | 'in' | 'while' | 'and' | 'or'
-          | 'is'  | 'if' | 'else'  | 'not' | 'yah'
-          | 'nah' | 'spit' | 'nil' | 'undefined' | 'NaN'
+keyword   -> 'class' | 'for' | 'in' | 'while' 
+          | 'and' | 'or' | 'is'  | 'if' | 'else' 
+          | 'not' | 'yah' | 'nah' | 'true' 
+          | 'false' | 'spit' | 'return' | 'nil' 
+          | 'undefined' | 'NaN'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
+flaotlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
 assignop  -> 'is'
 boolop    -> 'and' | 'or'
 relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
@@ -36,12 +38,30 @@ comment   -> '//' [^\n]* newline | '///' .*? '///'
 undeflit  -> 'undefined'
 nanlit    -> 'NaN'
 nillit    -> 'nil'
+comment   -> '//' [^\n]* newline
+           | '//\' .*? '\\/'
 ```
 
 ## Macrosyntax
 
 ```
-TernaryExp -> Exp0 ('if' Exp0 ('else' TernaryExp)?)?
+Program    -> Block
+Block      -> (Stmt newline)*
+
+Stmt       -> 'while' Exp ':' (newline Block | Exp)
+            | 'for each' id 'in' ListLit ':' (newline Block | Exp) 
+            | 'for' id 'in' ListLit ':' (newline Block | Exp)
+            | ('return' | 'spit') Exp
+            | Exp
+
+Exp        -> VarAssign | TernaryExp | FunExp
+
+VarAssign  -> id assignop Exp
+
+FunBlock   -> Exp | (newline Block)
+FunExp     -> id assignop Args '->' FunBlock
+
+TernaryExp -> Exp0 ('if' Exp0 ('elif' Exp0 ( 'else' TernaryExp)?)?)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
 Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3 
@@ -49,8 +69,18 @@ Exp3       -> Exp4 (addop Exp4)*
 Exp4       -> Exp5 (mulop Exp5)*
 Exp5       -> prefixop? Exp6
 Exp6       -> Exp7 ('^' | '**' Exp7)?
-Exp7       -> intlit | boollit | id | '(' Exp ')' | stringlit
-            | undeflit | nanlit | nillit
+Exp7       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
+            | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
+
+ExpList    -> Exp (',' Exp)*
+
+Args       -> '(' ExpList ')'
+
+ListLit    -> '[' ExpList ']'
+TupLit     -> '(' ExpList ')'
+DictLit    -> '{' BindList '}'
+Bind       -> id ':' Exp
+BindList   -> Binding (',' Binding)*
 ```
 
 # Features
@@ -228,14 +258,14 @@ A single line comment is created with two foward slash characters. Multiline com
 ```
 //This is a single line comment
 
-///
+//\
 This is a 
 multiline comment
 
 Still multiline
 
 Multiline comment ends below. 
-///
+\\/
 
 ```
 
