@@ -28,19 +28,29 @@ relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
 addop     -> '+'   | '-'
 mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
-boollit   -> 'yah' | 'nah'
+boollit   -> 'yah' | 'nah' | 'true' | 'false'
 escape    -> [\\] [rnst'"\\]
 char      -> [^\x00-\x1F'"\\] | escape
-string    -> ('"' char* '"') | (\x27 char* \x27)
+stringlit    -> ('"' char* '"') | (\x27 char* \x27)
 comment   -> '//' [^\n]* newline | '///' .*? '///'
+undeflit  -> 'undefined'
+nanlit    -> 'NaN'
+nillit    -> 'nil'
 ```
 
 ## Macrosyntax
 
 ```
 TernaryExp -> Exp0 ('if' Exp0 ('else' TernaryExp)?)?
-Exp0       -> Exp1 ('or' Exp1)*
-Exp1       -> Exp2 ('and' Exp2)*
+Exp0       -> Exp1 ('or' | '||' Exp1)*
+Exp1       -> Exp2 ('and' | '&&' Exp2)*
+Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3 
+Exp3       -> Exp4 (addop Exp4)*
+Exp4       -> Exp5 (mulop Exp5)*
+Exp5       -> prefixop? Exp6
+Exp6       -> Exp7 ('^' | '**' Exp7)?
+Exp7       -> intlit | boollit | id | '(' Exp ')' | stringlit
+            | undeflit | nanlit | nillit
 ```
 
 # Features
