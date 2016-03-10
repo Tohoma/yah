@@ -48,23 +48,29 @@ comment   -> '//' [^\n]* newline
 Program    -> Block
 Block      -> (Stmt newline)*
 
-Stmt       -> 'while' Exp ':' (newline Block | Exp)
-            | 'for each' id 'in' ListLit ':' (newline Block | Exp) 
-            | 'for' id 'in' ListLit ':' (newline Block | Exp)
-            | ('return' | 'spit') Exp
-            | Exp
+Stmt       -> WhileStmt | ForStmt | ReturnStmt | Exp
+
+WhileStmt  -> 'while' Exp ':' (newline Block | Exp)
+ForStmt    -> 'for' id 'in' ListLit ':' (newline Block | Exp)
+            | 'for each id 'in' ListLit ':' (newline Block | Exp)
+
+ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarAssign | TernaryExp | FunExp
 
-VarAssign  -> id assignop Exp
+VarAssign  -> id (',' id)* assignop Exp (',' Exp)*
+            | id assignop Exp
 
 FunBlock   -> Exp | (newline Block)
 FunExp     -> id assignop Args '->' FunBlock
 
+ConditionalExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
+                | 'if' Exp0 ':' Exp
+
 TernaryExp -> Exp0 ('if' Exp0 ('elif' Exp0 ( 'else' TernaryExp)?)?)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
-Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3 
+Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3
 Exp3       -> Exp4 (addop Exp4)*
 Exp4       -> Exp5 (mulop Exp5)*
 Exp5       -> prefixop? Exp6
