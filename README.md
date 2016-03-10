@@ -132,7 +132,7 @@ dog is 3                                                   // Produces a compile
 
 ```
 ### Strings
-yah supporst string concatenation and borrows some elements from swift.
+yah supports string concatenation and borrows some elements from swift.
 
 ```
 stringOne is "sup"                                          var stringOne = "sup";
@@ -156,7 +156,7 @@ print "Hello " * 3                                         console.log("Hello He
 
 ```
 
-### If, Else and Conditional Statements.
+### If, Else and Conditional Statements
 If and Else can be written without parantheses or curly braces. If statements can also use the reserved word then to allow for a one-liner statement.
 
 ```
