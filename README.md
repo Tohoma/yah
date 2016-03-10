@@ -56,7 +56,7 @@ ForStmt    -> 'for' id 'in' ListLit ':' (newline Block | Exp)
 
 ReturnStmt -> ('return' | 'spit') Exp
 
-Exp        -> VarAssign | TernaryExp | FunExp
+Exp        -> VarAssign | TernaryExp | FunExp | ConditionalExp
 
 VarAssign  -> id (',' id)* assignop Exp (',' Exp)*
             | id assignop Exp
