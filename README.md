@@ -8,6 +8,41 @@ A language for CMSI 488
 
 yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
+# Grammar
+
+## Microsyntax
+
+```
+newline   -> \s* (\r*\n)+
+letter    -> [a-zA-z]
+digit     -> [0-9]
+keyword   -> 'class'
+          | 'for' | 'in' | 'while' | 'and' | 'or'
+          | 'is'  | 'if' | 'else'  | 'not' | 'yah'
+          | 'nah' | 'spit' | 'nil' | 'undefined' | 'NaN'
+id        -> (letter | '_') (letter | digit | '_')*
+intlit    -> digit+
+assignop  -> 'is'
+boolop    -> 'and' | 'or'
+relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
+addop     -> '+'   | '-'
+mulop     -> '*'   | '/' | '%' | '^'
+prefixop  -> '-'   | 'not' | '!'
+boollit   -> 'yah' | 'nah'
+escape    -> [\\] [rnst'"\\]
+char      -> [^\x00-\x1F'"\\] | escape
+string    -> ('"' char* '"') | (\x27 char* \x27)
+comment   -> '//' [^\n]* newline | '///' .*? '///'
+```
+
+## Macrosyntax
+
+```
+TernaryExp -> Exp0 ('if' Exp0 ('else' TernaryExp)?)?
+Exp0       -> Exp1 ('or' Exp1)*
+Exp1       -> Exp2 ('and' Exp2)*
+```
+
 # Features
 
 ### Primitive and Reference types
@@ -19,7 +54,7 @@ b is "what"                                                 var b = "what";
 c is yah                                                    var c = true;
 d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°                                               var e = undefined;  
+e is ͡° ͜ʖ ͡°                                                  var e = undefined;  
 banana is undefined                                         var banana = undefined;                                
 f is ಠ_ಠ                                                    var f = null;
 apple is nil                                                var apple = null;
@@ -28,9 +63,12 @@ orange is NaN                                               var orange = NaN;
 
 h is [1,2,3,4,5] // Like Python, lists are mutable          var h = [1,2,3,4,5];
 i is (1,2,3,4,5) // Tuples are immutable                    var i = [1,2,3,4,5];
+j is {0:1, 2:3} // Dictionaries are mutable                 var j = {0:1, 2:3};
+
 
 h[0] is 6        // This would result in [6,2,3,4,5]        h[0] = 6;
 i[0] is 6        // This would cause a runtime error
+j[2] is 5        // This would result in {0:5, 2:3}         j[2] = 5;
 
 ```
 
@@ -86,6 +124,18 @@ if eq x,y,z,u:                                              if (x === y && y ===
     spit yah                                                    return true;
 else:                                                       } else {
     spit nah                                                    return false;
+                                                            }
+
+//Allows for both else if and elif
+
+if 5 > 10:                                                  if (5 > 10) {
+  print "amazing"                                             console.log("amazing");
+elif 6 > 10:                                                else if (6 > 10) {
+  print "still amazing"                                       console.log("still amazing");
+else if 7 > 10:                                             else if (7 > 10) {
+  print "still amazinger"                                     console.log("still amazinger");
+else:                                                       } else {
+  print "logical"                                             console.log("logical")
                                                             }
 
 //one-liner
@@ -149,8 +199,8 @@ printParam is (x) -> spit x                                 var printParam = fun
                                                                 return x;
                                                             }
 
-printParam("Hello")                                         console.log(printParam("Hello"));
-// output is Hello
+print(printParam("Hello"))                                  console.log(printParam("Hello"));
+
 ```
 
 Functions may also have default values for arguments, for missing arguments.
@@ -241,7 +291,6 @@ print k                                                     console.log(k);
 sup()                                                       sup();
 print k                                                     console.log(k);
 ```
-This would output: 10 99 99
 
 ### Code examples
 Prime Function
@@ -269,7 +318,7 @@ sample((x) -> print(x))                                     sample(function (x) 
 
 Collatz
 ```                                                 
-collatz is (n, count is 0) ->                               var collatz = function (n) {
+collatz is (n, count is 0) ->                               var collatz = function (n, count  = 0) {
   if eq n,1:                                                    if (n === 1) {
     spit count                                                      return count;
   else:                                                         } else {
