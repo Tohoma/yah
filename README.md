@@ -16,31 +16,76 @@ yah is a statically typed programming language with all of the dynamic benefits.
 newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
-keyword   -> 'class'
-          | 'for' | 'in' | 'while' | 'and' | 'or'
-          | 'is'  | 'if' | 'else'  | 'not' | 'yah'
-          | 'nah' | 'spit' | 'nil' | 'undefined' | 'NaN'
+keyword   -> 'class' | 'for' | 'in' | 'while' 
+          | 'and' | 'or' | 'is'  | 'if' | 'else' 
+          | 'not' | 'yah' | 'nah' | 'true' 
+          | 'false' | 'spit' | 'return' | 'nil' 
+          | 'undefined' | 'NaN'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
+floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
 assignop  -> 'is'
 boolop    -> 'and' | 'or'
 relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
 addop     -> '+'   | '-'
 mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
-boollit   -> 'yah' | 'nah'
+boollit   -> 'yah' | 'nah' | 'true' | 'false'
 escape    -> [\\] [rnst'"\\]
 char      -> [^\x00-\x1F'"\\] | escape
-string    -> ('"' char* '"') | (\x27 char* \x27)
-comment   -> '//' [^\n]* newline | '///' .*? '///'
+stringlit    -> ('"' char* '"') | (\x27 char* \x27)
+undeflit  -> 'undefined'
+nanlit    -> 'NaN'
+nillit    -> 'nil'
+comment   -> '//' [^\n]* newline
+           | '//\' .*? '\\/'
 ```
 
 ## Macrosyntax
 
 ```
-TernaryExp -> Exp0 ('if' Exp0 ('else' TernaryExp)?)?
-Exp0       -> Exp1 ('or' Exp1)*
-Exp1       -> Exp2 ('and' Exp2)*
+Program    -> Block
+Block      -> (Stmt newline)*
+
+Stmt       -> WhileStmt | ForStmt | ReturnStmt | Exp
+
+WhileStmt  -> 'while' Exp ':' (newline Block | Exp)
+ForStmt    -> 'for' id 'in' ListLit ':' (newline Block | Exp)
+            | 'for each id 'in' ListLit ':' (newline Block | Exp)
+
+ReturnStmt -> ('return' | 'spit') Exp
+
+Exp        -> VarAssign | TernaryExp | FunExp | ConditionalExp
+
+VarAssign  -> id (',' id)* assignop Exp (',' Exp)*
+            | id assignop Exp
+
+FunBlock   -> Exp | (newline Block)
+FunExp     -> id assignop Args '->' FunBlock
+
+ConditionalExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
+                | 'if' Exp0 ':' Exp
+
+TernaryExp -> Exp0 ('if' Exp0 ('elif' Exp0 ( 'else' TernaryExp)?)?)?
+Exp0       -> Exp1 ('or' | '||' Exp1)*
+Exp1       -> Exp2 ('and' | '&&' Exp2)*
+Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3
+Exp3       -> Exp4 (addop Exp4)*
+Exp4       -> Exp5 (mulop Exp5)*
+Exp5       -> prefixop? Exp6
+Exp6       -> Exp7 ('^' | '**' Exp7)?
+Exp7       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
+            | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
+
+ExpList    -> Exp (',' Exp)*
+
+Args       -> '(' ExpList ')'
+
+ListLit    -> '[' ExpList ']'
+TupLit     -> '(' ExpList ')'
+DictLit    -> '{' BindList '}'
+Bind       -> id ':' Exp
+BindList   -> Binding (',' Binding)*
 ```
 
 # Features
@@ -92,7 +137,7 @@ dog is 3                                                   // Produces a compile
 
 ```
 ### Strings
-yah supporst string concatenation and borrows some elements from swift.
+yah supports string concatenation and borrows some elements from swift.
 
 ```
 stringOne is "sup"                                          var stringOne = "sup";
@@ -116,7 +161,7 @@ print "Hello " * 3                                         console.log("Hello He
 
 ```
 
-### If, Else and Conditional Statements.
+### If, Else and Conditional Statements
 If and Else can be written without parantheses or curly braces. If statements can also use the reserved word then to allow for a one-liner statement.
 
 ```
@@ -218,14 +263,14 @@ A single line comment is created with two foward slash characters. Multiline com
 ```
 //This is a single line comment
 
-///
+//\
 This is a 
 multiline comment
 
 Still multiline
 
 Multiline comment ends below. 
-///
+\\/
 
 ```
 
