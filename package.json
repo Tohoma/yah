@@ -4,7 +4,7 @@
   "description": "A compiler",
   "main": "index.js",
   "scripts": {
-    "js-beautify": "$(npm bin)/js-beautify */*.js --replace",
+    "js-beautify": "find . -path ./node_modules -prune -o -name \"*.js\" -exec $(npm bin)/js-beautify --replace {} +",
     "test": "./node_modules/mocha/bin/mocha ./test/*"
   },
   "dependencies": {
