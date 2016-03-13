@@ -1,7 +1,6 @@
 var scan = require('../../scanner/scanner');
 var should = require('should');
 var assert = require('assert');
-var describe = require('describe');
 
 describe('The scanner', function () {
 	it('scans the empty file', function (done) {
