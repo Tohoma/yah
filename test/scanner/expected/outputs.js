@@ -85,4 +85,4 @@ var tokenList = {},
         return tokenList;
     }();
 
-module.exports = testTokens
+module.exports = testTokens;
