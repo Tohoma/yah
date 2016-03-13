@@ -16,9 +16,6 @@ describe('The scanner', function () {
         scan('test/scanner/inputs/valid/sample1.yah', function (tokens) {
             var expectedTokens = tokenList.sample1_tokens;
             tokens.should.eql(expectedTokens);
-            done();
-        })
-    });
 
     it('scans the invalid sample1.yah file', function (done) {
         scan('test/scanner/inputs/invalid/sample1.yah', function (tokens) {
@@ -27,6 +24,3 @@ describe('The scanner', function () {
         })
     })
 });
-
-
-
