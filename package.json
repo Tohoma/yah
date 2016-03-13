@@ -4,6 +4,7 @@
   "description": "A compiler",
   "main": "index.js",
   "scripts": {
+    "js-beautify": "$(npm bin)/js-beautify */*.js --replace",
     "test": "./node_modules/mocha/bin/mocha ./test/*"
   },
   "dependencies": {
@@ -14,7 +15,8 @@
     "coffee-script": "latest",
     "should": "latest",
     "assert": "latest",
-    "mocha": "latest"
+    "mocha": "latest",
+    "js-beautify": "latest"
   },
   "repository": {
     "type": "git",

@@ -5,3 +5,4 @@ before_script:
 - "npm install -d"
 script:
 - "npm test"
+- "npm run js-beautify"
