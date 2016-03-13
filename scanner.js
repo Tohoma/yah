@@ -25,37 +25,39 @@ var scan = function(line, linenumber, tokens) {
     var pos = 0;
     var start = 0;
     var indentMode = true;
-    var idlevel = 0;
+    var idLevel = 0;
 
     var emit = function(type,word, indentation){
         tokens.push({kind:type, lexeme:word, idlevel: indentation})
     }
 
-    if(!line){return}
+    if (!line) {return}
 
-    while(true){
+    while (true) {
         //calculates indentation
-        while(indentMode) {
+        while (indentMode) {
             if (!/\s/.test(line[pos])){
-                idlevel = pos;
+                idLevel = pos;
                 indentMode = false;
             }
             pos++
         }
         // Skips over non indent spaces
-        while (/\s/.test(line[pos])&&!indentMode){
+        while (/\s/.test(line[pos])&&!indentMode) {
             pos++
         } 
 
         start = pos
         //Single line comments
-        if(line[pos]==="/" &&line[pos + 1] === "/") {break}
+        if (line[pos]==="/" &&line[pos + 1] === "/") {break}
 
-        if(line[pos]){ 
+
+
+        if (line[pos]) { 
         pos++;
-        } else{
+        } else {
             console.log(line);
-            console.log("The id level is " + idlevel);
+            console.log("The id level is " + idLevel);
             indentMode = true;
             break}
     }
