@@ -4,14 +4,17 @@
   "description": "A compiler",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha ./test/*"
   },
   "dependencies": {
     "byline": "latest",
     "hashmap": "latest",
     "yargs": "latest",
     "xregexp": "latest",
-    "coffee-script": "latest"
+    "coffee-script": "latest",
+    "should": "latest",
+    "assert": "latest",
+    "mocha": "latest"
   },
   "repository": {
     "type": "git",
@@ -25,10 +28,5 @@
   "bugs": {
     "url": "https://github.com/Tohoma/yah/issues"
   },
-  "homepage": "https://github.com/Tohoma/yahscript#readme",
-  "dependencies": {
-    "byline": "^4.2.1",
-    "fs": "0.0.2",
-    "xregexp": "^3.0.0"
-  }
+  "homepage": "https://github.com/Tohoma/yahscript#readme"
 }
