@@ -54,6 +54,7 @@ var scan = function(line, linenumber, tokens) {
             if (!/\s/.test(line[pos])) {
                 idLevel = pos;
                 indentMode = false;
+                pos--;
             }
             pos++
         }
@@ -68,11 +69,14 @@ var scan = function(line, linenumber, tokens) {
             break
         }
 
+        //One Character tokens
+        if (/[+{*}{^}{,}{.}{-}]/.test(line[pos])) {
+            emit(line[pos],line[pos],idLevel);
+        } 
+
         if (line[pos]) {
             pos++;
         } else {
-            console.log(line);
-            console.log("The id level is " + idLevel);
             indentMode = true;
             break
         }
