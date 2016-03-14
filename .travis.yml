@@ -1,8 +1,12 @@
-language: "node_js"
-node_js: 
-- "0.12"
+language: node_js
+node_js:
+- '0.12'
 before_script:
-- "npm install -d"
+- npm install -d
 script:
-- "npm test"
-- "npm run js-beautify"
+- npm test
+- npm run js-beautify
+notifications:
+  email: false
+  slack:
+    secure: ZMeyWhvO+/Goxlrg62MMsU6b2GvroZGxTjGdqg/W6X5uP5oGd9Ep44FJm6hiS3hXWTsmiMhkH/gMNrvK6sc6XACJJKP5vs0f8oWZvM10LcoNobkMpfO1vUJDmE/TjxHN76WOcOKdpSMTrhRfv//QDR4VYm/IOaXstr33p5CH3zqKXpZKw+93pqnCJepb33zTMQPP4ok/Apzq2V35+pznMDYtISF2CqnyCAnSSOHEwUo0Q3VNVOmg87TODTKcBwfFOaYKBpC2TriHeQrex2EFHjTrw9Jq+jBL8Dc/G9OuDJxrSplaqew2YH6yXd7uUH5F8zpkWsuPhgw07zirJuIk5hG43qzUK+xHU95dzz96JydsVAUZPKEZJWkItUXS+yRXFF1ZVWt7JtHbk0wZi+9f/HVWHdfC9aGTITcnOi03LtGYEyDXWFDUz+xH++HYYgxM7eUpy+VAOgZ5mvD3cBxrmyzvvvPp5BoOpV15YpD+Eovgdm7P13ptLhyBKhsiN28V/Wz4SLjT3qnJhMLE71+xyC0Q7H09kpKWNjPpp1lTI0DE45B7LIiB1/RSDvbm5McboYcrltuimeDunAk+CqD+7s8yoC+1+SoSYMjapsrGBiG6XNOjMSiK/7h65US+XvkEGh4ULKAgw7cWUU+rVvfOAcYxApV8anBT+WWDnjOs5uU=
