@@ -57,7 +57,7 @@ var tokenList = {},
                 idLevel: 0
             }, {
                 lexeme: 'y',
-                kind: 'is',
+                kind: 'id',
                 line: 2,
                 col: 1,
                 idLevel: 0
@@ -225,7 +225,7 @@ var tokenList = {},
                 idLevel: 0
             }, {
                 lexeme: 'c',
-                kind: 'NaN',
+                kind: 'id',
                 line: 11,
                 col: 1,
                 idLevel: 0
@@ -473,13 +473,13 @@ var tokenList = {},
                 lexeme: '3',
                 kind: 'intlit',
                 line: 19,
-                col: 1,
+                col: 5,
                 idLevel: 0
             }, {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 19,
-                col: 20,
+                col: 6,
                 idLevel: 0
             }, {
                 lexeme: 'z',

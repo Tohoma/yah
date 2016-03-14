@@ -7,8 +7,8 @@ var tokenList = require('./tokens.js');
 const LETTER = /[a-zA-Z]/
 const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 const DIGIT = /\d/;
-const RESERVED_WORD = /is|yah/;
-const ONE_CHARACTER_TOKENS = /[+\*{^}|,\.{-}{!}{/}{(}{)}]/;
+const RESERVED_WORD = /is|yah|nil|spit|undefined|NaN|print/;
+const ONE_CHARACTER_TOKENS = /[+\*{^}|,\.{-}{!}{/}{(}{)}\[\]]/;
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
@@ -91,7 +91,7 @@ var scan = function(line, linenumber, tokens) {
             }
             var matchedWord = line.substring(start, pos + 1)
             if (RESERVED_WORD.test(matchedWord)) {
-                emit(matchedWord, matchedWord, idLevel, pos, linenumber + 1);
+                emit(matchedWord, matchedWord, idLevel, start + 1, linenumber + 1);
             } else if (matchedWord === "") {
                 emit("newline", "newline", idLevel, start + 1, linenumber + 1);
 
