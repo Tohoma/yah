@@ -25,10 +25,6 @@
     "type": "git",
     "url": "git+https://github.com/Tohoma/yah.git"
   },
-  "scripts": {
-    "start": "node_modules/.bin/supervisor app",
-    "test": "node_modules/.bin/mocha -w"
-  },
   "keywords": [
     "yah"
   ],
