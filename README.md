@@ -274,6 +274,10 @@ Multiline comment ends below.
 
 ```
 
+### List Operations
+Yah supports list operations
+
+
 ###Scoping
 Scoping in yah is similar to python's LEGB rule.
 Local -> Enclosed -> Global -> Built In
@@ -335,6 +339,17 @@ sup is () ->                                                var sup = function (
 print k                                                     console.log(k);
 sup()                                                       sup();
 print k                                                     console.log(k);
+```
+
+
+### Objects
+Objects in yah work much like objects in javascript.
+```
+obj is {x:20}                                             var obj = {x:20};
+obj.y is 25                                               obj.y = 25;
+obj["dog"] is 10                                          obj["dog"] = 10;
+print(obj)                                                console.log(obj);
+
 ```
 
 ### Code examples
