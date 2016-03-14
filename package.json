@@ -13,14 +13,21 @@
     "fs": "0.0.2",
     "hashmap": "^2.0.4",
     "js-beautify": "^1.6.2",
-    "mocha": "^2.4.5",
-    "should": "^8.2.2",
     "xregexp": "^3.1.0",
-    "yargs": "^4.2.0"
+    "yargs": "^4.2.0",
+    "describe": "^1.2.0"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "should": "latest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tohoma/yah.git"
+  },
+  "scripts": {
+    "start": "node_modules/.bin/supervisor app",
+    "test": "node_modules/.bin/mocha -w"
   },
   "keywords": [
     "yah"

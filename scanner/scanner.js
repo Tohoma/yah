@@ -1,14 +1,18 @@
+
 fs = require('fs')
 byline = require('byline')
 XRegExp = require('xregexp')
+
+const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
             encoding: 'utf8'
         })
-        //Current error is a placeholder
-        //baseStream.on('error', function(){console.log("I got an error")})
 
+        //Current error is a placeholder
+        baseStream.on('error', function(){console.log("I got an error")})
+    
     var stream = byline(baseStream, {
         keepEmptyLines: true
     })
@@ -20,7 +24,8 @@ module.exports = function(filename, callback) {
     stream.once('end', function() {
         tokens.push({
             kind: 'EOF',
-            lexeme: 'EOF'
+            lexeme: 'EOF',
+            idlevel: 0
         })
         callback(tokens)
     })
@@ -29,6 +34,8 @@ module.exports = function(filename, callback) {
 var scan = function(line, linenumber, tokens) {
     var pos = 0;
     var start = 0;
+    var indentMode = true;
+    var idLevel = 0;
 
     var emit = function(type, word, indentation) {
         tokens.push({
@@ -43,24 +50,38 @@ var scan = function(line, linenumber, tokens) {
     }
 
     while (true) {
-        //Single line comments
+        //calculates indentation
+        while (indentMode) {
+            if (!/\s/.test(line[pos])) {
+                idLevel = pos;
+                indentMode = false;
+                pos--;
+            }
+            pos++
+        }
+        // Skips over non indent spaces
+        while (/\s/.test(line[pos]) && !indentMode) {
+            pos++
+        }
+
+        start = pos
+            //Single line comments
         if (line[pos] === "/" && line[pos + 1] === "/") {
             break
         }
 
-        //Reserved words
-        //if ()
-        if (line[pos]) {
-            console.log(pos)
-            console.log(line[pos]);
-            pos++;
-            console.log(pos);
+        //One Character tokens
+        if (/[+{*}{^}{,}{.}{-}]/.test(line[pos])) {
+            emit(line[pos],line[pos],idLevel);
+        } 
 
+        if (line[pos]) {
+            pos++;
         } else {
-            console.log(line);
+            indentMode = true;
+
             break
         }
     }
 
-    //console.log(line[pos]);
 }
