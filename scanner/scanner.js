@@ -6,7 +6,7 @@ var tokenList = require('./tokens.js');
 
 const LETTER = /[a-zA-Z]/
 const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
-const DIGIT = XRegExp('[\d]');
+const DIGIT = /\d/;
 const RESERVED_WORD = /is|yah/;
 const ONE_CHARACTER_TOKENS = /[+\*{^}|,\.{-}{!}{/}{(}{)}]/;
 
@@ -82,12 +82,10 @@ var scan = function(line, linenumber, tokens) {
         if (ONE_CHARACTER_TOKENS.test(line[pos])) {
             emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
 
-            // } else if () { 
+        // Reserved Words and Declarations
 
         } else if (LETTER.test(line[pos])) {
             while (WORD_CHAR.test(line[pos + 1]) && (pos < line.length)) {
-                //console.log(line[pos]);
-                //console.log(line.length);
                 pos++
 
             }
@@ -102,8 +100,10 @@ var scan = function(line, linenumber, tokens) {
             }
 
 
-            //console.log(line.length);
+            //Digits
 
+        } else if (DIGIT.test(line[pos])) {
+            emit("intlit", line[pos], idLevel, start + 1, linenumber + 1);
         }
 
 
