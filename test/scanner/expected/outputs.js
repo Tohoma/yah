@@ -449,7 +449,7 @@ var tokenList = {},
                 lexeme: 'y',
                 kind: 'id',
                 line: 18,
-                col: 3,
+                col: 2,
                 idLevel: 0
             }, {
                 lexeme: 'newline',

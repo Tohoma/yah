@@ -82,7 +82,7 @@ var scan = function(line, linenumber, tokens) {
         if (ONE_CHARACTER_TOKENS.test(line[pos])) {
             emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
 
-        // Reserved Words and Declarations
+            // Reserved Words and Declarations
 
         } else if (LETTER.test(line[pos])) {
             while (WORD_CHAR.test(line[pos + 1]) && (pos < line.length)) {
@@ -103,7 +103,11 @@ var scan = function(line, linenumber, tokens) {
             //Digits
 
         } else if (DIGIT.test(line[pos])) {
-            emit("intlit", line[pos], idLevel, start + 1, linenumber + 1);
+            while (DIGIT.test(line[pos + 1]) && (pos < line.length)) {
+                pos++
+            }
+            var matchedNumber = line.substring(start, pos + 1);
+            emit("intlit", matchedNumber, idLevel, start + 1, linenumber + 1);
         }
 
 
