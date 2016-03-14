@@ -1,113 +1,616 @@
 var tokenList = {},
 
-    testTokens = function () {
+    testTokens = function() {
 
-        tokenList.empty_tokens = [
-            {lexeme: 'EOF', kind: 'EOF'}
-        ]
+        tokenList.empty_tokens = [{
+            lexeme: 'EOF',
+            kind: 'EOF'
+        }]
 
-        tokenList.sample1_tokens = [
-            {lexeme: 'x', kind: 'id', line: 1, col: 1, idLevel: 0},
-            {lexeme: 'is', kind: 'is', line: 1, col: 3, idLevel: 0},
-            {lexeme: '3', kind: 'intlit', line: 1, col: 6, idLevel: 0},
-            {lexeme: '*', kind: '*', line: 1, col: 8, idLevel: 0},
-            {lexeme: '4', kind: 'intlit', line: 1, col: 10, idLevel: 0},
-            {lexeme: '/', kind: '/', line: 1, col: 12, idLevel: 0},
-            {lexeme: '2', kind: 'intlit', line: 1, col: 14, idLevel: 0},
-            {lexeme: 'newline', kind: 'newline', line: 1, col: 15, idLevel: 0},
-            {lexeme: 'y', kind: 'is', line: 2, col: 1, idLevel: 0},
-            {lexeme: 'is', kind: 'is', line: 2, col: 3, idLevel: 0},
-            {lexeme: 'yah', kind: 'yah', line: 2, col: 6, idLevel: 0},
-            {lexeme: 'newline', kind: 'newline', line: 2, col: 9, idLevel: 0},
-            {lexeme: 'trix', kind: 'id', line: 4, col: 1, idLevel: 0},
-            {lexeme: 'is', kind: 'is', line: 4, col: 6, idLevel: 0},
-            {lexeme: '4kdz', kind: 'strlit', line: 4, col: 9, idLevel: 0},
-            {lexeme: 'newline', kind: 'newline', line: 4, col: 21, idLevel: 0},
-            {lexeme: 'addOne', kind: 'id', line: 6, col: 1, idLevel: 0},
-            {lexeme: 'is', kind: 'is', line: 6, col: 8, idLevel: 0},
-            {lexeme: '(', kind: '(', line: 6, col: 11, idLevel: 0},
-            {lexeme: 'p', kind: 'id', line: 6, col: 12, idLevel:0},
-            {lexeme: ')', kind: ')', line: 6, col: 13, idLevel:0},
-            {lexeme: '->', kind: '->', line: 6, col: 15, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 6, col: 17, idLevel:0},
-            {lexeme: 'spit', kind: 'spit', line: 7, col: 3, idLevel:2},
-            {lexeme: 'p', kind: 'id', line: 7, col: 8, idLevel:0},
-            {lexeme: '+', kind: '+', line: 7, col: 10, idLevel:0},
-            {lexeme: '1', kind: 'intlit', line: 7, col: 12, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 7, col: 13, idLevel:0},
-            {lexeme: 'a', kind: 'id', line: 9, col: 1, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 9, col: 3, idLevel:0},
-            {lexeme: 'nil', kind: 'nil', line: 9, col: 6, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 9, col: 9, idLevel:0},
-            {lexeme: 'b', kind: 'id', line: 10, col: 1, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 10, col: 3, idLevel:0},
-            {lexeme: 'undefined', kind: 'undefined', line: 10, col: 6, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 10, col: 15, idLevel:0},
-            {lexeme: 'c', kind: 'NaN', line: 11, col: 1, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 11, col: 3, idLevel:0},
-            {lexeme: 'NaN', kind: 'NaN', line: 11, col: 6, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 11, col: 9, idLevel:0},
-            {lexeme: 'l', kind: 'id', line: 13, col: 1, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 13, col: 3, idLevel:0},
-            {lexeme: '[', kind: '[', line: 13, col: 6, idLevel:0},
-            {lexeme: '1', kind: 'intlit', line: 13, col: 7, idLevel:0},
-            {lexeme: ',', kind: ',', line: 13, col: 8, idLevel:0},
-            {lexeme: '2', kind: 'intlit', line: 13, col: 9, idLevel:0},
-            {lexeme: ',', kind: ',', line: 13, col: 10, idLevel:0},
-            {lexeme: 'x', kind: 'id', line: 13, col: 11, idLevel:0},
-            {lexeme: ']', kind: ']', line: 13, col: 12, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 13, col: 13, idLevel:0},
-            {lexeme: 't', kind: 'id', line: 14, col: 1, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 14, col: 3, idLevel:0},
-            {lexeme: '(', kind: '(', line: 14, col: 6, idLevel:0},
-            {lexeme: 'a', kind: 'id', line: 14, col: 7, idLevel:0},
-            {lexeme: ',', kind: ',', line: 14, col: 8, idLevel:0},
-            {lexeme: 'y', kind: 'id', line: 14, col: 9, idLevel:0},
-            {lexeme: ',', kind: ',', line: 14, col: 10, idLevel:0},
-            {lexeme: 'trix', kind: 'id', line: 14, col: 11, idLevel:0},
-            {lexeme: ')', kind: ')', line: 14, col: 15, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 14, col: 16, idLevel:0},
-            {lexeme: 'sample', kind: 'id', line: 16, col: 1, idLevel:0},
-            {lexeme: '(', kind: '(', line: 16, col: 7, idLevel:0},
-            {lexeme: '(', kind: '(', line: 16, col: 8, idLevel:0},
-            {lexeme: 'x', kind: 'id', line: 16, col: 9, idLevel:0},
-            {lexeme: ')', kind: ')', line: 16, col: 10, idLevel:0},
-            {lexeme: '->', kind: '->', line: 16, col: 12, idLevel:0},
-            {lexeme: 'print', kind: 'print', line: 16, col: 15, idLevel:0},
-            {lexeme: '(', kind: '(', line: 16, col: 20, idLevel:0},
-            {lexeme: 'x', kind: 'id', line: 16, col: 21, idLevel:0},
-            {lexeme: ')', kind: ')', line: 16, col: 22, idLevel:0},
-            {lexeme: ')', kind: ')', line: 16, col: 23, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 16, col: 24, idLevel:0},
-            {lexeme: '!', kind: '!', line: 18, col: 1, idLevel:0},
-            {lexeme: 'y', kind: 'id', line: 18, col: 3, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 18, col: 3, idLevel:0},
-            {lexeme: 'x', kind: 'id', line: 19, col: 1, idLevel:0},
-            {lexeme: '^', kind: '^', line: 19, col: 3, idLevel:0},
-            {lexeme: '3', kind: 'intlit', line: 19, col: 1, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 19, col: 20, idLevel:0},
-            {lexeme: 'z', kind: 'id', line: 20, col: 1, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 20, col: 3, idLevel:0},
-            {lexeme: '{', kind: '{', line: 20, col: 6, idLevel:0},
-            {lexeme: '}', kind: '}', line: 20, col: 7, idLevel:0},
-            {lexeme: 'newline', kind: 'newline', line: 20, col: 8, idLevel:0},
-            {lexeme: 'z', kind: 'id', line: 21, col: 1, idLevel:0},
-            {lexeme: '.', kind: '.', line: 21, col: 2, idLevel:0},
-            {lexeme: 'y', kind: 'id', line: 21, col:3, idLevel:0},
-            {lexeme: 'is', kind: 'is', line: 21, col: 5, idLevel:0},
-            {lexeme: '120', kind: 'intlit', line: 21, col: 8, idLevel:0},   
-            {lexeme: 'newline', kind: 'newline', line: 21, col: 11, idLevel:0},         
-            {lexeme: '(', kind: '(', line: 22, col: 1, idLevel:0},
-            {lexeme: 'x', kind: 'id', line: 22, col: 2, idLevel:0},
-            {lexeme: '+', kind: '+', line: 22, col: 4, idLevel:0},
-            {lexeme: 'z', kind: 'id', line: 22, col: 6, idLevel:0},
-            {lexeme: '.', kind: '.', line: 22, col: 7, idLevel:0},
-            {lexeme: 'y', kind: 'id', line: 22, col: 8, idLevel:0},
-            {lexeme: ')', kind: ')', line: 22, col: 9, idLevel:0},
-            {lexeme: '*', kind: '*', line: 22, col: 11, idLevel:0},
-            {lexeme: '10', kind: 'intlit', line: 22, col: 13, idLevel:0},       
-            {lexeme: 'newline', kind: 'newline', line: 19, col: 20, idLevel:0},     
-            {lexeme: 'EOF', kind: 'EOF'}
+        tokenList.sample1_tokens = [{
+                lexeme: 'x',
+                kind: 'id',
+                line: 1,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 1,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: '3',
+                kind: 'intlit',
+                line: 1,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: '*',
+                kind: '*',
+                line: 1,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: '4',
+                kind: 'intlit',
+                line: 1,
+                col: 10,
+                idLevel: 0
+            }, {
+                lexeme: '/',
+                kind: '/',
+                line: 1,
+                col: 12,
+                idLevel: 0
+            }, {
+                lexeme: '2',
+                kind: 'intlit',
+                line: 1,
+                col: 14,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 1,
+                col: 15,
+                idLevel: 0
+            }, {
+                lexeme: 'y',
+                kind: 'is',
+                line: 2,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 2,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'yah',
+                kind: 'yah',
+                line: 2,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 2,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: 'trix',
+                kind: 'id',
+                line: 4,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 4,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: '4kdz',
+                kind: 'strlit',
+                line: 4,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 4,
+                col: 21,
+                idLevel: 0
+            }, {
+                lexeme: 'addOne',
+                kind: 'id',
+                line: 6,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 6,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: '(',
+                kind: '(',
+                line: 6,
+                col: 11,
+                idLevel: 0
+            }, {
+                lexeme: 'p',
+                kind: 'id',
+                line: 6,
+                col: 12,
+                idLevel: 0
+            }, {
+                lexeme: ')',
+                kind: ')',
+                line: 6,
+                col: 13,
+                idLevel: 0
+            }, {
+                lexeme: '->',
+                kind: '->',
+                line: 6,
+                col: 15,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 6,
+                col: 17,
+                idLevel: 0
+            }, {
+                lexeme: 'spit',
+                kind: 'spit',
+                line: 7,
+                col: 3,
+                idLevel: 2
+            }, {
+                lexeme: 'p',
+                kind: 'id',
+                line: 7,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: '+',
+                kind: '+',
+                line: 7,
+                col: 10,
+                idLevel: 0
+            }, {
+                lexeme: '1',
+                kind: 'intlit',
+                line: 7,
+                col: 12,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 7,
+                col: 13,
+                idLevel: 0
+            }, {
+                lexeme: 'a',
+                kind: 'id',
+                line: 9,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 9,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'nil',
+                kind: 'nil',
+                line: 9,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 9,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: 'b',
+                kind: 'id',
+                line: 10,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 10,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'undefined',
+                kind: 'undefined',
+                line: 10,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 10,
+                col: 15,
+                idLevel: 0
+            }, {
+                lexeme: 'c',
+                kind: 'NaN',
+                line: 11,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 11,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'NaN',
+                kind: 'NaN',
+                line: 11,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 11,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: 'l',
+                kind: 'id',
+                line: 13,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 13,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: '[',
+                kind: '[',
+                line: 13,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: '1',
+                kind: 'intlit',
+                line: 13,
+                col: 7,
+                idLevel: 0
+            }, {
+                lexeme: ',',
+                kind: ',',
+                line: 13,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: '2',
+                kind: 'intlit',
+                line: 13,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: ',',
+                kind: ',',
+                line: 13,
+                col: 10,
+                idLevel: 0
+            }, {
+                lexeme: 'x',
+                kind: 'id',
+                line: 13,
+                col: 11,
+                idLevel: 0
+            }, {
+                lexeme: ']',
+                kind: ']',
+                line: 13,
+                col: 12,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 13,
+                col: 13,
+                idLevel: 0
+            }, {
+                lexeme: 't',
+                kind: 'id',
+                line: 14,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 14,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: '(',
+                kind: '(',
+                line: 14,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: 'a',
+                kind: 'id',
+                line: 14,
+                col: 7,
+                idLevel: 0
+            }, {
+                lexeme: ',',
+                kind: ',',
+                line: 14,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: 'y',
+                kind: 'id',
+                line: 14,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: ',',
+                kind: ',',
+                line: 14,
+                col: 10,
+                idLevel: 0
+            }, {
+                lexeme: 'trix',
+                kind: 'id',
+                line: 14,
+                col: 11,
+                idLevel: 0
+            }, {
+                lexeme: ')',
+                kind: ')',
+                line: 14,
+                col: 15,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 14,
+                col: 16,
+                idLevel: 0
+            }, {
+                lexeme: 'sample',
+                kind: 'id',
+                line: 16,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: '(',
+                kind: '(',
+                line: 16,
+                col: 7,
+                idLevel: 0
+            }, {
+                lexeme: '(',
+                kind: '(',
+                line: 16,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: 'x',
+                kind: 'id',
+                line: 16,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: ')',
+                kind: ')',
+                line: 16,
+                col: 10,
+                idLevel: 0
+            }, {
+                lexeme: '->',
+                kind: '->',
+                line: 16,
+                col: 12,
+                idLevel: 0
+            }, {
+                lexeme: 'print',
+                kind: 'print',
+                line: 16,
+                col: 15,
+                idLevel: 0
+            }, {
+                lexeme: '(',
+                kind: '(',
+                line: 16,
+                col: 20,
+                idLevel: 0
+            }, {
+                lexeme: 'x',
+                kind: 'id',
+                line: 16,
+                col: 21,
+                idLevel: 0
+            }, {
+                lexeme: ')',
+                kind: ')',
+                line: 16,
+                col: 22,
+                idLevel: 0
+            }, {
+                lexeme: ')',
+                kind: ')',
+                line: 16,
+                col: 23,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 16,
+                col: 24,
+                idLevel: 0
+            }, {
+                lexeme: '!',
+                kind: '!',
+                line: 18,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'y',
+                kind: 'id',
+                line: 18,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 18,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'x',
+                kind: 'id',
+                line: 19,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: '^',
+                kind: '^',
+                line: 19,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: '3',
+                kind: 'intlit',
+                line: 19,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 19,
+                col: 20,
+                idLevel: 0
+            }, {
+                lexeme: 'z',
+                kind: 'id',
+                line: 20,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 20,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: '{',
+                kind: '{',
+                line: 20,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: '}',
+                kind: '}',
+                line: 20,
+                col: 7,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 20,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: 'z',
+                kind: 'id',
+                line: 21,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: '.',
+                kind: '.',
+                line: 21,
+                col: 2,
+                idLevel: 0
+            }, {
+                lexeme: 'y',
+                kind: 'id',
+                line: 21,
+                col: 3,
+                idLevel: 0
+            }, {
+                lexeme: 'is',
+                kind: 'is',
+                line: 21,
+                col: 5,
+                idLevel: 0
+            }, {
+                lexeme: '120',
+                kind: 'intlit',
+                line: 21,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 21,
+                col: 11,
+                idLevel: 0
+            }, {
+                lexeme: '(',
+                kind: '(',
+                line: 22,
+                col: 1,
+                idLevel: 0
+            }, {
+                lexeme: 'x',
+                kind: 'id',
+                line: 22,
+                col: 2,
+                idLevel: 0
+            }, {
+                lexeme: '+',
+                kind: '+',
+                line: 22,
+                col: 4,
+                idLevel: 0
+            }, {
+                lexeme: 'z',
+                kind: 'id',
+                line: 22,
+                col: 6,
+                idLevel: 0
+            }, {
+                lexeme: '.',
+                kind: '.',
+                line: 22,
+                col: 7,
+                idLevel: 0
+            }, {
+                lexeme: 'y',
+                kind: 'id',
+                line: 22,
+                col: 8,
+                idLevel: 0
+            }, {
+                lexeme: ')',
+                kind: ')',
+                line: 22,
+                col: 9,
+                idLevel: 0
+            }, {
+                lexeme: '*',
+                kind: '*',
+                line: 22,
+                col: 11,
+                idLevel: 0
+            }, {
+                lexeme: '10',
+                kind: 'intlit',
+                line: 22,
+                col: 13,
+                idLevel: 0
+            }, {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 22,
+                col: 20,
+                idLevel: 0
+            }, {
+                lexeme: 'EOF',
+                kind: 'EOF'
+            }
 
         ]
 

@@ -1,4 +1,3 @@
-
 fs = require('fs')
 byline = require('byline')
 XRegExp = require('xregexp')
@@ -7,12 +6,14 @@ const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
-            encoding: 'utf8'
-        })
+        encoding: 'utf8'
+    })
 
-        //Current error is a placeholder
-        baseStream.on('error', function(){console.log("I got an error")})
-    
+    //Current error is a placeholder
+    baseStream.on('error', function() {
+        console.log("I got an error")
+    })
+
     var stream = byline(baseStream, {
         keepEmptyLines: true
     })
@@ -72,8 +73,8 @@ var scan = function(line, linenumber, tokens) {
 
         //One Character tokens
         if (/[+{*}{^}{,}{.}{-}]/.test(line[pos])) {
-            emit(line[pos],line[pos],idLevel);
-        } 
+            emit(line[pos], line[pos], idLevel);
+        }
 
         if (line[pos]) {
             pos++;
