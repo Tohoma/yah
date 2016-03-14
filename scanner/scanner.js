@@ -1,5 +1,3 @@
-
-
 var fs = require('fs');
 var byline = require('byline');
 var XRegExp = require('xregexp');
@@ -82,29 +80,31 @@ var scan = function(line, linenumber, tokens) {
 
         //One Character tokens
         if (ONE_CHARACTER_TOKENS.test(line[pos])) {
-            emit(line[pos],line[pos],idLevel,pos+1,linenumber + 1);
+            emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
 
-        // } else if () { 
+            // } else if () { 
 
         } else if (LETTER.test(line[pos])) {
-             while (WORD_CHAR.test(line[pos+1]) && (pos<line.length)) {
-                 //console.log(line[pos]);
-                 //console.log(line.length);
-                 pos++
+            while (WORD_CHAR.test(line[pos + 1]) && (pos < line.length)) {
+                //console.log(line[pos]);
+                //console.log(line.length);
+                pos++
 
-             }
-             var matchedWord = line.substring(start,pos+1)
-             if (RESERVED_WORD.test(matchedWord)) {
-                emit(matchedWord,matchedWord,idLevel,pos,linenumber + 1);
+            }
+            var matchedWord = line.substring(start, pos + 1)
+            if (RESERVED_WORD.test(matchedWord)) {
+                emit(matchedWord, matchedWord, idLevel, pos, linenumber + 1);
             } else if (matchedWord === "") {
                 emit("newline", "newline", idLevel, start + 1, linenumber + 1);
 
-            } else {emit("id", matchedWord, idLevel, start + 1, linenumber + 1)}
-             
-             
-             //console.log(line.length);
+            } else {
+                emit("id", matchedWord, idLevel, start + 1, linenumber + 1)
+            }
 
-         }
+
+            //console.log(line.length);
+
+        }
 
 
         if (line[pos]) {
