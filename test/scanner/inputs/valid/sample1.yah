@@ -13,9 +13,13 @@ c is NaN
 l is [1,2,x]
 t is (a,y,trix)
 
-  
-sample((x) -> print(x))  
+sample((x) -> print(x))
 
+!y
+x ^ 3
+z is {}
+z.y is 120
+(x + z.y) * 10
 
 ///
 
