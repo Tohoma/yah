@@ -70,7 +70,7 @@ ReturnStmt -> ('return' | 'spit') Exp
 Exp        -> VarAssign | TernaryExp | FunExp | ConditionalExp
 
 VarAssign  -> (id | TupLit) (':" int | String | float | bool)? assignop ExpList
-            | id assignop Exp
+            | id (':" int | String | float | bool)? assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 FunBlock   -> Exp | (newline Block)
