@@ -69,8 +69,9 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarAssign | TernaryExp | FunExp | ConditionalExp
 
-VarAssign  -> id (',' id)* (':" int | String | float | bool)? assignop ExpList
+VarAssign  -> (id | TupLit) (':" int | String | float | bool)? assignop ExpList
             | id assignop Exp
+VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 FunBlock   -> Exp | (newline Block)
 FunExp     -> id assignop Args '->' FunBlock
@@ -87,7 +88,8 @@ Exp4       -> Exp5 (addop Exp4)*
 Exp5       -> Exp6 (mulop Exp5)*
 Exp6       -> prefixop? Exp7
 Exp7       -> Exp8 ('^' | '**' Exp8)?
-Exp8       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
+Exp8       -> Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+Exp9       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
             | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
 
 ExpList    -> Exp (',' Exp)*
