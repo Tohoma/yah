@@ -8,6 +8,17 @@ A language for CMSI 488
 
 yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
+# List of Features
+
+* Type inference
+* First class functions
+* Optional / default parameters
+* String interpolation
+* No curly braces
+* Multi expression relational operations
+* Optional type specification
+* Multiple operation styles
+
 # Grammar
 
 ## Microsyntax
@@ -51,13 +62,14 @@ Stmt       -> WhileStmt | ForStmt | ReturnStmt | Exp
 
 WhileStmt  -> 'while' Exp ':' (newline Block | Exp)
 ForStmt    -> 'for' id 'in' ListLit ':' (newline Block | Exp)
-            | 'for each id 'in' ListLit ':' (newline Block | Exp)
+            | 'for each' id in ListLit ':' (newline Block | Exp)
+            | 'times' int ':' (newline Block | Exp)
 
 ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarAssign | TernaryExp | FunExp | ConditionalExp
 
-VarAssign  -> id (',' id)* assignop Exp (',' Exp)*
+VarAssign  -> id (',' id)* (':" int | String | float | bool)? assignop ExpList
             | id assignop Exp
 
 FunBlock   -> Exp | (newline Block)
