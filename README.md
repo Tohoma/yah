@@ -14,6 +14,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 * First class functions
 * Optional / default parameters
 * String interpolation
+* List comprehension
 * No curly braces
 * Multi expression relational operations
 * Optional type specification
@@ -296,25 +297,25 @@ Yah supports list operations, such as list comprehension and ranges. Two dots fo
 a is 0 .. 5    // [0,1,2,3,4]                             var a = [0, 1, 2, 3, 4];
 b is 0 ... 5   // [0,1,2,3,4,5]                           var b = [0, 1, 2, 3, 4, 5];
 
-c is 0 .. 4 by 2     // [0,2]                             var c = [];
-                                                          for (var i = 0; i < 4; i++) {
-                                                            if (i % 2 == 0) {
-                                                              c.push(i);
-                                                            }
+c is 0 .. 4 by 2                                          var c = [];
+// [0,2]                                                  for (var i = 0; i < 4; i++) {
+                                                              if (i % 2 == 0) {
+                                                                  c.push(i);
+                                                              }
                                                           }
 
-d is 0 ... 9 by 3    // [0,3,6,9]                         var d = [];
-                                                          for (var i = 0;  i <= 9; i++) {
-                                                            if (i % 3 == 0) {
-                                                              d.push(i);
-                                                            }
+d is 0 ... 9 by 3                                         var d = [];
+// [0,3,6,9]                                              for (var i = 0;  i <= 9; i++) {
+                                                              if (i % 3 == 0) {
+                                                                  d.push(i);
+                                                              }
                                                           }
 
-e is x + 1 for x in 0 ... 9 by 3 // [1, 4, 7, 10]         var e = [];
-                                                          for (var i = 0; i <= 9; i++) {
-                                                            if (i % 3 == 0) {
-                                                              e.push(i + 1);
-                                                            }
+e is x + 1 for x in 0 ... 9 by 3                          var e = [];
+// [1, 4, 7, 10]                                          for (var i = 0; i <= 9; i++) {
+                                                              if (i % 3 == 0) {
+                                                                  e.push(i + 1);
+                                                              }
                                                           }
 
 ```
