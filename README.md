@@ -61,8 +61,7 @@ Block      -> (Stmt newline)*
 Stmt       -> WhileStmt | ForStmt | ReturnStmt | Exp
 
 WhileStmt  -> 'while' Exp ':' (newline Block | Exp)
-ForStmt    -> 'for' id 'in' ListLit ':' (newline Block | Exp)
-            | 'for each' id in ListLit ':' (newline Block | Exp)
+ForStmt    -> 'for' ('each')? id 'in' ListLit ':' (newline Block | Exp)
             | 'times' int ':' (newline Block | Exp)
 
 ReturnStmt -> ('return' | 'spit') Exp
@@ -82,11 +81,12 @@ TernaryExp -> Exp0 ('if' Exp0 ('elif' Exp0 ( 'else' TernaryExp)?)?)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
 Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3
-Exp3       -> Exp4 (addop Exp4)*
-Exp4       -> Exp5 (mulop Exp5)*
-Exp5       -> prefixop? Exp6
-Exp6       -> Exp7 ('^' | '**' Exp7)?
-Exp7       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
+Exp3       -> Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
+Exp4       -> Exp5 (addop Exp4)*
+Exp5       -> Exp6 (mulop Exp5)*
+Exp6       -> prefixop? Exp7
+Exp7       -> Exp8 ('^' | '**' Exp8)?
+Exp8       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
             | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
 
 ExpList    -> Exp (',' Exp)*
@@ -98,6 +98,8 @@ TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
 Bind       -> id ':' Exp
 BindList   -> Binding (',' Binding)*
+
+Comprehension -> '[' TernaryExp 'for' ('each')? id 'in' Exp ']'
 ```
 
 # Features
@@ -287,7 +289,35 @@ Multiline comment ends below.
 ```
 
 ### List Operations
-Yah supports list operations
+Yah supports list operations, such as list comprehension and ranges. Two dots for exclusive, three dots for inclusive.
+
+```
+
+a is 0 .. 5    // [0,1,2,3,4]                             var a = [0, 1, 2, 3, 4];
+b is 0 ... 5   // [0,1,2,3,4,5]                           var b = [0, 1, 2, 3, 4, 5];
+
+c is 0 .. 4 by 2     // [0,2]                             var c = [];
+                                                          for (var i = 0; i < 4; i++) {
+                                                            if (i % 2 == 0) {
+                                                              c.push(i);
+                                                            }
+                                                          }
+
+d is 0 ... 9 by 3    // [0,3,6,9]                         var d = [];
+                                                          for (var i = 0;  i <= 9; i++) {
+                                                            if (i % 3 == 0) {
+                                                              d.push(i);
+                                                            }
+                                                          }
+
+e is x + 1 for x in 0 ... 9 by 3 // [1, 4, 7, 10]         var e = [];
+                                                          for (var i = 0; i <= 9; i++) {
+                                                            if (i % 3 == 0) {
+                                                              e.push(i + 1);
+                                                            }
+                                                          }
+
+```
 
 
 ###Scoping
