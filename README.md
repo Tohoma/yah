@@ -81,7 +81,7 @@ ConditionalExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' new
 TernaryExp -> Exp0 ('if' Exp0 ('elif' Exp0 ( 'else' TernaryExp)?)?)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
-Exp2       -> relop '(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+ | Exp3
+Exp2       -> relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
 Exp3       -> Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
 Exp4       -> Exp5 (addop Exp4)*
 Exp5       -> Exp6 (mulop Exp5)*
