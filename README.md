@@ -292,7 +292,7 @@ Multiline comment ends below.
 ```
 
 ### List Operations
-Yah supports list operations, such as list comprehension and ranges. Two dots for exclusive, three dots for inclusive.
+Yah supports list operations, such as list comprehension, and slices. Two dots for exclusive, three dots for inclusive.
 
 ```
 
@@ -319,6 +319,13 @@ e is x + 1 for x in 0 ... 9 by 3                          var e = [];
                                                                   e.push(i + 1);
                                                               }
                                                           }
+
+f is "potato"                                             var f = "potato";
+g is f[0 .. 3]                                            var g = [];
+                                                          for (var i = 0; i < 3; i++) {
+                                                              g.push(f[i]);
+                                                          }
+                                                          g = g.join('');
 
 ```
 
