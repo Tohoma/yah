@@ -1,6 +1,5 @@
 var scan = require('../../scanner/scanner'),
     should = require('should'),
-    assert = require('assert'),
     tokenList = require('./expected/outputs.js');
 
 describe('The scanner', function() {
