@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "js-beautify": "find . -type d \\( -path ./node_modules \\) -prune -o -name \"*.js\" -exec $(npm bin)/js-beautify -kr {} +",
-    "test": "./node_modules/mocha/bin/mocha --require istanbul --recursive ./test/ && npm run coverage",
+    "test": "mocha --recursive --require istanbul \"./test/\" && npm run coverage",
     "coverage": "istanbul report text-summary lcov"
   },
   "dependencies": {
