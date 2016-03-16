@@ -1,7 +1,9 @@
 # yah
 
-<img src="https://github.com/Tohoma/yah/blob/master/images/yahLogo.png" width="200">
-
+<img src="https://github.com/Tohoma/yah/blob/master/images/yahLogo.png" width="200"><br>
+<a href="https://travis-ci.org/Tohoma/yah?branch=master"><img src="https://travis-ci.org/Tohoma/yah.svg?branch=master" alt="Build Status"></a>
+<a href='https://coveralls.io/github/Tohoma/yah?branch=master'><img src='https://coveralls.io/repos/github/Tohoma/yah/badge.svg?branch=master' alt='Coverage Status' /></a> 
+<a href="https://david-dm.org/Tohoma/yah"><img src="https://david-dm.org/Tohoma/yah.svg"></a>
 
 
 A language for CMSI 488

@@ -1,6 +1,6 @@
 var tokenList = {},
 
-    tokens = function () {
+    tokens = function() {
 
         tokenList.oneCharacterToken = [
             '+', '-', '*', '/', '%', '^', '!', '.', ','
@@ -10,7 +10,7 @@ var tokenList = {},
             'class',
             'for', 'in', 'while',
             'and', 'or',
-            'is', 
+            'is',
             'if', 'else',
             'not',
             'yah', 'nah', 'true', 'false',

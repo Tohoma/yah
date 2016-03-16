@@ -1,7 +1,7 @@
 x is 3 * 4 / 2
 y is yah
 
-trix is "4kdz"		// Comment here
+trix is "4kdz"   // Comment here
 
 addOne is (p) ->
   spit p + 1
@@ -13,9 +13,13 @@ c is NaN
 l is [1,2,x]
 t is (a,y,trix)
 
-  
-sample((x) -> print(x))  
+sample((x) -> print(x))
 
+!y
+x ^ 3
+z is {}
+z.y is 120
+(x + z.y) * 10
 
 ///
 
