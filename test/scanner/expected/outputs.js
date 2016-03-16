@@ -66,7 +66,7 @@ var tokenList = {},
             },
             {
                 lexeme: 'y',
-                kind: 'is',
+                kind: 'id',
                 line: 2,
                 col: 1,
                 idLevel: 0
@@ -117,7 +117,7 @@ var tokenList = {},
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 4,
-                col: 21,
+                col: 33,
                 idLevel: 0
             },
             {
@@ -181,29 +181,29 @@ var tokenList = {},
                 kind: 'id',
                 line: 7,
                 col: 8,
-                idLevel: 0
-            },
+                idLevel: 2
+            }, 
             {
                 lexeme: '+',
                 kind: '+',
                 line: 7,
                 col: 10,
-                idLevel: 0
-            },
+                idLevel: 2
+            }, 
             {
                 lexeme: '1',
                 kind: 'intlit',
                 line: 7,
                 col: 12,
-                idLevel: 0
-            },
+                idLevel: 2
+            }, 
             {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 7,
                 col: 13,
-                idLevel: 0
-            },
+                idLevel: 2
+            }, 
             {
                 lexeme: 'a',
                 kind: 'id',
@@ -262,7 +262,7 @@ var tokenList = {},
             },
             {
                 lexeme: 'c',
-                kind: 'NaN',
+                kind: 'id',
                 line: 11,
                 col: 1,
                 idLevel: 0
@@ -523,7 +523,7 @@ var tokenList = {},
                 lexeme: 'y',
                 kind: 'id',
                 line: 18,
-                col: 3,
+                col: 2,
                 idLevel: 0
             },
             {
@@ -551,14 +551,14 @@ var tokenList = {},
                 lexeme: '3',
                 kind: 'intlit',
                 line: 19,
-                col: 1,
+                col: 5,
                 idLevel: 0
             },
             {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 19,
-                col: 20,
+                col: 6,
                 idLevel: 0
             },
             {
@@ -705,7 +705,7 @@ var tokenList = {},
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 22,
-                col: 20,
+                col: 15,
                 idLevel: 0
             },
             {

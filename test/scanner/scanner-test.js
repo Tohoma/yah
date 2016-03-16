@@ -15,6 +15,7 @@ describe('The scanner', function() {
         scan('test/scanner/inputs/valid/sample1.yah', function(tokens) {
             var expectedTokens = tokenList.sample1_tokens;
             tokens.should.eql(expectedTokens);
+            done();
         })
     });
 
