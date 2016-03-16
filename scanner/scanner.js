@@ -10,7 +10,7 @@ const DIGIT = /\d/;
 const RESERVED_WORD = /is|yah|nil|spit|undefined|NaN|print/;
 const ONE_CHARACTER_TOKENS = /[+\*{^}|,\.{-}{!}{(}{)}/\/\]\[]/;
 const TWO_CHARACTER_TOKENS = /\->/;
-console.log(TWO_CHARACTER_TOKENS.test("->"))
+
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
