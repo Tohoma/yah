@@ -161,13 +161,13 @@ var scan = function(line, linenumber, tokens, stack) {
         if (line[pos]) {
             pos++;
             if (line[pos] === "y" && line[pos - 1] === "!") {
-                console.log(line[pos]);
+
             }
         } else {
 
             emit("newline", "newline", idLevel, pos + 1, linenumber + 1);
 
-            indentMode = true;
+            //indentMode = true;
 
             break
         }
