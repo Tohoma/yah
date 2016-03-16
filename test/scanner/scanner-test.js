@@ -3,7 +3,7 @@ var scan = require('../../scanner/scanner'),
     tokenList = require('./expected/outputs.js');
 
 describe('The scanner', function() {
-    it('scans the empty file', function(done) {
+    it('scans the empty file and gives an EOF token', function(done) {
         scan('test/scanner/inputs/valid/empty-file.yah', function(tokens) {
             var expectedTokens = tokenList.empty_tokens;
             tokens.should.eql(expectedTokens);
@@ -11,7 +11,7 @@ describe('The scanner', function() {
         })
     });
 
-    it('scans sample1.yah file', function(done) {
+    it('scans sample1.yah file and gives an array of objects that match sample1_token', function(done) {
         scan('test/scanner/inputs/valid/sample1.yah', function(tokens) {
             var expectedTokens = tokenList.sample1_tokens;
             tokens.should.eql(expectedTokens);

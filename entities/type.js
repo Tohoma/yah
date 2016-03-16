@@ -11,9 +11,8 @@ Type = (function() {
     }
 
     Type.BOOL = new Type('bool');
-
     Type.INT = new Type('int');
-
+    Type.STR = new Type('str');
     Type.ARBITRARY = new Type('<arbitrary_type>');
 
     Type.prototype.toString = function() {
@@ -52,6 +51,7 @@ module.exports = {
     BOOL: Type.BOOL,
     INT: Type.INT,
     ARBITRARY: Type.ARBITRARY,
+    STR: Type.STR,
     forName: function(name) {
         return cache[name];
     }
