@@ -132,9 +132,6 @@ var scan = function(line, linenumber, tokens, stack) {
             // Reserved Words and Declarations
 
         } else if (LETTER.test(line[pos])) {
-            if (line[pos] === "y" && line[pos - 1] === "!") {
-
-            }
             while (WORD_CHAR.test(line[pos + 1]) && (pos < line.length)) {
                 pos++
 
