@@ -2,9 +2,9 @@ var BooleanLiteral, IntegerLiteral, Type, UnaryExpression;
 
 Type = require('./type');
 
-IntegerLiteral = require('./integerliteral');
+IntegerLiteral = require('./integer-literal');
 
-BooleanLiteral = require('./booleanliteral');
+BooleanLiteral = require('./boolean-literal');
 
 UnaryExpression = (function() {
     function UnaryExpression(op, operand) {

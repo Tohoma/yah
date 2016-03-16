@@ -1,6 +1,6 @@
 var AssignmentStatement, VariableReference;
 
-VariableReference = require('./variablereference');
+VariableReference = require('./variable-reference');
 
 AssignmentStatement = (function() {
     function AssignmentStatement(target, source) {

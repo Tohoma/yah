@@ -1,20 +1,12 @@
-var BinaryExpression,
-    BooleanLiteral,
-    IntegerLiteral,
-    Type,
+var BinaryExpression = require('./variable-reference'),
+    BooleanLiteral = require('./boolean-literal'),
+    IntegerLiteral = require('./integer-literal'),
+    Type = require('./type'),
     VariableReference,
     foldBooleanConstants,
     foldIntegerConstants,
     isIntegerLiteral,
     sameVariable;
-
-Type = require('./type');
-
-IntegerLiteral = require('./integerliteral');
-
-BooleanLiteral = require('./booleanliteral');
-
-VariableReference = require('./variablereference');
 
 BinaryExpression = (function() {
     function BinaryExpression(op1, left, right) {

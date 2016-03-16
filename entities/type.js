@@ -1,6 +1,6 @@
 var Type, cache, error;
 
-error = require('../error');
+error = require('../error/error');
 
 cache = {};
 

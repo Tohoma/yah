@@ -2,10 +2,12 @@ var tokenList = {},
 
     testTokens = function() {
 
-        tokenList.empty_tokens = [{
-            lexeme: 'EOF',
-            kind: 'EOF'
-        }]
+        tokenList.empty_tokens = [
+            {
+                lexeme: 'EOF',
+                kind: 'EOF'
+            }
+        ]
 
         tokenList.sample1_tokens = [
             {
@@ -182,28 +184,28 @@ var tokenList = {},
                 line: 7,
                 col: 8,
                 idLevel: 2
-            }, 
+            },
             {
                 lexeme: '+',
                 kind: '+',
                 line: 7,
                 col: 10,
                 idLevel: 2
-            }, 
+            },
             {
                 lexeme: '1',
                 kind: 'intlit',
                 line: 7,
                 col: 12,
                 idLevel: 2
-            }, 
+            },
             {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 7,
                 col: 13,
                 idLevel: 2
-            }, 
+            },
             {
                 lexeme: 'a',
                 kind: 'id',

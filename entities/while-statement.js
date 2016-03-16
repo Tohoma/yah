@@ -1,6 +1,6 @@
 var BooleanLiteral, WhileStatement;
 
-BooleanLiteral = require('./booleanliteral');
+BooleanLiteral = require('./boolean-literal');
 
 WhileStatement = (function() {
     function WhileStatement(condition, body) {
