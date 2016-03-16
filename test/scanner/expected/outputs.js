@@ -101,7 +101,7 @@ var tokenList = {},
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 4,
-                col: 21,
+                col: 33,
                 idLevel: 0
             }, {
                 lexeme: 'addOne',
@@ -156,25 +156,25 @@ var tokenList = {},
                 kind: 'id',
                 line: 7,
                 col: 8,
-                idLevel: 0
+                idLevel: 2
             }, {
                 lexeme: '+',
                 kind: '+',
                 line: 7,
                 col: 10,
-                idLevel: 0
+                idLevel: 2
             }, {
                 lexeme: '1',
                 kind: 'intlit',
                 line: 7,
                 col: 12,
-                idLevel: 0
+                idLevel: 2
             }, {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 7,
                 col: 13,
-                idLevel: 0
+                idLevel: 2
             }, {
                 lexeme: 'a',
                 kind: 'id',
@@ -605,7 +605,7 @@ var tokenList = {},
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 22,
-                col: 20,
+                col: 15,
                 idLevel: 0
             }, {
                 lexeme: 'EOF',
