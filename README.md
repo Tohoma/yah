@@ -119,7 +119,7 @@ b is "what"                                                 var b = "what";
 c is yah                                                    var c = true;
 d is nah                                                    var d = false;
 
-e is ͡° ͜ʖ ͡°                                                  var e = undefined;  
+e is ͡° ͜ʖ ͡°                                               var e = undefined;  
 banana is undefined                                         var banana = undefined;                                
 f is ಠ_ಠ                                                    var f = null;
 apple is nil                                                var apple = null;
