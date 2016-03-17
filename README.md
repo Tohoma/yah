@@ -8,7 +8,7 @@
 
 A language for CMSI 488
 
-yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
+yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
 # List of Features
 
@@ -35,6 +35,8 @@ keyword   -> 'Class' | 'new' | 'for' | 'in' | 'while'
           | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
           | 'not' | 'yah' | 'nah' |
           | 'spit' | 'nil' | 'undefined' | 'NaN'
+          | 'int' | 'bool' | 'String' | 'float' | 'List'
+          | 'Tuple' | 'Dict'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
 floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?

@@ -22,7 +22,9 @@ var tokenList = {},
             'nil',
             'undefined',
             'NaN',
-            'eq', 'neq', 'gt', 'lt', 'geq', 'leq'
+            'eq', 'neq', 'gt', 'lt', 'geq', 'leq',
+            'int', 'float', 'bool', 'String',
+            'List', 'Tuple', 'Dict'
         ]
         return tokenList;
     }();

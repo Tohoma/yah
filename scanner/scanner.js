@@ -7,7 +7,7 @@ var tokenList = require('./tokens.js');
 const LETTER = /[a-zA-Z]/
 const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 const DIGIT = /\d/;
-const RESERVED_WORD = /is|be|yah|nah|spit|nil|undefined|NaN|print|for|while|in|and|or|if|elif|else|not|eq|neq|gt|lt|geq|leq|Class|new/;
+const RESERVED_WORD = /is|be|yah|nah|spit|nil|undefined|NaN|print|for|while|in|and|or|if|elif|else|not|eq|neq|gt|lt|geq|leq|Class|new|int|float|bool|String|List|Tuple|Dict/;
 const ONE_CHARACTER_TOKENS = /[+%\*{^}|,\.{-}{!}{(}{)}/\/\]\[]/;
 const TWO_CHARACTER_TOKENS = /\->|&&|\|\|/;
 
