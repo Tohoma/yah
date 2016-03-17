@@ -30,9 +30,10 @@ yah is a statically typed programming language with all of the dynamic benefits.
 newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
-keyword   -> 'class' | 'for' | 'in' | 'while' 
+keyword   -> 'class' | 'new' | 'for' | 'in' | 'while' 
           | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
-          | 'not' | 'yah' | 'nah' | 'true' 
+          | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
+          | 'not' | 'yah' | 'nah' | 'true'
           | 'false' | 'spit' | 'return' | 'nil' 
           | 'undefined' | 'NaN'
 id        -> (letter | '_') (letter | digit | '_')*
@@ -40,10 +41,10 @@ intlit    -> digit+
 floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
 declareop -> 'is'
 assignop  -> 'be'
-boolop    -> 'and' | 'or'
+boolop    -> 'and' | 'or' | '&&' | '||'
 relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
 addop     -> '+'   | '-'
-mulop     -> '*'   | '/' | '%' | '^'
+mulop     -> '*'   | '/' | '%' | '^' | '**'
 prefixop  -> '-'   | 'not' | '!'
 boollit   -> 'yah' | 'nah' | 'true' | 'false'
 escape    -> [\\] [rnst'"\\]
@@ -70,17 +71,19 @@ ForStmt    -> 'for' ('each')? id 'in' ListLit ':' (newline Block | Exp)
 
 ReturnStmt -> ('return' | 'spit') Exp
 
-Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp
+Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool))? declareop ExpList
+VarDeclare -> (id | TupLit) (':' (int | String | float | bool) ([?!])?)? declareop ExpList
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 FunBlock   -> Exp | (newline Block)
-FunExp     -> id declareop Args '->' FunBlock
+FunExp     -> id declareop Args '(\s)? ->' FunBlock
 
 ConditionExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
                 | 'if' Exp0 ':' Exp
+
+ClassExp   -> 'Class (\s)? ->' newline (Exp newline)*
 
 TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
@@ -396,13 +399,18 @@ print k                                                     console.log(k);
 ```
 
 
-### Objects
-Objects in yah work much like objects in javascript.
+### Classes and Objects
+Classes and objects behave like dictionaries.
 ```
-obj is {x:20}                                             var obj = {x:20};
-obj.y is 25                                               obj.y = 25;
-obj["dog"] is 10                                          obj["dog"] = 10;
-print(obj)                                                console.log(obj);
+Banana is Class ->                                          class Banana {
+    color is yellow                                             constructor() {
+    size is small                                                   this.color = "yellow";
+                                                                    this.size = "small";
+b is new Banana()                                               }
+print(b.color)                                              }
+                                                            var b = new Banana();
+                                                            console.log(b.color)
+
 
 ```
 
