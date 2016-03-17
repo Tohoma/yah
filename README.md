@@ -30,7 +30,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
-keyword   -> 'class' | 'new' | 'for' | 'in' | 'while' 
+keyword   -> 'Class' | 'new' | 'for' | 'in' | 'while' 
           | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
           | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
           | 'not' | 'yah' | 'nah' | 'true'
