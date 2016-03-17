@@ -33,9 +33,8 @@ digit     -> [0-9]
 keyword   -> 'Class' | 'new' | 'for' | 'in' | 'while' 
           | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
           | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
-          | 'not' | 'yah' | 'nah' | 'true'
-          | 'false' | 'spit' | 'return' | 'nil' 
-          | 'undefined' | 'NaN'
+          | 'not' | 'yah' | 'nah' |
+          | 'spit' | 'nil' | 'undefined' | 'NaN'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
 floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
@@ -44,7 +43,7 @@ assignop  -> 'be'
 boolop    -> 'and' | 'or' | '&&' | '||'
 relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
 addop     -> '+'   | '-'
-mulop     -> '*'   | '/' | '%' | '^' | '**'
+mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
 boollit   -> 'yah' | 'nah' | 'true' | 'false'
 escape    -> [\\] [rnst'"\\]
