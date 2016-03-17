@@ -72,7 +72,7 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool) ([?!])?)? declareop ExpList
+VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
@@ -107,7 +107,7 @@ DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
 BindList   -> Binding (',' Binding)*
 
-Comprehension -> '[' TernaryExp 'for' ('each')? id 'in' Exp ']'
+Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp ('by' intlit)?
 ```
 
 # Features
@@ -133,9 +133,9 @@ i is (1,2,3,4,5) // Tuples are immutable                    var i = [1,2,3,4,5];
 j is {0:1, 2:3} // Dictionaries are mutable                 var j = {0:1, 2:3};
 
 
-h[0] is 6        // This would result in [6,2,3,4,5]        h[0] = 6;
-i[0] is 6        // This would cause a runtime error
-j[2] is 5        // This would result in {0:5, 2:3}         j[2] = 5;
+h[0] be 6        // This would result in [6,2,3,4,5]        h[0] = 6;
+i[0] be 6        // This would cause a runtime error
+j[2] be 5        // This would result in {0:5, 2:3}         j[2] = 5;
 
 ```
 
