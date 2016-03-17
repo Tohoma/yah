@@ -7,7 +7,7 @@ var tokenList = {},
         ]
 
         tokenList.twoCharacterToken = [
-            '->', '&&', '||', '**'
+            '->', '&&', '||'
         ]
 
         tokenList.reservedWords = [
@@ -17,8 +17,8 @@ var tokenList = {},
             'is', 'be',
             'if', 'else', 'elif',
             'not',
-            'yah', 'nah', 'true', 'false',
-            'spit', 'return',
+            'yah', 'nah',
+            'spit',
             'nil',
             'undefined',
             'NaN',
