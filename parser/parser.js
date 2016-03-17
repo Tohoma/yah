@@ -2,15 +2,20 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     BinaryExpression = require('../entities/binary-expression'),
     Block = require('../entities/block'),
     BooleanLiteral = require('../entities/boolean-literal'),
+    FloatLiteral = require('../entities/float-literal'),
     IntegerLiteral = require('../entities/integer-literal'),
+    NanLiteral = require('../entities/nan-literal'),
+    NilLiteral = require('../entities/nil-literal'),
     Program = require('../entities/program'),
     ReadStatement = require('../entities/read-statement'),
+    StringLiteral = require('../entities/string-literal'),
     Type = require('../entities/type'),
     UnaryExpression = require('../entities/unary-expression'),
+    UndefinedLiteral = require('../entities/undefined-literal'),
     VariableDeclaration = require('../entities/variable-declaration'),
     VariableReference = require('../entities/variable-reference'),
     WhileStatement = require('../entities/while-statement'),
-    WriteStatement = require('../entities/write-statement'),
+    WriteStatement = require('../entities/write-statement');
 
     error = require('../error/error'),
     scan = require('../scanner/scanner'),
@@ -164,35 +169,33 @@ var at = function(kind) {
 
         if (at(['yah', 'nah'])) {
             return new BooleanLiteral(match());
-        } else if (at('none')) {
-            // new NoneLiteral(match());
+        } else if (at('nil')) {
+            return new NilLiteral(match());
         } else if (at('intlit')) {
             return new IntegerLiteral(tokens[0].lexeme);
         } else if (at('floatlit')) {
-            // new FloatLiteral(match());
+            return new FloatLiteral(match());
         } else if (at('strlit')) {
-            // new StringLiteral(match());
+            return new StringLiteral(match());
         } else if (at('undeflit')) {
-            // new UndefinedLiteral(match());
+            return new UndefinedLiteral(match());
         } else if (at('nanlit')) {
-            // new NaNLiteral(match());
-        } else if (at('nillit')) {
-            // new NilLiteral(match());
+            return new NaNLiteral(match());
         } else if (at('id')) {
-            return new VariableReference('match()');
+            return new VariableReference(match());
         } else if (at('[')) {
             // parseListLiteral();
-        } else if (at('<')) {
-            // parseSetLiteral();
-        } else if (at('|')) {
+        } else if (at('(') && tokens[1].kind in Type) { // Need to change this for Tuples 
             // parseTupleLiteral();
         } else if (at('{')) {
-            // parseMapLiteral();
+            // parseDictLiteral();
         } else if (at('(')) {
             match();
             expression = parseExpression();
             match(')');
             expression;
+        } else {
+            return error("Illegal start of expression", tokens[0]);
         }
     },
 
@@ -244,9 +247,9 @@ var at = function(kind) {
         //     return parseWriteStatement();
         // } else if (at('while')) {
         //     return parseWhileStatement();
-        // } else {
-        //     return error('Statement expected', tokens[0]);
-        // }
+        else {
+            return error('Statement expected', tokens[0]);
+        }
         // else if (at('for')) {
         //     return parseForLoop();
         // } else if (at('while')) {
@@ -256,7 +259,6 @@ var at = function(kind) {
         // } else {
         //     return parseExpression();
         // }
-        // return new VariableDeclaration({"lexeme":"x"}, "3");
     },
 
     parseType = function() {
@@ -270,8 +272,8 @@ var at = function(kind) {
     parseVariableDeclaration = function() {
         var id, exp;
         id = match('id');
-        match('is');
-        exp = parseExp9();
+        match('is');                        // only works with assignments so far
+        exp = parseExp9();                  // need to generalize it for the other expressions
         return new VariableDeclaration(id, exp);
     },
 

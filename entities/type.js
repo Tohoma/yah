@@ -16,7 +16,7 @@ Type = (function() {
     Type.FLOAT = new Type('float');
     Type.UNDEFINED = new Type('undefined');
     Type.NAN = new Type('nan');
-    Type.NILL = new Type('nill');
+    Type.NIL = new Type('nil');
     Type.LIST = new Type('list');
     Type.TUPLE = new Type('tuple');
     Type.DICT = new Type('dict');
@@ -62,7 +62,7 @@ module.exports = {
     FLOAT: Type.FLOAT,
     UNDEFINED: Type.UNDEFINED,
     NAN: Type.NAN,
-    NILL: Type.NILL,
+    NIL: Type.NIL,
     LIST: Type.LIST,
     TUPLE: Type.TUPLE,
     DICT: Type.DICT,

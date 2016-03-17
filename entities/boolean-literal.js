@@ -3,16 +3,12 @@ var BooleanLiteral, Type;
 Type = require('./type');
 
 BooleanLiteral = (function() {
-    function BooleanLiteral(name) {
-        this.name = "" + name;
+    function BooleanLiteral(value) {
+        this.value = value;
     }
 
-    BooleanLiteral.prototype.value = function() {
-        return this.name === 'true';
-    };
-
     BooleanLiteral.prototype.toString = function() {
-        return this.name;
+        return this.value.lexeme;
     };
 
     BooleanLiteral.prototype.analyze = function(context) {

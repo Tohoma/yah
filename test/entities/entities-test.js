@@ -2,17 +2,22 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
+    FloatLiteral = require('../../entities/float-literal'),
     IntegerLiteral = require('../../entities/integer-literal'),
+    NanLiteral = require('../../entities/nan-literal'),
+    NilLiteral = require('../../entities/nil-literal'),
     Program = require('../../entities/program'),
     ReadStatement = require('../../entities/read-statement'),
+    StringLiteral = require('../../entities/string-literal'),
     Type = require('../../entities/type'),
     UnaryExpression = require('../../entities/unary-expression'),
+    UndefinedLiteral = require('../../entities/undefined-literal'),
     VariableDeclaration = require('../../entities/variable-declaration'),
     VariableReference = require('../../entities/variable-reference'),
     WhileStatement = require('../../entities/while-statement'),
     WriteStatement = require('../../entities/write-statement');
 
-describe('The entities:', function() {
+describe('The entities are:', function() {
     describe('assignment-statement', function() {
         it('successfully creates an assignment statement', function(done) {
             var newAssignment = new AssignmentStatement('x', '3');
@@ -39,23 +44,61 @@ describe('The entities:', function() {
 
     describe('boolean-literal', function() {
         it('successfully creates a boolean-literal', function(done) {
-            var newBoolLit = new BooleanLiteral('yah');
+            var newBoolLit = new BooleanLiteral({
+                'lexeme': 'yah'
+            });
             newBoolLit.toString().should.eql('yah');
             done();
         });
     });
 
-    describe('for-statement', function() {
-        it('successfully creates a for statement', function(done) {
-            // var newForStmt = new ForStatement ('i', '');
+    // describe('function', function() {
+    //     it('successfully creates a function', function(done) {
+    //         done();
+    //     });
+    // });
+
+    describe('float-literal', function() {
+        it('successfully creates a float-literal', function(done) {
+            var newFloatLit = new FloatLiteral({
+                'lexeme': '3.1415926535'
+            });
+            newFloatLit.toString().should.eql('3.1415926535');
             done();
-        })
-    })
+        });
+    });
+
+    describe('nan-literal', function() {
+        it('successfully creates a nan-literal', function(done) {
+            var newNanLit = new NanLiteral({
+                'lexeme': 'nan'
+            });
+            newNanLit.toString().should.eql('nan');
+            done();
+        });
+    });
+
+    describe('nil-literal', function() {
+        it('successfully creates a nil-literal', function(done) {
+            var newFloatLit = new NilLiteral({
+                'lexeme': 'nil'
+            });
+            newFloatLit.toString().should.eql('nil');
+            done();
+        });
+    });
+
+    // describe('for-statement', function() {
+    //     it('successfully creates a for-statement', function(done) {
+    //         // var newForStmt = new ForStatement ('i', '');
+    //         done();
+    //     });
+    // });
 
     describe('integer-literal', function() {
         it('successfully creates an integer-literal', function(done) {
-            var intLit = new IntegerLiteral('10000');
-            intLit.toString().should.eql('10000');
+            var newIntLit = new IntegerLiteral('10000');
+            newIntLit.toString().should.eql('10000');
             done();
         });
     });
@@ -64,6 +107,14 @@ describe('The entities:', function() {
         it('successfully creates a program', function(done) {
             var newProgram = new Program('block');
             newProgram.toString().should.eql('(Program block)');
+            done();
+        });
+    });
+
+    describe('string-literal', function() {
+        it('successfully creates an string-literal', function(done) {
+            var newStrLit = new StringLiteral({"lexeme":"stringy"});
+            newStrLit.toString().should.eql("stringy");
             done();
         });
     });
@@ -100,8 +151,8 @@ describe('The entities:', function() {
             Type.NAN.toString().should.eql('nan');
             done();
         });
-        it('successfully creates a NILL type', function(done) {
-            Type.NILL.toString().should.eql('nill');
+        it('successfully creates a NIL type', function(done) {
+            Type.NIL.toString().should.eql('nil');
             done();
         });
         it('successfully creates a LIST type', function(done) {
@@ -127,6 +178,16 @@ describe('The entities:', function() {
     //         done();
     //     });
     // });
+
+    describe('undefined-literal', function() {
+        it('successfully creates a undefined-literal', function(done) {
+            var newUndefinedLit = new UndefinedLiteral({
+                'lexeme': 'undefined'
+            });
+            newUndefinedLit.toString().should.eql('undefined');
+            done();
+        });
+    });
 
     describe('variable-declaration', function() {
         it('successfully creates a variable-declaration', function(done) {
