@@ -29,14 +29,15 @@ newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
 keyword   -> 'class' | 'for' | 'in' | 'while' 
-          | 'and' | 'or' | 'is'  | 'if' | 'else' 
+          | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
           | 'not' | 'yah' | 'nah' | 'true' 
           | 'false' | 'spit' | 'return' | 'nil' 
           | 'undefined' | 'NaN'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
 floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
-assignop  -> 'is'
+declareop -> 'is'
+assignop  -> 'be'
 boolop    -> 'and' | 'or'
 relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
 addop     -> '+'   | '-'
@@ -67,16 +68,16 @@ ForStmt    -> 'for' ('each')? id 'in' ListLit ':' (newline Block | Exp)
 
 ReturnStmt -> ('return' | 'spit') Exp
 
-Exp        -> VarAssign | TernaryExp | FunExp | ConditionalExp
+Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp
 
-VarAssign  -> (id | TupLit) (':" int | String | float | bool)? assignop ExpList
-            | id (':" int | String | float | bool)? assignop Exp
+VarDeclare -> (id | TupLit) (':'' (int | String | float | bool))? declareop ExpList
+VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 FunBlock   -> Exp | (newline Block)
-FunExp     -> id assignop Args '->' FunBlock
+FunExp     -> id declareop Args '->' FunBlock
 
-ConditionalExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
+ConditionExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
                 | 'if' Exp0 ':' Exp
 
 TernaryExp -> Exp0 ('if' Exp0 ('elif' Exp0 ( 'else' TernaryExp)?)?)?
@@ -92,14 +93,14 @@ Exp8       -> Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
 Exp9       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
             | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
 
-ExpList    -> Exp (',' Exp)*
+ExpList    -> newline? Exp (newline? ',' Exp)* newline?
 
 Args       -> '(' ExpList ')'
 
 ListLit    -> '[' ExpList ']'
 TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
-Bind       -> id ':' Exp
+Bind       -> newline? id ':' Exp newline?
 BindList   -> Binding (',' Binding)*
 
 Comprehension -> '[' TernaryExp 'for' ('each')? id 'in' Exp ']'
@@ -329,8 +330,7 @@ g is f[0 .. 3]                                            var g = [];
 
 ```
 
-
-###Scoping
+### Scoping
 Scoping in yah is similar to python's LEGB rule.
 Local -> Enclosed -> Global -> Built In
 yah first searches for a variable in the local namespace. If the variable cannot be found in the local namespace, yah continues the search in the namespace of the enclosing function. If not found in the enclosing function, or if there is no enclosing function, yah looks in the global namespace followed by the namespace of built in / reserved names.
