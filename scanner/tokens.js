@@ -11,11 +11,11 @@ var tokenList = {},
         ]
 
         tokenList.reservedWords = [
-            'class', 'new',
+            'Class', 'new',
             'for', 'in', 'while',
             'and', 'or',
             'is', 'be',
-            'if', 'else', 'elif'
+            'if', 'else', 'elif',
             'not',
             'yah', 'nah', 'true', 'false',
             'spit', 'return',
