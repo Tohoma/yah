@@ -151,11 +151,11 @@ u is 4 - z                                                  var u = 4 - z;
 
 dog:int is 5                                                var dog = 5;
 cat:String is "furry"                                       var cat = "furry";
-cat is 10                                                   // Produces a compile-time error
+cat be 10                                                   // Produces a compile-time error
 
 // Example use of constants
 swag dog is 2                                              const dog = 2;
-dog is 3                                                   // Produces a compile-time error
+dog be 3                                                   // Produces a compile-time error
 
 ```
 ### Strings
@@ -238,7 +238,7 @@ yah provides multiple ways to perform a set of statements multiple times. there 
 ```
 //All three iterations will output the same values
 
-basket = ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
+basket is ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
 
 for each fruit in basket:                                   for each (var fruit in basket) {
   print "stop eating my \(fruit)"                               console.log("stop eating my " + fruit);
