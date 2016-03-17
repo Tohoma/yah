@@ -9,7 +9,7 @@ VariableDeclaration = (function() {
     }
 
     VariableDeclaration.prototype.toString = function() {
-        return "(Var :" + this.id.lexeme + " " + this.type + ")";
+        return "(VarDec (" + this.id.lexeme + " " + this.type + "))";
     };
 
     VariableDeclaration.prototype.analyze = function(context) {

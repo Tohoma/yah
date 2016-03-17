@@ -3,7 +3,7 @@ var tokenList = {},
     tokens = function() {
 
         tokenList.oneCharacterToken = [
-            '+', '-', '*', '/', '%', '^', '!', '.', ',','?'
+            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?'
         ]
 
         tokenList.twoCharacterToken = [

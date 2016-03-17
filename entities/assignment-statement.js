@@ -9,7 +9,7 @@ AssignmentStatement = (function() {
     }
 
     AssignmentStatement.prototype.toString = function() {
-        return "(= " + this.target + " " + this.source + ")";
+        return "(be " + this.target + " " + this.source + ")";
     };
 
     AssignmentStatement.prototype.analyze = function(context) {

@@ -13,6 +13,13 @@ Type = (function() {
     Type.BOOL = new Type('bool');
     Type.INT = new Type('int');
     Type.STR = new Type('str');
+    Type.FLOAT = new Type('float');
+    Type.UNDEFINED = new Type('undefined');
+    Type.NAN = new Type('nan');
+    Type.NILL = new Type('nill');
+    Type.LIST = new Type('list');
+    Type.TUPLE = new Type('tuple');
+    Type.DICT = new Type('dict');
     Type.ARBITRARY = new Type('<arbitrary_type>');
 
     Type.prototype.toString = function() {
@@ -52,6 +59,13 @@ module.exports = {
     INT: Type.INT,
     ARBITRARY: Type.ARBITRARY,
     STR: Type.STR,
+    FLOAT: Type.FLOAT,
+    UNDEFINED: Type.UNDEFINED,
+    NAN: Type.NAN,
+    NILL: Type.NILL,
+    LIST: Type.LIST,
+    TUPLE: Type.TUPLE,
+    DICT: Type.DICT,
     forName: function(name) {
         return cache[name];
     }

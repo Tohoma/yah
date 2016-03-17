@@ -13,8 +13,15 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     WriteStatement = require('../entities/write-statement'),
 
     error = require('../error/error'),
-    scanner = require('../scanner/scanner'),
+    scan = require('../scanner/scanner'),
     tokens = [];
+
+module.exports = function(scannerOutput) {
+    tokens = scannerOutput;
+    var program = parseProgram();
+    match('EOF');
+    return program;
+};
 
 var at = function(kind) {
         if (tokens.length === 0) {
@@ -37,30 +44,43 @@ var at = function(kind) {
     },
 
     parseAssignmentStatement = function() {
-        var source, target;
-        target = new VariableReference(match('id'));
-        match('=');
-        source = parseExpression();
+        var source = parseExpression(),
+            target = new VariableReference(match('id'));
+        match('be');
         return new AssignmentStatement(target, source);
     },
 
     parseBlock = function() {
-        var statements;
-        statements = [];
-        while (true) {
-            statements.push(parseStatement());
-            match(';');
-            if (!at(['var', 'id', 'read', 'write', 'while'])) {
-                break;
+        var statements = [];
+        while (at(['id', 'is', 'intlit', 'newline'])) {
+            if (at('newline')) {
+                match('newline');
+            } else {
+                statements.push(parseStatement());
+                match();
+                if (at('EOF')) {
+                    break;
+                }
             }
         }
         return new Block(statements);
     },
 
+    parseExp0 = function() {
+        var left, op, right;
+        left = parseExp1();
+        while (at(['or', '||'])) { // Need to change this so we check if or is followed by valid expression
+            op = match();
+            right = parseExp1();
+            left = new BinaryExpression(op, left, right);
+        }
+        return left;
+    },
+
     parseExp1 = function() {
         var left, op, right;
         left = parseExp2();
-        while (at('and')) {
+        while (at(['and', '||'])) {
             op = match();
             right = parseExp2();
             left = new BinaryExpression(op, left, right);
@@ -71,7 +91,7 @@ var at = function(kind) {
     parseExp2 = function() {
         var left, op, right;
         left = parseExp3();
-        if (at(['<', '<=', '==', '!=', '>=', '>'])) {
+        if (at(['<', '<=', '==', '!=', '>=', '>'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
             op = match();
             right = parseExp3();
             left = new BinaryExpression(op, left, right);
@@ -82,7 +102,7 @@ var at = function(kind) {
     parseExp3 = function() {
         var left, op, right;
         left = parseExp4();
-        while (at(['+', '-'])) {
+        while (at(['+', '-'])) { // Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
             op = match();
             right = parseExp4();
             left = new BinaryExpression(op, left, right);
@@ -93,7 +113,7 @@ var at = function(kind) {
     parseExp4 = function() {
         var left, op, right;
         left = parseExp5();
-        while (at(['*', '/'])) {
+        while (at(['*', '/'])) { // Exp5 (addop Exp4)*
             op = match();
             right = parseExp5();
             left = new BinaryExpression(op, left, right);
@@ -103,7 +123,7 @@ var at = function(kind) {
 
     parseExp5 = function() {
         var op, operand;
-        if (at(['-', 'not'])) {
+        if (at(['-', 'not'])) { // Exp6 (mulop Exp5)*
             op = match();
             operand = parseExp6();
             return new UnaryExpression(op, operand);
@@ -112,7 +132,7 @@ var at = function(kind) {
         }
     },
 
-    parseExp6 = function() {
+    parseExp6 = function() { // prefixop? Exp7
         var expression;
         if (at(['true', 'false'])) {
             return new BooleanLiteral(match().lexeme);
@@ -130,15 +150,65 @@ var at = function(kind) {
         }
     },
 
-    parseExpression = function() {
-        var left, op, right;
-        left = parseExp1();
-        while (at('or')) {
-            op = match();
-            right = parseExp1();
-            left = new BinaryExpression(op, left, right);
+    parseExp7 = function() { // Exp8 ('^' | '**' Exp8)?
+
+    },
+
+    parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+
+    },
+
+    parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
+        // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
+        var expression;
+
+        if (at(['yah', 'nah'])) {
+            return new BooleanLiteral(match());
+        } else if (at('none')) {
+            // new NoneLiteral(match());
+        } else if (at('intlit')) {
+            return new IntegerLiteral(tokens[0].lexeme);
+        } else if (at('floatlit')) {
+            // new FloatLiteral(match());
+        } else if (at('strlit')) {
+            // new StringLiteral(match());
+        } else if (at('undeflit')) {
+            // new UndefinedLiteral(match());
+        } else if (at('nanlit')) {
+            // new NaNLiteral(match());
+        } else if (at('nillit')) {
+            // new NilLiteral(match());
+        } else if (at('id')) {
+            return new VariableReference('match()');
+        } else if (at('[')) {
+            // parseListLiteral();
+        } else if (at('<')) {
+            // parseSetLiteral();
+        } else if (at('|')) {
+            // parseTupleLiteral();
+        } else if (at('{')) {
+            // parseMapLiteral();
+        } else if (at('(')) {
+            match();
+            expression = parseExpression();
+            match(')');
+            expression;
         }
-        return left;
+    },
+
+    parseExpression = function() {
+        // var left, op, right;
+        // left = parseExp1();
+        // while (at('or')) {
+        //     op = match();
+        //     right = parseExp1();
+        //     left = new BinaryExpression(op, left, right);
+        // }
+        // return left;
+        // if (tokens[0].kind === 'is') {
+        //     console.log("WAT")
+        parseAssignmentStatement();
+        // }
     },
 
     parseProgram = function() {
@@ -158,19 +228,35 @@ var at = function(kind) {
     },
 
     parseStatement = function() {
-        if (at('var')) {
-            return parseVariableDeclaration();
-        } else if (at('id')) {
-            return parseAssignmentStatement();
-        } else if (at('read')) {
-            return parseReadStatement();
-        } else if (at('write')) {
-            return parseWriteStatement();
-        } else if (at('while')) {
-            return parseWhileStatement();
-        } else {
-            return error('Statement expected', tokens[0]);
+        // if (at('var')) {
+        //     return parseVariableDeclaration();
+        // } else 
+        if (at('id')) {
+            if (tokens[1].kind === 'is') {
+                return parseVariableDeclaration();
+            } else if (tokens[1].kind === 'be') {
+                return parseAssignmentStatement();
+            }
         }
+        // else if (at('read')) {
+        //     return parseReadStatement();
+        // } else if (at('write')) {
+        //     return parseWriteStatement();
+        // } else if (at('while')) {
+        //     return parseWhileStatement();
+        // } else {
+        //     return error('Statement expected', tokens[0]);
+        // }
+        // else if (at('for')) {
+        //     return parseForLoop();
+        // } else if (at('while')) {
+        //     return parseWhileLoop();
+        // } else if (at('return')) {
+        //     return parseReturnStatement();
+        // } else {
+        //     return parseExpression();
+        // }
+        // return new VariableDeclaration({"lexeme":"x"}, "3");
     },
 
     parseType = function() {
@@ -182,12 +268,11 @@ var at = function(kind) {
     },
 
     parseVariableDeclaration = function() {
-        var id, type;
-        match('var');
+        var id, exp;
         id = match('id');
-        match(':');
-        type = parseType();
-        return new VariableDeclaration(id, type);
+        match('is');
+        exp = parseExp9();
+        return new VariableDeclaration(id, exp);
     },
 
     parseWhileStatement = function() {
@@ -211,10 +296,3 @@ var at = function(kind) {
         }
         return new WriteStatement(expressions);
     };
-
-module.exports = function(scannerOutput) {
-    var program = parseProgram();
-    tokens = scannerOutput;
-    match('EOF');
-    return program;
-};
