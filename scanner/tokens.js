@@ -7,7 +7,7 @@ var tokenList = {},
         ]
 
         tokenList.twoCharacterToken = [
-            '->', '&&', '||', '**'
+            '->', '&&', '||'
         ]
 
         tokenList.reservedWords = [
@@ -17,12 +17,14 @@ var tokenList = {},
             'is', 'be',
             'if', 'else', 'elif',
             'not',
-            'yah', 'nah', 'true', 'false',
-            'spit', 'return',
+            'yah', 'nah',
+            'spit',
             'nil',
             'undefined',
             'NaN',
-            'eq', 'neq', 'gt', 'lt', 'geq', 'leq'
+            'eq', 'neq', 'gt', 'lt', 'geq', 'leq',
+            'int', 'float', 'bool', 'String',
+            'List', 'Tuple', 'Dict'
         ]
         return tokenList;
     }();

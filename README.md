@@ -8,7 +8,7 @@
 
 A language for CMSI 488
 
-yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`, or `^` instead of `**`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
+yah is a statically typed programming language with all of the dynamic benefits. It allows for versatile coding how you want, in the way that you you want. Prefer using `&&` instead of `and`? We got your back. Taking a dash of swift's type inference with optional explicit assignments, a sprinkle of Python's classes and scoping, a splash of CoffeeScript terseness, and compiling into Javascript gives you the glorious and infamous yah. yaaaaaaaaah.
 
 # List of Features
 
@@ -33,9 +33,10 @@ digit     -> [0-9]
 keyword   -> 'Class' | 'new' | 'for' | 'in' | 'while' 
           | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
           | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
-          | 'not' | 'yah' | 'nah' | 'true'
-          | 'false' | 'spit' | 'return' | 'nil' 
-          | 'undefined' | 'NaN'
+          | 'not' | 'yah' | 'nah' |
+          | 'spit' | 'nil' | 'undefined' | 'NaN'
+          | 'int' | 'bool' | 'String' | 'float' | 'List'
+          | 'Tuple' | 'Dict'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
 floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
@@ -44,7 +45,7 @@ assignop  -> 'be'
 boolop    -> 'and' | 'or' | '&&' | '||'
 relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
 addop     -> '+'   | '-'
-mulop     -> '*'   | '/' | '%' | '^' | '**'
+mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
 boollit   -> 'yah' | 'nah' | 'true' | 'false'
 escape    -> [\\] [rnst'"\\]
@@ -73,7 +74,7 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool) ([?!])?)? declareop ExpList
+VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
@@ -108,7 +109,7 @@ DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
 BindList   -> Binding (',' Binding)*
 
-Comprehension -> '[' TernaryExp 'for' ('each')? id 'in' Exp ']'
+Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp ('by' intlit)?
 ```
 
 # Features
@@ -134,9 +135,9 @@ i is (1,2,3,4,5) // Tuples are immutable                    var i = [1,2,3,4,5];
 j is {0:1, 2:3} // Dictionaries are mutable                 var j = {0:1, 2:3};
 
 
-h[0] is 6        // This would result in [6,2,3,4,5]        h[0] = 6;
-i[0] is 6        // This would cause a runtime error
-j[2] is 5        // This would result in {0:5, 2:3}         j[2] = 5;
+h[0] be 6        // This would result in [6,2,3,4,5]        h[0] = 6;
+i[0] be 6        // This would cause a runtime error
+j[2] be 5        // This would result in {0:5, 2:3}         j[2] = 5;
 
 ```
 
@@ -152,11 +153,11 @@ u is 4 - z                                                  var u = 4 - z;
 
 dog:int is 5                                                var dog = 5;
 cat:String is "furry"                                       var cat = "furry";
-cat is 10                                                   // Produces a compile-time error
+cat be 10                                                   // Produces a compile-time error
 
 // Example use of constants
 swag dog is 2                                              const dog = 2;
-dog is 3                                                   // Produces a compile-time error
+dog be 3                                                   // Produces a compile-time error
 
 ```
 ### Strings
@@ -239,7 +240,7 @@ yah provides multiple ways to perform a set of statements multiple times. there 
 ```
 //All three iterations will output the same values
 
-basket = ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
+basket is ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
 
 for each fruit in basket:                                   for each (var fruit in basket) {
   print "stop eating my \(fruit)"                               console.log("stop eating my " + fruit);
