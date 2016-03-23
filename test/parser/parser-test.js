@@ -7,15 +7,21 @@ var scan = require('../../scanner/scanner'),
 describe('The parser', function() {
     it('parses the simple-declaration program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-declaration.yah', function(tokens) {
-            var program = parse(tokens);
+            var program = parse(tokens),
+                priorErrorCount = error.count;
+
             program.toString().should.eql(expected_ast.simple_declaration);
+            error.count.should.be.eql(0);
             done();
         });
     });
     it('parses the simple_assignment program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-assignment.yah', function(tokens) {
-            var program = parse(tokens);
+            var program = parse(tokens),
+                priorErrorCount = error.count;
+
             program.toString().should.eql(expected_ast.simple_assignment);
+            error.count.should.be.eql(0);
             done();
         });
     });

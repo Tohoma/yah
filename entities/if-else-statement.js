@@ -11,9 +11,9 @@ IfElseStatement = (function() {
 
     IfElseStatement.prototype.toString = function() {
         if (this.elseBody) {
-            return "(If " + this.condition + " " + this.thenBody + " Else " + this.elseBody + ")"; 
+            return "(If " + this.condition + " " + this.thenBody + " Else " + this.elseBody + ")";
         }
-        return "(If " + this.condition + " " + this.thenBody + ")"; 
+        return "(If " + this.condition + " " + this.thenBody + ")";
     };
 
     return IfElseStatement;

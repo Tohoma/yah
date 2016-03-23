@@ -10,6 +10,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     NilLiteral = require('../../entities/nil-literal'),
     Program = require('../../entities/program'),
     ReadStatement = require('../../entities/read-statement'),
+    // ReturnStatement = require('../../entities/return-statement'),
     StringLiteral = require('../../entities/string-literal'),
     Type = require('../../entities/type'),
     UnaryExpression = require('../../entities/unary-expression'),
@@ -28,9 +29,12 @@ describe('The entities', function() {
         });
     });
 
-    describe('binary-expression', function () {
-        it('successfully creates a binary-expression', function (done) {
-            var newBinExp = new BinaryExpression ({'lexeme':'+', 'kind': '+'}, '2', '3');
+    describe('binary-expression', function() {
+        it('successfully creates a binary-expression', function(done) {
+            var newBinExp = new BinaryExpression({
+                'lexeme': '+',
+                'kind': '+'
+            }, '2', '3');
             newBinExp.toString().should.eql('(+ 2 3)');
             done();
         });
@@ -121,6 +125,12 @@ describe('The entities', function() {
         });
     });
 
+    // describe('return-statement', function() {
+    //     it('successfully creates a return-statement', function(done) {
+    //         done();
+    //     })
+    // })
+
     describe('string-literal', function() {
         it('successfully creates an string-literal', function(done) {
             var newStrLit = new StringLiteral({
@@ -191,9 +201,12 @@ describe('The entities', function() {
         })
     });
 
-    describe('unary-expression', function () {
-        it('successfully creates a unary-expression', function(done){
-            var newUnaryExp = new UnaryExpression({'lexeme':'!', 'kind':'!'}, 'yah');
+    describe('unary-expression', function() {
+        it('successfully creates a unary-expression', function(done) {
+            var newUnaryExp = new UnaryExpression({
+                'lexeme': '!',
+                'kind': '!'
+            }, 'yah');
             newUnaryExp.toString().should.eql('(! yah)');
             done();
         });
@@ -220,8 +233,8 @@ describe('The entities', function() {
         });
     });
 
-    describe('variable-reference', function () {
-        it('successfully creates a variable-reference', function(done){
+    describe('variable-reference', function() {
+        it('successfully creates a variable-reference', function(done) {
             var newVarRef = new VariableReference({
                 "lexeme": 'x',
                 "kind": 'id'
@@ -231,8 +244,8 @@ describe('The entities', function() {
         });
     });
 
-    describe('while-statement', function () {
-        it('successfully creates a while-statement', function(done){
+    describe('while-statement', function() {
+        it('successfully creates a while-statement', function(done) {
             var newStmt = new WhileStatement("true", "spit");
             newStmt.toString().should.eql("(While (true) spit)");
             done();

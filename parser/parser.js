@@ -17,9 +17,11 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     WhileStatement = require('../entities/while-statement'),
     WriteStatement = require('../entities/write-statement');
 
-    error = require('../error/error'),
+error = require('../error/error'),
     scan = require('../scanner/scanner'),
-    tokens = [];
+    tokens = [],
+
+    error.quiet = true;
 
 module.exports = function(scannerOutput) {
     tokens = scannerOutput;
@@ -49,17 +51,23 @@ var at = function(kind) {
     },
 
     parseAssignmentStatement = function() {
-        var source = parseExpression(),
-            target = new VariableReference(match('id'));
-        match('be');
-        return new AssignmentStatement(target, source);
+        var left, exp;
+        left = parseExp0();
+        if (at('id')) {
+            id = match('id');
+            match();
+            exp = parseExpression();
+            return new AssignmentStatement(left, exp);
+        } else {
+            return left;
+        }
     },
 
     parseBlock = function() {
         var statements = [];
-        while (at(['id', 'is', 'intlit', 'newline'])) {
+        while (at(['id', 'is', 'be', 'intlit', 'newline'])) {
             if (at('newline')) {
-                match('newline');
+                match();
             } else {
                 statements.push(parseStatement());
                 match();
@@ -71,10 +79,21 @@ var at = function(kind) {
         return new Block(statements);
     },
 
+    parseTernaryExp = function() { // Exp0 ('if' Exp0 ( 'else' TernaryExp)?)?
+        var left, right, statement;
+        left = parseExp0();
+        if (at('if')) {
+            match('if');
+            // statement = left;
+            // right = parseExp0();
+        }
+    },
+
     parseExp0 = function() {
+        // console.log("Exp0");
         var left, op, right;
         left = parseExp1();
-        while (at(['or', '||'])) { // Need to change this so we check if or is followed by valid expression
+        while (at(['or', '||'])) { // Exp1 ('or' | '||' Exp1)*
             op = match();
             right = parseExp1();
             left = new BinaryExpression(op, left, right);
@@ -83,9 +102,10 @@ var at = function(kind) {
     },
 
     parseExp1 = function() {
+        // console.log("Exp1");
         var left, op, right;
         left = parseExp2();
-        while (at(['and', '||'])) {
+        while (at(['and', '&&'])) { // Exp2 ('and' | '&&' Exp2)*
             op = match();
             right = parseExp2();
             left = new BinaryExpression(op, left, right);
@@ -94,9 +114,10 @@ var at = function(kind) {
     },
 
     parseExp2 = function() {
+        // console.log("Exp2");
         var left, op, right;
         left = parseExp3();
-        if (at(['<', '<=', '==', '!=', '>=', '>'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
+        if (at(['eq', 'neq', 'gt', 'lt', 'geq', 'leq'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
             op = match();
             right = parseExp3();
             left = new BinaryExpression(op, left, right);
@@ -105,9 +126,10 @@ var at = function(kind) {
     },
 
     parseExp3 = function() {
+        // console.log("Exp3");
         var left, op, right;
         left = parseExp4();
-        while (at(['+', '-'])) { // Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
+        if (at(['..', '...', 'by'])) { // Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
             op = match();
             right = parseExp4();
             left = new BinaryExpression(op, left, right);
@@ -116,9 +138,10 @@ var at = function(kind) {
     },
 
     parseExp4 = function() {
+        // console.log("Exp4");
         var left, op, right;
         left = parseExp5();
-        while (at(['*', '/'])) { // Exp5 (addop Exp4)*
+        while (at(['+', '-'])) {
             op = match();
             right = parseExp5();
             left = new BinaryExpression(op, left, right);
@@ -127,46 +150,54 @@ var at = function(kind) {
     },
 
     parseExp5 = function() {
-        var op, operand;
-        if (at(['-', 'not'])) { // Exp6 (mulop Exp5)*
+        // console.log("Exp5");
+        var left, op, right;
+        left = parseExp6();
+        while (at(['*', '/'])) {
             op = match();
-            operand = parseExp6();
-            return new UnaryExpression(op, operand);
-        } else {
-            return parseExp6();
+            right = parseExp6();
+            left = new BinaryExpression(op, left, right);
         }
+        return left;
     },
 
-    parseExp6 = function() { // prefixop? Exp7
-        var expression;
-        if (at(['true', 'false'])) {
-            return new BooleanLiteral(match().lexeme);
-        } else if (at('intlit')) {
-            return new IntegerLiteral(match().lexeme);
-        } else if (at('id')) {
-            return new VariableReference(match());
-        } else if (at('(')) {
-            match();
-            expression = parseExpression();
-            match(')');
-            return expression;
+    parseExp6 = function() {
+        // console.log("Exp6");
+        var op, operand;
+        if (at(['-', 'not'])) {
+            op = match();
+            operand = parseExp7();
+            return new UnaryExpression(op, operand);
         } else {
-            return error('Illegal start of expression', tokens[0]);
+            return parseExp7();
         }
     },
 
     parseExp7 = function() { // Exp8 ('^' | '**' Exp8)?
-
+        // console.log("Exp7");
+        var left, op, right;
+        left = parseExp9();     // Don't know how to do tuples for now so skip exp8
+        if (at(['^', '**'])) {
+            op = match();
+            right = parseExp8();
+            left = new BinaryExpression(op, left, right);
+        } else {
+            return left;
+        }
     },
 
-    parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+    // parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+    //     var expression = parseExp9();
+    //     if (at(['.', '['])) {
 
-    },
+    //     }
+
+    // },
 
     parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
         // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
-        var expression;
-
+        // REMEMBER TO CHECK WHICH HAVE HIGHER PRECEDENCE
+        // console.log("Exp9");
         if (at(['yah', 'nah'])) {
             return new BooleanLiteral(match());
         } else if (at('nil')) {
@@ -182,16 +213,18 @@ var at = function(kind) {
         } else if (at('nanlit')) {
             return new NaNLiteral(match());
         } else if (at('id')) {
-            return new VariableReference(match());
+            // console.log(tokens[0]);
+            return new VariableReference(tokens[0]);
         } else if (at('[')) {
             // parseListLiteral();
-        } else if (at('(') && tokens[1].kind in Type) { // Need to change this for Tuples 
+            //} else if (at('(') && tokens[1].kind in types) { // Need to change this for Tuples to not use lookaheads
+            // console.log("Found a tuple"); 
             // parseTupleLiteral();
         } else if (at('{')) {
             // parseDictLiteral();
         } else if (at('(')) {
             match();
-            expression = parseExpression();
+            var expression = parseExpression();
             match(')');
             expression;
         } else {
@@ -200,18 +233,15 @@ var at = function(kind) {
     },
 
     parseExpression = function() {
-        // var left, op, right;
-        // left = parseExp1();
-        // while (at('or')) {
-        //     op = match();
-        //     right = parseExp1();
-        //     left = new BinaryExpression(op, left, right);
-        // }
-        // return left;
-        // if (tokens[0].kind === 'is') {
-        //     console.log("WAT")
-        parseAssignmentStatement();
-        // }
+        if (at('id')) {
+            return parseVariableDeclaration();
+        } else {
+            return parseAssignmentStatement();
+        }
+    },
+
+    parseIfElseStatement = function() {
+        //TODO
     },
 
     parseProgram = function() {
@@ -272,8 +302,8 @@ var at = function(kind) {
     parseVariableDeclaration = function() {
         var id, exp;
         id = match('id');
-        match('is');                        // only works with assignments so far
-        exp = parseExp9();                  // need to generalize it for the other expressions
+        match('is');
+        exp = parseExpression(); // need to generalize for the other expressions
         return new VariableDeclaration(id, exp);
     },
 
