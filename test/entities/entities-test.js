@@ -2,7 +2,9 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
+    // FunctionDeclaration = require('../../entities/function-declaration'),
     FloatLiteral = require('../../entities/float-literal'),
+    IfElseStatement = require('../../entities/if-else-statement'),
     IntegerLiteral = require('../../entities/integer-literal'),
     NanLiteral = require('../../entities/nan-literal'),
     NilLiteral = require('../../entities/nil-literal'),
@@ -17,22 +19,22 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     WhileStatement = require('../../entities/while-statement'),
     WriteStatement = require('../../entities/write-statement');
 
-describe('The entities are:', function() {
+describe('The entities', function() {
     describe('assignment-statement', function() {
         it('successfully creates an assignment statement', function(done) {
             var newAssignment = new AssignmentStatement('x', '3');
-            newAssignment.toString().should.eql('(be x 3)');
+            newAssignment.toString().should.eql('(be (x 3))');
             done();
         });
     });
 
-    // describe('binary-expression', function () {
-    //     it('successfully creates a binary-expression', function (done) {
-    //         var newBinExp = new BinaryExpression ('+', '2', '3');
-    //         newBinExp.toString().should.eql('(+ 2 3)');
-    //         done();
-    //     });
-    // });
+    describe('binary-expression', function () {
+        it('successfully creates a binary-expression', function (done) {
+            var newBinExp = new BinaryExpression ({'lexeme':'+', 'kind': '+'}, '2', '3');
+            newBinExp.toString().should.eql('(+ 2 3)');
+            done();
+        });
+    });
 
     describe('block', function() {
         it('successfully creates a block', function(done) {
@@ -68,6 +70,29 @@ describe('The entities are:', function() {
         });
     });
 
+    // describe('for-statement', function() {
+    //     it('successfully creates a for-statement', function(done) {
+    //         // var newForStmt = new ForStatement ('i', '');
+    //         done();
+    //     });
+    // });
+
+    describe('if-else-statement', function() {
+        it('successfully creates an if-else-statement', function(done) {
+            var newStmt = new IfElseStatement("true", "(be (x 3))", "(be (x 4))");
+            newStmt.toString().should.eql('(If true (be (x 3)) Else (be (x 4)))');
+            done();
+        });
+    });
+
+    describe('integer-literal', function() {
+        it('successfully creates an integer-literal', function(done) {
+            var newIntLit = new IntegerLiteral('10000');
+            newIntLit.toString().should.eql('10000');
+            done();
+        });
+    });
+
     describe('nan-literal', function() {
         it('successfully creates a nan-literal', function(done) {
             var newNanLit = new NanLiteral({
@@ -88,21 +113,6 @@ describe('The entities are:', function() {
         });
     });
 
-    // describe('for-statement', function() {
-    //     it('successfully creates a for-statement', function(done) {
-    //         // var newForStmt = new ForStatement ('i', '');
-    //         done();
-    //     });
-    // });
-
-    describe('integer-literal', function() {
-        it('successfully creates an integer-literal', function(done) {
-            var newIntLit = new IntegerLiteral('10000');
-            newIntLit.toString().should.eql('10000');
-            done();
-        });
-    });
-
     describe('program', function() {
         it('successfully creates a program', function(done) {
             var newProgram = new Program('block');
@@ -113,7 +123,9 @@ describe('The entities are:', function() {
 
     describe('string-literal', function() {
         it('successfully creates an string-literal', function(done) {
-            var newStrLit = new StringLiteral({"lexeme":"stringy"});
+            var newStrLit = new StringLiteral({
+                "lexeme": "stringy"
+            });
             newStrLit.toString().should.eql("stringy");
             done();
         });
@@ -122,6 +134,12 @@ describe('The entities are:', function() {
     // describe('read-statement', function () {
     //     it('successfully creates read-statement', function (done) {
 
+    //         done();
+    //     });
+    // });
+
+    // describe('tuple-literal', function() {
+    //     it('successfully creates an tuple-literal', function(done) {
     //         done();
     //     });
     // });
@@ -173,11 +191,13 @@ describe('The entities are:', function() {
         })
     });
 
-    // describe('unary-expression', function () {
-    //     it('successfully creates a unary-expression', function(done){
-    //         done();
-    //     });
-    // });
+    describe('unary-expression', function () {
+        it('successfully creates a unary-expression', function(done){
+            var newUnaryExp = new UnaryExpression({'lexeme':'!', 'kind':'!'}, 'yah');
+            newUnaryExp.toString().should.eql('(! yah)');
+            done();
+        });
+    });
 
     describe('undefined-literal', function() {
         it('successfully creates a undefined-literal', function(done) {
@@ -195,24 +215,29 @@ describe('The entities are:', function() {
                 "lexeme": 'x',
                 "kind": 'id'
             }, '3');
-            newVarDec.toString().should.eql('(VarDec (x 3))');
+            newVarDec.toString().should.eql('(is (x 3))');
             done();
         });
     });
 
-    // describe('variable-reference', function () {
-    //     it('successfully creates a variable-reference', function(done){
+    describe('variable-reference', function () {
+        it('successfully creates a variable-reference', function(done){
+            var newVarRef = new VariableReference({
+                "lexeme": 'x',
+                "kind": 'id'
+            }, '100');
+            newVarRef.toString().should.eql('x');
+            done();
+        });
+    });
 
-    //         done();
-    //     });
-    // });
-
-    // describe('while-statement', function () {
-    //     it('successfully creates a while-statement', function(done){
-
-    //         done();
-    //     });
-    // });
+    describe('while-statement', function () {
+        it('successfully creates a while-statement', function(done){
+            var newStmt = new WhileStatement("true", "spit");
+            newStmt.toString().should.eql("(While (true) spit)");
+            done();
+        });
+    });
 
     // describe('write-statement', function () {
     //     it('successfully creates a write-statement', function(done){

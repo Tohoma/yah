@@ -21,6 +21,14 @@ z is {}
 z.y is 120
 (x + z.y) * 10
 
+x be 100
+y be nah
+
+if yah
+  x be 0
+else
+  spit
+
 ///
 
 

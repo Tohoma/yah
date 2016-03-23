@@ -5,19 +5,26 @@ var scan = require('../../scanner/scanner'),
     error = require('../../error/error');
 
 describe('The parser', function() {
-    it('parses the simple-assignment program correctly', function(done) {
+    it('parses the simple-declaration program correctly', function(done) {
+        scan('./test/parser/inputs/valid/simple-declaration.yah', function(tokens) {
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.simple_declaration);
+            done();
+        });
+    });
+    it('parses the simple_assignment program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-assignment.yah', function(tokens) {
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_assignment);
             done();
         });
     });
-    it('throws an error when given syntactically incorrect program', function (done) {
-        scan('./test/parser/inputs/invalid/bad-assignment.yah', function(tokens) {
+    it('throws an error when given syntactically incorrect program', function(done) {
+        scan('./test/parser/inputs/invalid/bad-declaration.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);
             done();
         });
-    })
+    });
 });

@@ -1,15 +1,15 @@
-var Function, Type;
+var FunctionStatement, Type;
 
 Type = require('./type');
 
-Function = (function() {
-    function Function(args, body) {
+FunctionStatement = (function() {
+    function FunctionStatement(args, body) {
         this.params = args;
         this.body = body;
     }
 
-    return Function;
+    return FunctionStatement;
 
 })();
 
-module.exports = Function;
+module.exports = FunctionStatement;

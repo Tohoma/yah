@@ -711,6 +711,139 @@ var tokenList = {},
                 idLevel: 0
             },
             {
+                lexeme: 'x',
+                kind: 'id',
+                line: 24,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'be',
+                kind: 'be',
+                line: 24,
+                col: 3,
+                idLevel: 0
+            },
+            {
+                lexeme: '100',
+                kind: 'intlit',
+                line: 24,
+                col: 6,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 24,
+                col: 9,
+                idLevel: 0
+            },
+            {
+                lexeme: 'y',
+                kind: 'id',
+                line: 25,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'be',
+                kind: 'be',
+                line: 25,
+                col: 3,
+                idLevel: 0
+            },
+            {
+                lexeme: 'nah',
+                kind: 'nah',
+                line: 25,
+                col: 6,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 25,
+                col: 9,
+                idLevel: 0
+            },
+            {
+                lexeme: 'if',
+                kind: 'if',
+                line: 27,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'yah',
+                kind: 'yah',
+                line: 27,
+                col: 4,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 27,
+                col: 7,
+                idLevel: 0
+            },
+            {
+                lexeme: 'x',
+                kind: 'id',
+                line: 28,
+                col: 3,
+                idLevel: 2
+            },
+            {
+                lexeme: 'be',
+                kind: 'be',
+                line: 28,
+                col: 5,
+                idLevel: 2
+            },
+            {
+                lexeme: '0',
+                kind: 'intlit',
+                line: 28,
+                col: 8,
+                idLevel: 2
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 28,
+                col: 9,
+                idLevel: 2
+            },
+            {
+                lexeme: 'else',
+                kind: 'else',
+                line: 29,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 29,
+                col: 5,
+                idLevel: 0
+            },
+            {
+                lexeme: 'spit',
+                kind: 'spit',
+                line: 30,
+                col: 3,
+                idLevel: 2
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 30,
+                col: 7,
+                idLevel: 2
+            },
+            {
                 lexeme: 'EOF',
                 kind: 'EOF'
             }

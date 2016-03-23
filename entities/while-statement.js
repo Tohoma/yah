@@ -9,7 +9,7 @@ WhileStatement = (function() {
     }
 
     WhileStatement.prototype.toString = function() {
-        return "(While " + this.condition + " " + this.body + ")";
+        return "(While (" + this.condition + ") " + this.body + ")";
     };
 
     WhileStatement.prototype.analyze = function(context) {
