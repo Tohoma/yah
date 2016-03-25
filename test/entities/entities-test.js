@@ -10,7 +10,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     NilLiteral = require('../../entities/nil-literal'),
     Program = require('../../entities/program'),
     ReadStatement = require('../../entities/read-statement'),
-    // ReturnStatement = require('../../entities/return-statement'),
+    ReturnStatement = require('../../entities/return-statement'),
     StringLiteral = require('../../entities/string-literal'),
     Type = require('../../entities/type'),
     UnaryExpression = require('../../entities/unary-expression'),
@@ -125,11 +125,13 @@ describe('The entities', function() {
         });
     });
 
-    // describe('return-statement', function() {
-    //     it('successfully creates a return-statement', function(done) {
-    //         done();
-    //     })
-    // })
+    describe('return-statement', function() {
+        it('successfully creates a return-statement', function(done) {
+            var newReturnStmt = new ReturnStatement('(be (x 3))');
+            newReturnStmt.toString().should.eql('(Return (be (x 3)))');
+            done();
+        })
+    })
 
     describe('string-literal', function() {
         it('successfully creates an string-literal', function(done) {

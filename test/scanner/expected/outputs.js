@@ -781,10 +781,17 @@ var tokenList = {},
                 idLevel: 0
             },
             {
+                lexeme: ':',
+                kind: ':',
+                line: 27,
+                col: 7,
+                idLevel: 0
+            },
+            {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 27,
-                col: 7,
+                col: 8,
                 idLevel: 0
             },
             {
@@ -823,10 +830,17 @@ var tokenList = {},
                 idLevel: 0
             },
             {
+                lexeme: ':',
+                kind: ':',
+                line: 29,
+                col: 5,
+                idLevel: 0
+            },
+            {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 29,
-                col: 5,
+                col: 6,
                 idLevel: 0
             },
             {

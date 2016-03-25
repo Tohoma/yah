@@ -3,11 +3,13 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     Block = require('../entities/block'),
     BooleanLiteral = require('../entities/boolean-literal'),
     FloatLiteral = require('../entities/float-literal'),
+    IfElseStatement = require('../entities/if-else-statement'),
     IntegerLiteral = require('../entities/integer-literal'),
     NanLiteral = require('../entities/nan-literal'),
     NilLiteral = require('../entities/nil-literal'),
     Program = require('../entities/program'),
     ReadStatement = require('../entities/read-statement'),
+    ReturnStatement = require('../entities/return-statement'),
     StringLiteral = require('../entities/string-literal'),
     Type = require('../entities/type'),
     UnaryExpression = require('../entities/unary-expression'),
@@ -65,29 +67,44 @@ var at = function(kind) {
 
     parseBlock = function() {
         var statements = [];
-        while (at(['id', 'is', 'be', 'intlit', 'newline'])) {
+        while (at(['id', 'is', 'be', 'intlit', 'newline', 'if', 'yah', 'nah', 'spit'])) {
             if (at('newline')) {
                 match();
             } else {
                 statements.push(parseStatement());
-                match();
-                if (at('EOF')) {
+                if (at(['EOF'])) {
                     break;
                 }
+                match();
             }
         }
         return new Block(statements);
     },
 
-    parseTernaryExp = function() { // Exp0 ('if' Exp0 ( 'else' TernaryExp)?)?
-        var left, right, statement;
-        left = parseExp0();
-        if (at('if')) {
-            match('if');
-            // statement = left;
-            // right = parseExp0();
-        }
+    //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
+    // ('else:' newline Block)? | 'if' Exp0 ':' Exp
+
+    parseConditionalExp = function() { 
+        var condition, thenBody, elseBody;
+        match('if');
+        condition = parseExp0();
+        match(':');
+        thenBody = parseBlock();
+        match('else');
+        match(':');
+        elseBody = parseBlock();
+         // will need to add for 'else if'
+        return new IfElseStatement(condition, thenBody, elseBody);;
     },
+
+    // parseTernaryExp = function() {
+    //     var left, ifBody, elseBody;
+    //     left = parseExp0();
+    //     if (at('if')) {
+    //         match();
+    //         ifBody = parseExpression();
+    //     }
+    // },
 
     parseExp0 = function() {
         // console.log("Exp0");
@@ -176,7 +193,7 @@ var at = function(kind) {
     parseExp7 = function() { // Exp8 ('^' | '**' Exp8)?
         // console.log("Exp7");
         var left, op, right;
-        left = parseExp9();     // Don't know how to do tuples for now so skip exp8
+        left = parseExp9(); // Don't know how to do tuples for now so skip exp8
         if (at(['^', '**'])) {
             op = match();
             right = parseExp8();
@@ -240,10 +257,6 @@ var at = function(kind) {
         }
     },
 
-    parseIfElseStatement = function() {
-        //TODO
-    },
-
     parseProgram = function() {
         return new Program(parseBlock());
     },
@@ -260,6 +273,15 @@ var at = function(kind) {
         return new ReadStatement(variables);
     },
 
+    parseReturnStatement = function() {
+        var exp;
+        if (at(['return', 'spit'])) {
+            exp = parseExpression();
+            match();
+            return new ReturnStatement(exp);
+        }
+    },
+
     parseStatement = function() {
         // if (at('var')) {
         //     return parseVariableDeclaration();
@@ -270,6 +292,8 @@ var at = function(kind) {
             } else if (tokens[1].kind === 'be') {
                 return parseAssignmentStatement();
             }
+        } else if (at('if')) {
+            return parseConditionalExp();
         }
         // else if (at('read')) {
         //     return parseReadStatement();
@@ -303,7 +327,7 @@ var at = function(kind) {
         var id, exp;
         id = match('id');
         match('is');
-        exp = parseExpression(); // need to generalize for the other expressions
+        exp = parseExpression();
         return new VariableDeclaration(id, exp);
     },
 

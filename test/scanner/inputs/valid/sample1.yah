@@ -24,9 +24,9 @@ z.y is 120
 x be 100
 y be nah
 
-if yah
+if yah:
   x be 0
-else
+else:
   spit
 
 ///
