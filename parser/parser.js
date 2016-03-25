@@ -58,7 +58,7 @@ var at = function(kind) {
         if (at('id')) {
             id = match('id');
             match();
-            exp = parseExpression();
+            exp = parseExp0();
             return new AssignmentStatement(left, exp);
         } else {
             return left;
@@ -67,7 +67,7 @@ var at = function(kind) {
 
     parseBlock = function() {
         var statements = [];
-        while (at(['id', 'is', 'be', 'intlit', 'newline', 'if', 'yah', 'nah', 'spit'])) {
+        while (at(['id', 'is', 'be', 'intlit', 'newline', 'if', 'while', 'yah', 'nah', 'spit'])) {
             if (at('newline')) {
                 match();
             } else {
@@ -84,7 +84,7 @@ var at = function(kind) {
     //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
     // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
-    parseConditionalExp = function() { 
+    parseConditionalExp = function() {
         var condition, thenBody, elseBody;
         match('if');
         condition = parseExp0();
@@ -93,7 +93,7 @@ var at = function(kind) {
         match('else');
         match(':');
         elseBody = parseBlock();
-         // will need to add for 'else if'
+        // will need to add for 'else if'
         return new IfElseStatement(condition, thenBody, elseBody);;
     },
 
@@ -213,7 +213,6 @@ var at = function(kind) {
 
     parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
         // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
-        // REMEMBER TO CHECK WHICH HAVE HIGHER PRECEDENCE
         // console.log("Exp9");
         if (at(['yah', 'nah'])) {
             return new BooleanLiteral(match());
@@ -241,7 +240,7 @@ var at = function(kind) {
             // parseDictLiteral();
         } else if (at('(')) {
             match();
-            var expression = parseExpression();
+            var expression = parseExp0();
             match(')');
             expression;
         } else {
@@ -249,43 +248,18 @@ var at = function(kind) {
         }
     },
 
-    parseExpression = function() {
-        if (at('id')) {
-            return parseVariableDeclaration();
-        } else {
-            return parseAssignmentStatement();
-        }
-    },
-
     parseProgram = function() {
         return new Program(parseBlock());
     },
 
-    parseReadStatement = function() {
-        var variables;
-        match('read');
-        variables = [];
-        variables.push(new VariableReference(match('id')));
-        while (at(',')) {
-            match();
-            variables.push(new VariableReference(match('id')));
-        }
-        return new ReadStatement(variables);
-    },
-
     parseReturnStatement = function() {
         var exp;
-        if (at(['return', 'spit'])) {
-            exp = parseExpression();
-            match();
-            return new ReturnStatement(exp);
-        }
+        match();
+        exp = parseExp0();
+        return new ReturnStatement(exp);
     },
 
     parseStatement = function() {
-        // if (at('var')) {
-        //     return parseVariableDeclaration();
-        // } else 
         if (at('id')) {
             if (tokens[1].kind === 'is') {
                 return parseVariableDeclaration();
@@ -294,32 +268,12 @@ var at = function(kind) {
             }
         } else if (at('if')) {
             return parseConditionalExp();
-        }
-        // else if (at('read')) {
-        //     return parseReadStatement();
-        // } else if (at('write')) {
-        //     return parseWriteStatement();
-        // } else if (at('while')) {
-        //     return parseWhileStatement();
-        else {
-            return error('Statement expected', tokens[0]);
-        }
-        // else if (at('for')) {
-        //     return parseForLoop();
-        // } else if (at('while')) {
-        //     return parseWhileLoop();
-        // } else if (at('return')) {
-        //     return parseReturnStatement();
-        // } else {
-        //     return parseExpression();
-        // }
-    },
-
-    parseType = function() {
-        if (at(['int', 'bool'])) {
-            return Type.forName(match().lexeme);
+        } else if (at('while')) {
+            return parseWhileStatement();
+        } else if (at(['return', 'spit'])) {
+            return parseReturnStatement();
         } else {
-            return error('Type expected', tokens[0]);
+            return error('Statement expected', tokens[0]);
         }
     },
 
@@ -327,28 +281,15 @@ var at = function(kind) {
         var id, exp;
         id = match('id');
         match('is');
-        exp = parseExpression();
+        exp = parseExp0();
         return new VariableDeclaration(id, exp);
     },
 
     parseWhileStatement = function() {
         var body, condition;
         match('while');
-        condition = parseExpression();
-        match('loop');
+        condition = parseExp0();
+        match(':');
         body = parseBlock();
-        match('end');
         return new WhileStatement(condition, body);
-    },
-
-    parseWriteStatement = function() {
-        var expressions;
-        match('write');
-        expressions = [];
-        expressions.push(parseExpression());
-        while (at(',')) {
-            match();
-            expressions.push(parseExpression());
-        }
-        return new WriteStatement(expressions);
     };
