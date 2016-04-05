@@ -17,11 +17,15 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     VariableDeclaration = require('../entities/variable-declaration'),
     VariableReference = require('../entities/variable-reference'),
     WhileStatement = require('../entities/while-statement'),
-    WriteStatement = require('../entities/write-statement');
+    WriteStatement = require('../entities/write-statement'),
 
-error = require('../error/error'),
+    error = require('../error/error'),
     scan = require('../scanner/scanner'),
     tokens = [],
+    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline', 
+                    'if', 'while', 'yah', 'nah', 'spit', 
+                    'eq', 'neq', 'gt', 'lt', 'geq', 'leq', 
+                    'or', '||', 'and', '&&'];
 
     error.quiet = true;
 
@@ -67,7 +71,7 @@ var at = function(kind) {
 
     parseBlock = function() {
         var statements = [];
-        while (at(['id', 'is', 'be', 'intlit', 'newline', 'if', 'while', 'yah', 'nah', 'spit'])) {
+        while (at(yah_tokens)) {
             if (at('newline')) {
                 match();
             } else {
@@ -109,9 +113,12 @@ var at = function(kind) {
     parseExp0 = function() {
         // console.log("Exp0");
         var left, op, right;
+        // console.log('parseExp0: tokens[0].lexeme is ' + tokens[0].lexeme);
         left = parseExp1();
-        while (at(['or', '||'])) { // Exp1 ('or' | '||' Exp1)*
+        // console.log('parseExp0 (second): tokens[0].lexeme is ' + tokens[0].lexeme);
+        while (at(['or', "||"])) {
             op = match();
+            // console.log('op is ' + op.lexeme);
             right = parseExp1();
             left = new BinaryExpression(op, left, right);
         }
@@ -120,9 +127,11 @@ var at = function(kind) {
 
     parseExp1 = function() {
         // console.log("Exp1");
+        // console.log('parseExp1: tokens[0].lexeme is ' + tokens[0].lexeme);
         var left, op, right;
         left = parseExp2();
-        while (at(['and', '&&'])) { // Exp2 ('and' | '&&' Exp2)*
+        // console.log('parseExp1 (second): tokens[0].lexeme is ' + tokens[0].lexeme);
+        while (at(['and', '&&'])) {
             op = match();
             right = parseExp2();
             left = new BinaryExpression(op, left, right);
@@ -133,13 +142,15 @@ var at = function(kind) {
     parseExp2 = function() {
         // console.log("Exp2");
         var left, op, right;
-        left = parseExp3();
         if (at(['eq', 'neq', 'gt', 'lt', 'geq', 'leq'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
             op = match();
+            // console.log('parseExp2: op ' + op);
+            left = parseExp3();
             right = parseExp3();
-            left = new BinaryExpression(op, left, right);
+            return new BinaryExpression(op, left, right);
+        } else {
+            return parseExp3();
         }
-        return left;
     },
 
     parseExp3 = function() {
@@ -266,14 +277,14 @@ var at = function(kind) {
             } else if (tokens[1].kind === 'be') {
                 return parseAssignmentStatement();
             }
-        } else if (at('if')) {
-            return parseConditionalExp();
         } else if (at('while')) {
             return parseWhileStatement();
+        } else if (at('if')) {
+            return parseConditionalExp();
         } else if (at(['return', 'spit'])) {
             return parseReturnStatement();
         } else {
-            return error('Statement expected', tokens[0]);
+            return parseExp0();
         }
     },
 

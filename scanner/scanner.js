@@ -125,11 +125,9 @@ var scan = function(line, linenumber, tokens, stack) {
         } else if (TWO_CHARACTER_TOKENS.test(line.substring(pos, pos + 2))) {
             emit(line.substring(pos, pos + 2), line.substring(pos, pos + 2), idLevel, pos + 1, linenumber + 1);
             //One Character tokens
+            pos += 2;
         } else if (ONE_CHARACTER_TOKENS.test(line[pos])) {
             emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
-
-
-            // Reserved Words and Declarations
 
         } else if (LETTER.test(line[pos])) {
             while (WORD_CHAR.test(line[pos + 1]) && (pos < line.length)) {

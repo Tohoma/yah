@@ -858,6 +858,34 @@ var tokenList = {},
                 idLevel: 2
             },
             {
+                lexeme: 'yah',
+                kind: 'yah',
+                line: 32,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: '||',
+                kind: '||',
+                line: 32,
+                col: 5,
+                idLevel: 0
+            },
+            {
+                lexeme: 'nah',
+                kind: 'nah',
+                line: 32,
+                col: 8,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 32,
+                col: 11,
+                idLevel: 0
+            },
+            {
                 lexeme: 'EOF',
                 kind: 'EOF'
             }
