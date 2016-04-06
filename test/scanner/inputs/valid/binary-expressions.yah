@@ -1,6 +1,6 @@
 eq 1   1
   lt 0 2
 neq 10 10
-gt 0 		0
-	leq 	10	 9
-		geq	100	1
+gt 0        0
+    leq     10   9
+        geq 100 1

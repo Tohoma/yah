@@ -25,7 +25,8 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     yah_tokens = ['id', 'is', 'be', 'intlit', 'newline', 
                     'if', 'while', 'yah', 'nah', 'spit', 
                     'eq', 'neq', 'gt', 'lt', 'geq', 'leq', 
-                    'or', '||', 'and', '&&'];
+                    'or', '||', 'and', '&&', '!', 'not', 
+                    '-', '^', '**'];
 
     error.quiet = true;
 
@@ -59,8 +60,7 @@ var at = function(kind) {
     parseAssignmentStatement = function() {
         var left, exp;
         left = parseExp0();
-        if (at('id')) {
-            id = match('id');
+        if (at('be')) {
             match();
             exp = parseExp0();
             return new AssignmentStatement(left, exp);
@@ -88,7 +88,7 @@ var at = function(kind) {
     //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
     // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
-    parseConditionalExp = function() {
+    parseConditionalExp = function() {      // No backtracking needed if you already check for if-else already instead of just if
         var condition, thenBody, elseBody;
         match('if');
         condition = parseExp0();
@@ -113,12 +113,9 @@ var at = function(kind) {
     parseExp0 = function() {
         // console.log("Exp0");
         var left, op, right;
-        // console.log('parseExp0: tokens[0].lexeme is ' + tokens[0].lexeme);
         left = parseExp1();
-        // console.log('parseExp0 (second): tokens[0].lexeme is ' + tokens[0].lexeme);
         while (at(['or', "||"])) {
             op = match();
-            // console.log('op is ' + op.lexeme);
             right = parseExp1();
             left = new BinaryExpression(op, left, right);
         }
@@ -127,10 +124,8 @@ var at = function(kind) {
 
     parseExp1 = function() {
         // console.log("Exp1");
-        // console.log('parseExp1: tokens[0].lexeme is ' + tokens[0].lexeme);
         var left, op, right;
         left = parseExp2();
-        // console.log('parseExp1 (second): tokens[0].lexeme is ' + tokens[0].lexeme);
         while (at(['and', '&&'])) {
             op = match();
             right = parseExp2();
@@ -144,7 +139,6 @@ var at = function(kind) {
         var left, op, right;
         if (at(['eq', 'neq', 'gt', 'lt', 'geq', 'leq'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
             op = match();
-            // console.log('parseExp2: op ' + op);
             left = parseExp3();
             right = parseExp3();
             return new BinaryExpression(op, left, right);
@@ -192,7 +186,7 @@ var at = function(kind) {
     parseExp6 = function() {
         // console.log("Exp6");
         var op, operand;
-        if (at(['-', 'not'])) {
+        if (at(['-', 'not', '!'])) {
             op = match();
             operand = parseExp7();
             return new UnaryExpression(op, operand);
@@ -207,8 +201,8 @@ var at = function(kind) {
         left = parseExp9(); // Don't know how to do tuples for now so skip exp8
         if (at(['^', '**'])) {
             op = match();
-            right = parseExp8();
-            left = new BinaryExpression(op, left, right);
+            right = parseExp9();
+            return new BinaryExpression(op, left, right);
         } else {
             return left;
         }
@@ -230,7 +224,8 @@ var at = function(kind) {
         } else if (at('nil')) {
             return new NilLiteral(match());
         } else if (at('intlit')) {
-            return new IntegerLiteral(tokens[0].lexeme);
+            var int = match();
+            return new IntegerLiteral(int.lexeme);
         } else if (at('floatlit')) {
             return new FloatLiteral(match());
         } else if (at('strlit')) {
@@ -240,8 +235,7 @@ var at = function(kind) {
         } else if (at('nanlit')) {
             return new NaNLiteral(match());
         } else if (at('id')) {
-            // console.log(tokens[0]);
-            return new VariableReference(tokens[0]);
+            return new VariableReference(match());
         } else if (at('[')) {
             // parseListLiteral();
             //} else if (at('(') && tokens[1].kind in types) { // Need to change this for Tuples to not use lookaheads
