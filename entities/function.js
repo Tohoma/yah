@@ -3,10 +3,15 @@ var FunctionStatement, Type;
 Type = require('./type');
 
 FunctionStatement = (function() {
-    function FunctionStatement(args, body) {
-        this.params = args;
+    function FunctionStatement(args, body, type) {
+        this.args = args;
         this.body = body;
-    }
+        this.type = type;
+    };
+
+    FunctionStatement.prototype.toString = function() {
+        return "(Function (" + this.args.join(", ") + ") " + this.body + ")";
+    };
 
     return FunctionStatement;
 

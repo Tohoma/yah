@@ -2,7 +2,9 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
-    // FunctionDeclaration = require('../../entities/function-declaration'),
+    Func = require('../../entities/function'),
+    FunctionCall = require('../../entities/function-call'),
+    ForStatement = require('../../entities/for-statement'),
     FloatLiteral = require('../../entities/float-literal'),
     IfElseStatement = require('../../entities/if-else-statement'),
     IntegerLiteral = require('../../entities/integer-literal'),
@@ -58,12 +60,6 @@ describe('The entities', function() {
         });
     });
 
-    // describe('function', function() {
-    //     it('successfully creates a function', function(done) {
-    //         done();
-    //     });
-    // });
-
     describe('float-literal', function() {
         it('successfully creates a float-literal', function(done) {
             var newFloatLit = new FloatLiteral({
@@ -74,12 +70,29 @@ describe('The entities', function() {
         });
     });
 
-    // describe('for-statement', function() {
-    //     it('successfully creates a for-statement', function(done) {
-    //         // var newForStmt = new ForStatement ('i', '');
-    //         done();
-    //     });
-    // });
+    describe('for-statement', function() {
+        it('successfully creates a for-statement', function(done) {
+            var newForStmt = new ForStatement('name', '["trixie", "peyton", "vic", "adrian", "jb", "chris"]', 'spit name');
+            newForStmt.toString().should.eql('(For name ["trixie", "peyton", "vic", "adrian", "jb", "chris"] spit name)')
+            done();
+        });
+    });
+
+    describe('function', function() {
+        it('successfully creates a function', function(done) {
+            var newFunDec = new Func(['a', 'b'], 'spit true');
+            newFunDec.toString().should.eql('(Function (a, b) spit true)');
+            done();
+        });
+    });
+
+    describe('function-call', function() {
+        it('successfully creates a function-call', function(done) {
+            var newFunDec = new FunctionCall('x', ['a, b']);
+            newFunDec.toString().should.eql('(FunCall x (a, b)');
+            done();
+        });
+    });
 
     describe('if-else-statement', function() {
         it('successfully creates an if-else-statement', function(done) {
