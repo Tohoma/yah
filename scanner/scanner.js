@@ -2,6 +2,7 @@ var fs = require('fs');
 var byline = require('byline');
 var XRegExp = require('xregexp');
 var tokenList = require('./tokens.js');
+var error = require('../error/error');
 
 
 const LETTER = /[a-zA-Z]/
@@ -28,8 +29,9 @@ module.exports = function(filename, callback) {
     var tokens = []
     var linenumber = 0
     var stack = []
+    var idStack = [0]
     stream.on('readable', function() {
-        scan(stream.read(), linenumber++, tokens, stack)
+        scan(stream.read(), linenumber++, tokens, stack, idStack)
     })
     stream.once('end', function() {
         tokens.push({
@@ -40,7 +42,7 @@ module.exports = function(filename, callback) {
     })
 }
 
-var scan = function(line, linenumber, tokens, stack) {
+var scan = function(line, linenumber, tokens, stack, idStack) {
     var pos = 0;
     var start = 0;
     var indentMode = true;
@@ -66,6 +68,24 @@ var scan = function(line, linenumber, tokens, stack) {
             if (!/\s/.test(line[pos])) {
                 idLevel = pos;
                 indentMode = false;
+                if (idStack[idStack.length - 1]<idLevel) {
+                    idStack.push(idLevel);
+                    emit("INDENT", "INDENT", idLevel, pos + 1, linenumber + 1);
+                } else if (idLevel<idStack[idStack.length - 1]) {
+                    while(!(idStack[idStack.length - 1] === idLevel) && !(typeof(idStack[0]) === "undefined")) {
+                        idStack.pop()
+                    }
+                    
+                    if (idStack[idStack.length - 1] === idLevel) {
+                        emit("DEDENT","DEDENT", idLevel, pos + 1, linenumber + 1);
+                    } 
+
+                }
+                if (typeof idStack[0] === "undefined") {
+                        error("Indentation error", {line:linenumber+1});
+                        throw new Error("Indentation Error");
+                    }
+                
             } else {
                 pos++
             };

@@ -170,6 +170,13 @@ var tokenList = {},
                 line: 6,
                 col: 17,
                 idLevel: 0
+            }, 
+            {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 7,
+                col: 3,
+                idLevel: 2
             },
             {
                 lexeme: 'spit',
@@ -205,6 +212,13 @@ var tokenList = {},
                 line: 7,
                 col: 13,
                 idLevel: 2
+            },
+            {
+                lexeme: 'DEDENT',
+                kind: 'DEDENT',
+                line: 9,
+                col: 1,
+                idLevel: 0   
             },
             {
                 lexeme: 'a',
@@ -795,6 +809,13 @@ var tokenList = {},
                 idLevel: 0
             },
             {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 28,
+                col: 3,
+                idLevel: 2
+            },
+            {
                 lexeme: 'x',
                 kind: 'id',
                 line: 28,
@@ -823,6 +844,13 @@ var tokenList = {},
                 idLevel: 2
             },
             {
+                lexeme: 'DEDENT',
+                kind: 'DEDENT',
+                line: 29,
+                col: 1,
+                idLevel: 0
+            },
+            {
                 lexeme: 'else',
                 kind: 'else',
                 line: 29,
@@ -844,6 +872,13 @@ var tokenList = {},
                 idLevel: 0
             },
             {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 30,
+                col: 3,
+                idLevel: 2
+            },
+            {
                 lexeme: 'spit',
                 kind: 'spit',
                 line: 30,
@@ -856,6 +891,13 @@ var tokenList = {},
                 line: 30,
                 col: 7,
                 idLevel: 2
+            },
+            {
+                lexeme: 'DEDENT',
+                kind: 'DEDENT',
+                line: 32,
+                col: 1,
+                idLevel: 0
             },
             {
                 lexeme: 'yah',
