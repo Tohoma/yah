@@ -79,14 +79,14 @@ VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 FunBlock   -> Exp | (newline Block)
-FunExp     -> id declareop Args '(\s)? ->' FunBlock
+FunExp     -> Args '(\s)? ->' FunBlock
 
 ConditionExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
                 | 'if' Exp0 ':' Exp
 
 ClassExp   -> 'Class (\s)? ->' newline (Exp newline)*
 
-TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)?
+TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)? | Exp0 ('?' Exp0 ':' TernaryExp)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
 Exp2       -> relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
@@ -103,7 +103,7 @@ ExpList    -> newline? Exp (newline? ',' Exp)* newline?
 
 Args       -> '(' ExpList ')'
 
-ListLit    -> '[' ExpList ']'
+ListLit    -> '[' ExpList | Comprehension ']'
 TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
