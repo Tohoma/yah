@@ -68,24 +68,26 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
             if (!/\s/.test(line[pos])) {
                 idLevel = pos;
                 indentMode = false;
-                if (idStack[idStack.length - 1]<idLevel) {
+                if (idStack[idStack.length - 1] < idLevel) {
                     idStack.push(idLevel);
                     emit("INDENT", "INDENT", idLevel, pos + 1, linenumber + 1);
-                } else if (idLevel<idStack[idStack.length - 1]) {
-                    while(!(idStack[idStack.length - 1] === idLevel) && !(typeof(idStack[0]) === "undefined")) {
+                } else if (idLevel < idStack[idStack.length - 1]) {
+                    while (!(idStack[idStack.length - 1] === idLevel) && !(typeof(idStack[0]) === "undefined")) {
                         idStack.pop()
                     }
-                    
+
                     if (idStack[idStack.length - 1] === idLevel) {
-                        emit("DEDENT","DEDENT", idLevel, pos + 1, linenumber + 1);
-                    } 
+                        emit("DEDENT", "DEDENT", idLevel, pos + 1, linenumber + 1);
+                    }
 
                 }
                 if (typeof idStack[0] === "undefined") {
-                        error("Indentation error", {line:linenumber+1});
-                        throw new Error("Indentation Error");
-                    }
-                
+                    error("Indentation error", {
+                        line: linenumber + 1
+                    });
+                    throw new Error("Indentation Error");
+                }
+
             } else {
                 pos++
             };

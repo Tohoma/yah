@@ -22,13 +22,13 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     error = require('../error/error'),
     scan = require('../scanner/scanner'),
     tokens = [],
-    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline', 
-                    'if', 'while', 'yah', 'nah', 'spit', 
-                    'eq', 'neq', 'gt', 'lt', 'geq', 'leq', 
-                    'or', '||', 'and', '&&', '!', 'not', 
+    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline',
+                    'if', 'while', 'yah', 'nah', 'spit',
+                    'eq', 'neq', 'gt', 'lt', 'geq', 'leq',
+                    'or', '||', 'and', '&&', '!', 'not',
                     '-', '^', '**'];
 
-    error.quiet = true;
+error.quiet = true;
 
 module.exports = function(scannerOutput) {
     tokens = scannerOutput;
@@ -88,7 +88,7 @@ var at = function(kind) {
     //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
     // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
-    parseConditionalExp = function() {      // No backtracking needed if you already check for if-else already instead of just if
+    parseConditionalExp = function() { // No backtracking needed if you already check for if-else already instead of just if
         var condition, thenBody, elseBody;
         match('if');
         condition = parseExp0();

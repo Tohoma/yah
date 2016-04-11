@@ -170,7 +170,7 @@ var tokenList = {},
                 line: 6,
                 col: 17,
                 idLevel: 0
-            }, 
+            },
             {
                 lexeme: 'INDENT',
                 kind: 'INDENT',
@@ -218,7 +218,7 @@ var tokenList = {},
                 kind: 'DEDENT',
                 line: 9,
                 col: 1,
-                idLevel: 0   
+                idLevel: 0
             },
             {
                 lexeme: 'a',
