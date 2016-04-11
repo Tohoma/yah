@@ -31,7 +31,7 @@ var AssignmentStatement = require('../entities/assignment-statement'),
                     'false', 'spit', 'eq', 'neq', 'gt',
                     'lt', 'geq', 'leq', 'or', '||',
                     'and', '&&', '!', 'not', '-',
-                    '^', '**', '->', 'for'];
+                    '^', '**', '->', 'for', 'INDENT', 'DEDENT'];
 
 error.quiet = true;
 
@@ -77,7 +77,7 @@ var at = function(kind) {
     parseBlock = function() {
         var statements = [];
         while (at(yah_tokens)) {
-            if (at('newline')) {
+            if (at(['INDENT', 'DEDENT', 'newline'])) {
                 match();
             } else {
                 statements.push(parseStatement());
@@ -292,12 +292,19 @@ var at = function(kind) {
 
     parseFor = function() {
         match('for');
+        match('each');
         var id = match(),
             iterable,
             body;
         match('in');
-        if (at('(')) {
-            iterable = parseComprehension(); // Will need to change to parseExpList
+        if (at(['[', '('])) {
+            iterable = parseExpList(); // Will need to change to parseExpList
+        }
+        match(':');
+        if (at('newline')) {
+            body = parseBlock();
+        } else {
+            body = parseExpression(); 
         }
         return new ForStatement(id, iterable, body);
     },
@@ -307,10 +314,6 @@ var at = function(kind) {
         match('->');
         body = parseBlock();
         return new Func(items, body);
-    },
-
-    parseComprehension = function() {
-
     },
 
     parseExpList = function() {
