@@ -2,6 +2,9 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     BinaryExpression = require('../entities/binary-expression'),
     Block = require('../entities/block'),
     BooleanLiteral = require('../entities/boolean-literal'),
+    Func = require('../entities/function'),
+    FunctionCall = require('../entities/function-call'),
+    ForStatement = require('../entities/for-statement'),
     FloatLiteral = require('../entities/float-literal'),
     IfElseStatement = require('../entities/if-else-statement'),
     IntegerLiteral = require('../entities/integer-literal'),
@@ -22,13 +25,15 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     error = require('../error/error'),
     scan = require('../scanner/scanner'),
     tokens = [],
-    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline', 
-                    'if', 'while', 'yah', 'nah', 'spit', 
-                    'eq', 'neq', 'gt', 'lt', 'geq', 'leq', 
-                    'or', '||', 'and', '&&', '!', 'not', 
-                    '-', '^', '**'];
+    items = [],
+    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline',
+                    'if', 'while', 'yah', 'nah', 'true',
+                    'false', 'spit', 'eq', 'neq', 'gt',
+                    'lt', 'geq', 'leq', 'or', '||',
+                    'and', '&&', '!', 'not', '-',
+                    '^', '**', '->', 'for'];
 
-    error.quiet = true;
+// error.quiet = true;
 
 module.exports = function(scannerOutput) {
     tokens = scannerOutput;
@@ -88,13 +93,18 @@ var at = function(kind) {
     //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
     // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
-    parseConditionalExp = function() {      // No backtracking needed if you already check for if-else already instead of just if
-        var condition, thenBody, elseBody;
+    parseConditionalExp = function() { // No backtracking needed if you already check for if-else already instead of just if
+        var condition, thenBody, elseBody, elseifs;
+        thenBody = []
+        elseifs = [];
         match('if');
         condition = parseExp0();
         match(':');
         thenBody = parseBlock();
         match('else');
+        if (at('if')) {
+            return parseConditionalExp();
+        }
         match(':');
         elseBody = parseBlock();
         // will need to add for 'else if'
@@ -219,7 +229,7 @@ var at = function(kind) {
     parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
         // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
         // console.log("Exp9");
-        if (at(['yah', 'nah'])) {
+        if (at(['yah', 'nah', 'true', 'false'])) {
             return new BooleanLiteral(match());
         } else if (at('nil')) {
             return new NilLiteral(match());
@@ -242,12 +252,19 @@ var at = function(kind) {
             // console.log("Found a tuple"); 
             // parseTupleLiteral();
         } else if (at('{')) {
-            // parseDictLiteral();
+            match();
+            var expression = parseExpList();
+            match('}');
+            return expression;
         } else if (at('(')) {
             match();
-            var expression = parseExp0();
+            var expression = parseExpList();
             match(')');
-            expression;
+            if (at('->')) {
+                return parseFunction();
+            } else {
+                return expression;
+            }
         } else {
             return error("Illegal start of expression", tokens[0]);
         }
@@ -257,28 +274,78 @@ var at = function(kind) {
         return new Program(parseBlock());
     },
 
-    parseReturnStatement = function() {
-        var exp;
-        match();
-        exp = parseExp0();
-        return new ReturnStatement(exp);
-    },
-
-    parseStatement = function() {
+    parseExpression = function() {
         if (at('id')) {
             if (tokens[1].kind === 'is') {
                 return parseVariableDeclaration();
             } else if (tokens[1].kind === 'be') {
                 return parseAssignmentStatement();
             }
-        } else if (at('while')) {
-            return parseWhileStatement();
         } else if (at('if')) {
             return parseConditionalExp();
+        } else if (at('->')) {
+            return parseFunction();
+        } else {
+            return parseExp0();
+        }
+    },
+
+    parseFor = function() {
+        match('for');
+        var id = match(),
+            iterable,
+            body;
+        match('in');
+        if (at('(')) {
+            iterable = parseComprehension(); // Will need to change to parseExpList
+        }
+        return new ForStatement(id, iterable, body);
+    },
+
+    parseFunction = function() {
+        var body;
+        match('->');
+        body = parseBlock();
+        return new Func(items, body);
+    },
+
+    parseComprehension = function() {
+
+    },
+
+    parseExpList = function() {
+        items.push(parseExp0());
+        while (at(',')) {
+            match();
+            items.push(parseExp0());
+        }
+        return items.join(', ');
+    },
+
+    parseReturnStatement = function() {
+        var exp,
+            parens = []; //for potentially returning an object, we need to check for ({})
+        match();
+        // if (at ('(')) {
+        //     while(!(at(')'))) {
+
+        //     }
+        // } else {
+
+        // }
+        exp = parseExp0();
+        return new ReturnStatement(exp);
+    },
+
+    parseStatement = function() {
+        if (at('while')) {
+            return parseWhileStatement();
+        } else if (at('for')) {
+            return parseFor();
         } else if (at(['return', 'spit'])) {
             return parseReturnStatement();
         } else {
-            return parseExp0();
+            return parseExpression();
         }
     },
 
