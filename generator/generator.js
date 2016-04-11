@@ -1,23 +1,47 @@
 var Generator = (function () {
 
-	generator = function (program, writer) {
-		this.writer = writer;
+	generator - function (name) {
+		if ()
+	}
+
+	generator = function (program) {
+		this.indentLevel = 0;
 
 		emit("(function() {");
 		generateBlock(program.getBlock());
 		emit("}())");
 	}
 
-	generate = function (program, writer) {
+	Generator.prototype.generateBlock = function (block) {
+		this.indentLevel += 1;
+
+		for each (statement in block.statements) {
+			generateStatements(statement);
+		}
+
+		this.indentLevel -= 1;
+	}
+
+	Generator.prototype.generateStatements (statement) {
+		emit()
+	}
+
+	Generator.prototype.generate = function (program) {
 
 	}
 
-	synchronized = function (entity) {
+	Generator.prototype.synchronized = function (entity) {
 
 	}
 
-	emit = function (line) {
+	Generator.prototype.emit = function (line) {
+		pad = indentPadding * this.indentLevel;
 
+		if (pad == 0) {
+			console.log(line);
+		} else {
+			console.log(" ".repeat(pad) + line);
+		}
 	}
 
 
