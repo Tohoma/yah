@@ -2,19 +2,24 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     BinaryExpression = require('../entities/binary-expression'),
     Block = require('../entities/block'),
     BooleanLiteral = require('../entities/boolean-literal'),
+    DictLiteral = require('../entities/dict-literal'),
+    FieldAccess = require('../entities/field-access'),
     Func = require('../entities/function'),
     FunctionCall = require('../entities/function-call'),
     ForStatement = require('../entities/for-statement'),
     FloatLiteral = require('../entities/float-literal'),
     IfElseStatement = require('../entities/if-else-statement'),
     IntegerLiteral = require('../entities/integer-literal'),
+    ListLiteral = require('../entities/list-literal'),
     NanLiteral = require('../entities/nan-literal'),
     NilLiteral = require('../entities/nil-literal'),
     Program = require('../entities/program'),
     ReadStatement = require('../entities/read-statement'),
     ReturnStatement = require('../entities/return-statement'),
     StringLiteral = require('../entities/string-literal'),
+    TernaryExp = require('../entities/string-literal'),
     Type = require('../entities/type'),
+    TupleLiteral = require('../entities/tuple-literal'),
     UnaryExpression = require('../entities/unary-expression'),
     UndefinedLiteral = require('../entities/undefined-literal'),
     VariableDeclaration = require('../entities/variable-declaration'),
@@ -25,15 +30,17 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     error = require('../error/error'),
     scan = require('../scanner/scanner'),
     tokens = [],
-    items = [],
+    items = [],         // ugh global. can't think of another way atm tho
     yah_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
                     'false', 'spit', 'eq', 'neq', 'gt',
                     'lt', 'geq', 'leq', 'or', '||',
                     'and', '&&', '!', 'not', '-',
-                    '^', '**', '->', 'for', 'INDENT', 'DEDENT'];
+                    '^', '**', '->', 'for', 'INDENT', 
+                    'DEDENT', '.', '..', '...', '(', ')', 
+                    '[', ']', '{', '}'];
 
-error.quiet = true;
+// error.quiet = true;
 
 module.exports = function(scannerOutput) {
     tokens = scannerOutput;
@@ -77,14 +84,18 @@ var at = function(kind) {
     parseBlock = function() {
         var statements = [];
         while (at(yah_tokens)) {
-            if (at(['INDENT', 'DEDENT', 'newline'])) {
+            if (at(['INDENT', 'newline'])) {
                 match();
             } else {
-                statements.push(parseStatement());
-                if (at(['EOF'])) {
+                if (at('DEDENT')) {
+                    match();
                     break;
                 }
-                match();
+                console.log("WTF " + tokens[0].lexeme)
+                statements.push(parseStatement());
+                if (at('EOF')) {
+                    break;
+                }
             }
         }
         return new Block(statements);
@@ -93,20 +104,21 @@ var at = function(kind) {
     //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
     // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
-    parseConditionalExp = function() { // No backtracking needed if you already check for if-else already instead of just if
+    parseConditionalExp = function() {
         var condition, thenBody, elseBody, elseifs;
-        thenBody = []
+        thenBody = [];
         elseifs = [];
         match('if');
         condition = parseExp0();
         match(':');
-        thenBody = parseBlock();
+        thenBody.push(parseBlock());
         match('else');
         if (at('if')) {
-            return parseConditionalExp();
+            elseifs.push(parseConditionalExp());
         }
         match(':');
         elseBody = parseBlock();
+        // console.log(elseBody);
         // will need to add for 'else if'
         return new IfElseStatement(condition, thenBody, elseBody);;
     },
@@ -205,37 +217,58 @@ var at = function(kind) {
         }
     },
 
-    parseExp7 = function() { // Exp8 ('^' | '**' Exp8)?
+    parseExp7 = function() {
+        // console.log("Exp7(): " + JSON.stringify(tokens));
         // console.log("Exp7");
         var left, op, right;
-        left = parseExp9(); // Don't know how to do tuples for now so skip exp8
+        left = parseExp8();
         if (at(['^', '**'])) {
             op = match();
-            right = parseExp9();
-            return new BinaryExpression(op, left, right);
-        } else {
-            return left;
+            right = parseExp8();
+            left = new BinaryExpression(op, left, right);
         }
+        return left;
     },
 
-    // parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
-    //     var expression = parseExp9();
-    //     if (at(['.', '['])) {
-
-    //     }
-
-    // },
+    parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+        // console.log("Exp8");
+        var left, right;
+        left = parseExp9();
+        // console.log("left is " + left)
+        while (at(['.', '[', '('])) {
+            // console.log("INSIDE parseExp8")
+            if (at ('.')) {
+                // console.log("INSIDE parseExp8 @ .")
+                // console.log(tokens[0].lexeme)
+                match();
+                // console.log(tokens[0].lexeme)
+                right = parseExp9();
+            } 
+            if (at('[')) {
+                match();
+                right = parseExp3();
+                match(']');
+            } 
+            if (at('(')) {
+                match();
+                right = parseExpList();
+                match(')');
+            }
+            left = new FieldAccess(left, right);
+        }
+        return left;
+    },
 
     parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
         // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
         // console.log("Exp9");
+        console.log("WTF")
         if (at(['yah', 'nah', 'true', 'false'])) {
             return new BooleanLiteral(match());
         } else if (at('nil')) {
             return new NilLiteral(match());
         } else if (at('intlit')) {
-            var int = match();
-            return new IntegerLiteral(int.lexeme);
+            return new IntegerLiteral(match().lexeme);
         } else if (at('floatlit')) {
             return new FloatLiteral(match());
         } else if (at('strlit')) {
@@ -245,25 +278,53 @@ var at = function(kind) {
         } else if (at('nanlit')) {
             return new NaNLiteral(match());
         } else if (at('id')) {
+            console.log('parseExp9 ' + "wTF")
             return new VariableReference(match());
-        } else if (at('[')) {
-            // parseListLiteral();
-            //} else if (at('(') && tokens[1].kind in types) { // Need to change this for Tuples to not use lookaheads
-            // console.log("Found a tuple"); 
-            // parseTupleLiteral();
-        } else if (at('{')) {
-            match();
-            var expression = parseExpList();
-            match('}');
-            return expression;
-        } else if (at('(')) {
-            match();
-            var expression = parseExpList();
-            match(')');
-            if (at('->')) {
-                return parseFunction();
+        // } else if (at('[')) {
+        //     items = [];             // UUUGGGGHHHH Too much repetition HERE and...
+        //     match();
+        //     var expressionList = parseExpList();
+        //     match(']');
+        //     return new ListLiteral(expressionList);
+        // }
+        //  else if (at('{')) {
+        //     items = [];             // here and ...
+        //     match();
+        //     var expressionList = parseExpList();
+        //     match('}');
+        //     return new DictLiteral(expressionList);
+        // } else if (at('(')) {
+        //     items = [];             // here :(
+        //     match();
+        //     var expressionList = parseExpList();
+        //     match(')');
+        //     if (at('->')) {
+        //         return parseFunction();
+        //     } else {
+        //         return new TupleLiteral(expressionList);
+        //     }
+        // } 
+        } else if (at(['[', '{', '('])) {
+            items = [];
+            var openGrouper = match().lexeme,
+                expressionList = parseExpList();
+
+            if (openGrouper === '[') {
+                console.log(tokens[0].lexeme)
+                console.log("I SHOULD BE HERE")
+                match(']');
+                console.log(tokens[0].lexeme)
+                return new ListLiteral(expressionList);
+            } else if (openGrouper === '{') {
+                match('}');
+                return new DictLiteral(expressionList);
             } else {
-                return expression;
+                match(')');
+                if (at('->')) {
+                    return parseFunction();
+                } else {
+                    return new TupleLiteral(expressionList);
+                }
             }
         } else {
             return error("Illegal start of expression", tokens[0]);
@@ -276,10 +337,12 @@ var at = function(kind) {
 
     parseExpression = function() {
         if (at('id')) {
-            if (tokens[1].kind === 'is') {
+            if (tokens[1].lexeme === 'is') {
                 return parseVariableDeclaration();
-            } else if (tokens[1].kind === 'be') {
+            } else if (tokens[1].lexeme === 'be') {
                 return parseAssignmentStatement();
+            } else {
+                return parseExp0();
             }
         } else if (at('if')) {
             return parseConditionalExp();
@@ -292,13 +355,15 @@ var at = function(kind) {
 
     parseFor = function() {
         match('for');
-        match('each');
+        if (at('each')) {
+            match('each');
+        }
         var id = match(),
             iterable,
             body;
         match('in');
         if (at(['[', '('])) {
-            iterable = parseExpList(); // Will need to change to parseExpList
+            iterable = parseExpList();
         }
         match(':');
         if (at('newline')) {
@@ -310,10 +375,11 @@ var at = function(kind) {
     },
 
     parseFunction = function() {
-        var body;
+        var body, args;
+        args = items;
         match('->');
         body = parseBlock();
-        return new Func(items, body);
+        return new Func(args, body);
     },
 
     parseExpList = function() {

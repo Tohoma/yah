@@ -3,6 +3,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
     Func = require('../../entities/function'),
+    FieldAccess = require('../../entities/field-access'),
     FunctionCall = require('../../entities/function-call'),
     ForStatement = require('../../entities/for-statement'),
     FloatLiteral = require('../../entities/float-literal'),
@@ -58,6 +59,14 @@ describe('The entities', function() {
                 'lexeme': 'yah'
             });
             newBoolLit.toString().should.eql('yah');
+            done();
+        });
+    });
+
+    describe('field-access', function() {
+        it('successfully creates a field-access expression', function(done) {
+            var newFieldAccess = new FieldAccess('x', '0');
+            newFieldAccess.toString().should.eql('(. x 0)');
             done();
         });
     });
