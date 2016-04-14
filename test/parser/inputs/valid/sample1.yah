@@ -6,17 +6,17 @@ trix is "4kdz"   // Comment here
 addOne is (p, q) ->
   spit p + q + 1
 
-l is [1,2,x]
-t is (a,y,trix)
+l is [1, 2,x]
+t is (a,y , trix)
 
-///sample((x) -> print(x))
-
-!y
-x ^ 3
+l2 is []
 z is {}
-z.y is 120
-(x + z.y) * 10
-///
+d is {a: 10, b: 2, c: 3}
+
+//sample((x) -> print(x))
+
+//z.y is 120
+//(x + z.y) * 10
 ///
 
 

@@ -1,5 +1,6 @@
 var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
+    Binding = require('../../entities/binding'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
     Func = require('../../entities/function'),
@@ -41,6 +42,14 @@ describe('The entities', function() {
                 'kind': '+'
             }, '2', '3');
             newBinExp.toString().should.eql('(+ 2 3)');
+            done();
+        });
+    });
+
+    describe('binding', function() {
+        it('successfully creates a binding expression', function(done) {
+            var newBinding = new Binding('trix', '4kdz');
+            newBinding.toString().should.eql('(: trix 4kdz)');
             done();
         });
     });

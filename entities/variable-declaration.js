@@ -3,13 +3,14 @@ var Type, VariableDeclaration;
 Type = require('./type');
 
 VariableDeclaration = (function() {
-    function VariableDeclaration(id, type) {
+    function VariableDeclaration(id, value, type) {
         this.id = id;
+        this.value = value;
         this.type = type;
     }
 
     VariableDeclaration.prototype.toString = function() {
-        return "(is (" + this.id.lexeme + " " + this.type + "))";
+        return "(is (" + this.id.lexeme + " " + this.value + "))";
     };
 
     VariableDeclaration.prototype.analyze = function(context) {
