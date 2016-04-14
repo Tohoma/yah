@@ -23,10 +23,10 @@ describe('The scanner', function() {
             var expectedTokens = tokenList.empty_tokens;
             tokens.should.eql(expectedTokens);
             done();
-        })
+        });
     });
 
-    it('scans sample1.yah file and gives an array of objects that match sample1_token', function(done) {
+    it('scans sample1.yah file and gives an array of objects that match sample1_tokens', function(done) {
         scan('test/scanner/inputs/valid/sample1.yah', function(tokens) {
             var expectedTokens = tokenList.sample1_tokens;
             tokens.should.eql(expectedTokens);

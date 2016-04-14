@@ -13,6 +13,7 @@ describe('The parser', function() {
             done();
         });
     });
+
     it('parses the simple-assignment program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-assignment.yah', function(tokens) {
             var program = parse(tokens);
@@ -21,6 +22,7 @@ describe('The parser', function() {
             done();
         });
     });
+
     it('parses the simple-if-else program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-if-else.yah', function(tokens) {
             var program = parse(tokens);
@@ -29,6 +31,7 @@ describe('The parser', function() {
             done();
         });
     });
+
     it('parses the simple-while program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-while.yah', function(tokens) {
             var program = parse(tokens);
@@ -37,6 +40,7 @@ describe('The parser', function() {
             done();
         });
     });
+
     it('parses the expressions program correctly', function(done) {
         scan('./test/parser/inputs/valid/expressions.yah', function(tokens) {
             var program = parse(tokens);
@@ -45,6 +49,25 @@ describe('The parser', function() {
             done();
         });
     });
+
+    // it('parses the simple-for program correctly', function(done) {
+    //     scan('./test/parser/inputs/valid/simple-for.yah', function(tokens) {
+    //         var program = parse(tokens);
+    //         program.toString().should.eql(expected_ast.simple_for);
+    //         error.count.should.be.eql(0);
+    //         done();
+    //     });
+    // });
+
+    it('parses the sample1.yah program correctly', function(done) {
+        scan('./test/parser/inputs/valid/sample1.yah', function(tokens) {
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.sample1);
+            error.count.should.be.eql(0);
+            done();
+        });
+    });
+
     it('throws an error when given syntactically incorrect program', function(done) {
         scan('./test/parser/inputs/invalid/bad-declaration.yah', function(tokens) {
             var priorErrorCount = error.count;
