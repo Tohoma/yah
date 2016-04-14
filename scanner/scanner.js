@@ -74,9 +74,6 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 } else if (idLevel < idStack[idStack.length - 1]) {
                     while (!(idStack[idStack.length - 1] === idLevel) && !(typeof(idStack[0]) === "undefined")) {
                         idStack.pop()
-                    }
-
-                    if (idStack[idStack.length - 1] === idLevel) {
                         emit("DEDENT", "DEDENT", idLevel, pos + 1, linenumber + 1);
                     }
 

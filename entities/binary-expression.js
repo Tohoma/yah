@@ -25,18 +25,20 @@ BinaryExpression = (function() {
         this.right.analyze(context);
         op = this.op.lexeme;
         switch (op) {
-            case '<':
-            case '<=':
-            case '>=':
-            case '>':
+            case 'lt':
+            case 'geq':
+            case 'leq':
+            case 'gt':
                 this.mustHaveIntegerOperands();
                 return this.type = Type.BOOL;
-            case '==':
-            case '!=':
+            case 'eq':
+            case '!eq':
                 this.mustHaveCompatibleOperands();
                 return this.type = Type.BOOL;
             case 'and':
+            case '&&':
             case 'or':
+            case '||':
                 this.mustHaveBooleanOperands();
                 return this.type = Type.BOOL;
             default:
