@@ -35,14 +35,17 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     scan = require('../scanner/scanner'),
     tokens = [],
     expListItems = [], // ugh global. can't think of another way atm tho
-    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline',
+    reserved_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
                     'false', 'spit', 'eq', 'neq', 'gt',
                     'lt', 'geq', 'leq', 'or', '||',
                     'and', '&&', '!', 'not', '-',
                     '^', '**', '->', 'for', 'INDENT',
                     'DEDENT', '.', '..', '...', '(', ')',
-                    '[', ']', '{', '}'];
+                    '[', ']', '{', '}', 'dict', 'tuple', 
+                    'list', 'string', 'float', 'nil', 
+                    'undefined', 'NaN', 'print', 'for',
+                    'in', 'elif', 'else', 'class', 'new'];
 
 error.quiet = true;
 
@@ -87,7 +90,7 @@ var at = function(kind) {
 
     parseBlock = function() {
         var statements = [];
-        while (at(yah_tokens)) {
+        while (at(reserved_tokens)) {
             if (at(['INDENT', 'newline'])) {
                 match();
             } else {
@@ -109,23 +112,36 @@ var at = function(kind) {
 
     parseConditionalExp = function() {
         var condition, thenBody, elseBody, elseifs;
-        thenBody = [];
         elseifs = [];
         match('if');
         condition = parseExp0();
+        console.log("CONDITION " + condition);
         match(':');
-        thenBody.push(parseBlock());
+        thenBody = parseBlock();
+
+        while(at('elif') || (at('else') && tokens[1].lexeme === 'if')) {
+            match();
+            if (at('if')) {
+                match();
+            }
+            elseifs.push(parseExp0());
+            match(':');
+            match('newline');
+
+            // if (at('INDENT')) {
+            //     return parseBlock();
+            // }
+            elseifs.push(parseBlock());
+        }
+
         if (at('else')) {
             match();
             match(':');
             elseBody = parseBlock();
         }
-        if (at('if')) {
-            elseifs.push(parseConditionalExp());
-        }
-        // console.log(elseBody);
-        // will need to add for 'else if'
-        return elseBody ? new IfElseStatement(condition, thenBody, elseBody) : new IfStatement(condition, thenBody);
+        
+        return elseBody ? new IfElseStatement(condition, thenBody, elseifs, elseBody) 
+                        : new IfStatement(condition, thenBody);
     },
 
     parseTernaryExp = function() {
@@ -163,11 +179,19 @@ var at = function(kind) {
 
     parseExp2 = function() {
         // console.log("Exp2");
-        var left, op, right;
-        if (at(['eq', 'neq', 'gt', 'lt', 'geq', 'leq'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
+        var left, op, right, parens;
+        if (at(['eq', 'neq', 'gt', 'lt', 'geq', 'leq'])) {
             op = match();
+            if (at('(')) {
+                match();
+                parens = true;
+            }
             left = parseExp3();
+            match(',');
             right = parseExp3();
+            if (parens) {
+                match(')');
+            }
             return new BinaryExpression(op, left, right);
         } else {
             return parseExp3();
@@ -234,7 +258,7 @@ var at = function(kind) {
         return left;
     },
 
-    parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+    parseExp8 = function() { 
         // console.log("Exp8");
         var left, right;
         left = parseExp9();
@@ -305,6 +329,7 @@ var at = function(kind) {
     },
 
     parseProgram = function() {
+        // console.log(JSON.stringify(tokens));
         return new Program(parseBlock());
     },
 

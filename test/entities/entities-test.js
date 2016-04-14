@@ -116,7 +116,7 @@ describe('The entities', function() {
 
     describe('if-else-statement', function() {
         it('successfully creates an if-else-statement', function(done) {
-            var newStmt = new IfElseStatement("true", "(be (x 3))", "(be (x 4))");
+            var newStmt = new IfElseStatement("true", "(be (x 3))", [], "(be (x 4))");
             newStmt.toString().should.eql('(If true (be (x 3)) Else (be (x 4)))');
             done();
         });

@@ -13,8 +13,9 @@ var astList = {},
                                 + "(is (addOne (Function (p, q) (Block (Return (+ (+ p q) 1)))))) " 
                                 + "(is (l [1, 2, x])) (is (t (a, y, trix))) (is (l2 [])) "
                                 + "(is (z {})) (is (d {(: a 10), (: b 2), (: c 3)}))))";
-        astList.simple_for = "(Program (Block (For i (0..5) (Return (i)))))";
-        astList.field_access = "(Program (Block (. x y)))";
+        astList.simple_for = "(Program (Block (For i (0..5) (Block (Return (i))))))";
+        astList.else_if = "(Program (Block (If (gt x 3) (Block (Return yah)) "
+                                + "Elif (eq x 3) (Block (Return 0)) Else (Block (Return nah)))))"
 
         return astList;
     }();
