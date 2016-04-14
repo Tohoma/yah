@@ -6,6 +6,7 @@ VariableDeclaration = (function() {
     function VariableDeclaration(id, type) {
         this.id = id;
         this.type = type;
+        console.log(type);
     }
 
     VariableDeclaration.prototype.toString = function() {

@@ -5,29 +5,15 @@ var assert = require('chai').assert;
 
 
 var indentationError = function() {
-    //throw new Error("Indetnation Error");
+    throw new Error("Indentation Error")
+     scan('test/scanner/inputs/invalid/sample1.yah', function(err, tokens) {
+                if (err) throw err
+            })
 
 
 }
 
-var promise = new Promise(function(resolve, reject) {
-    var token = scan('test/scanner/inputs/invalid/sample1.yah', function(tokens) {
-        console.log(tokens);
-    });
-    if (token) {
-        resolve("Failed")
-    } else {
-        reject(function() {
-            throw new Error("Indentation Error")
-        })
-    }
 
-});
-promise.then(function(result) {
-    console.log(result);
-}, function(err) {
-    err();
-})
 
 
 
@@ -57,9 +43,7 @@ describe('The scanner', function() {
         // }
 
         assert.throws(function() {
-            scan('test/scanner/inputs/invalid/sample1.yah', function(tokens) {
-                console.log(tokens);
-            })
+            indentationError()
 
         }, Error, "Indentation Error");
         done();
