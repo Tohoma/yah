@@ -75,7 +75,8 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList
+VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList 
+            | (id | TupLit) ':' (int | String | float | bool | List | Tuple | Dict) [?!]?
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
