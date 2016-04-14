@@ -21,6 +21,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 * Multi expression relational operations
 * Optional type specification
 * Multiple operation styles
+* Multi parameter relational operations
 
 # Grammar
 
@@ -74,7 +75,8 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList
+VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList 
+            | (id | TupLit) ':' (int | String | float | bool | List | Tuple | Dict) [?!]?
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
@@ -107,7 +109,7 @@ ListLit    -> '[' ExpList | Comprehension ']'
 TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
-BindList   -> Binding (',' Binding)*
+BindList   -> Bind (',' Binding)*
 
 Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp ('by' intlit)?
 ```
@@ -197,11 +199,11 @@ else:                                                       } else {
 
 //Allows for both else if and elif
 
-if 5 > 10:                                                  if (5 > 10) {
+if gt 5,10:                                                  if (5 > 10) {
   print "amazing"                                             console.log("amazing");
-elif 6 > 10:                                                else if (6 > 10) {
+elif gt 6,10:                                                else if (6 > 10) {
   print "still amazing"                                       console.log("still amazing");
-else if 7 > 10:                                             else if (7 > 10) {
+else if gt 7,10:                                             else if (7 > 10) {
   print "still amazinger"                                     console.log("still amazinger");
 else:                                                       } else {
   print "logical"                                             console.log("logical")
