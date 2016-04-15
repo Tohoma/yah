@@ -44,7 +44,7 @@ floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
 declareop -> 'is'
 assignop  -> 'be'
 boolop    -> 'and' | 'or' | '&&' | '||'
-relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
+relop     -> '='   | '<' | '>' | '>=' | '<='
 addop     -> '+'   | '-'
 mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
@@ -91,7 +91,7 @@ ClassExp   -> 'Class (\s)? ->' newline (Exp newline)*
 TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)? | Exp0 ('?' Exp0 ':' TernaryExp)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
-Exp2       -> relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
+Exp2       -> Exp3 (relop Exp3)?
 Exp3       -> Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
 Exp4       -> Exp5 (addop Exp4)*
 Exp5       -> Exp6 (mulop Exp5)*
@@ -109,7 +109,7 @@ ListLit    -> '[' ExpList | Comprehension ']'
 TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
-BindList   -> Bind (',' Binding)*
+BindList   -> Bind (',' Bind)*
 
 Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp ('by' intlit)?
 ```

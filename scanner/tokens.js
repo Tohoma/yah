@@ -3,7 +3,7 @@ var tokenList = {},
     tokens = function() {
 
         tokenList.oneCharacterToken = [
-            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?'
+            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?', '<', '>', '<=', '>='
         ]
 
         tokenList.twoCharacterToken = [
@@ -22,7 +22,6 @@ var tokenList = {},
             'nil',
             'undefined',
             'NaN',
-            'eq', 'neq', 'gt', 'lt', 'geq', 'leq',
             'int', 'float', 'bool', 'string',
             'list', 'tuple', 'dict'
         ]
