@@ -30,8 +30,10 @@ describe('The scanner', function() {
     });
 
     it('scans the invalid sample1.yah file', function(done) {
+        // to reset error count
+        error.count = 0;
         scan('test/scanner/inputs/invalid/sample1.yah', function(tokens) {
-            //error.count.should.eql(6);
+            error.count.should.eql(1);
             done();
         })
 
