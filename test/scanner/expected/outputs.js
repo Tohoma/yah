@@ -158,6 +158,209 @@ var tokenList = {},
                 idLevel: 0
             },
             {
+                lexeme: 'for',
+                kind: 'for',
+                line: 5,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'i',
+                kind: 'id',
+                line: 5,
+                col: 5,
+                idLevel: 0
+            },
+            {
+                lexeme: 'in',
+                kind: 'in',
+                line: 5,
+                col: 7,
+                idLevel: 0
+            },
+            {
+                lexeme: '(',
+                kind: '(',
+                line: 5,
+                col: 10,
+                idLevel: 0
+            },
+            {
+                lexeme: '0',
+                kind: 'intlit',
+                line: 5,
+                col: 11,
+                idLevel: 0
+            },
+            {
+                lexeme: '..',
+                kind: '..',
+                line: 5,
+                col: 12,
+                idLevel: 0
+            },
+             {
+                lexeme: '5',
+                kind: 'intlit',
+                line: 5,
+                col: 14,
+                idLevel: 0
+            },
+            {
+                lexeme: ')',
+                kind: ')',
+                line: 5,
+                col: 15,
+                idLevel: 0
+            },
+            {
+                lexeme: ':',
+                kind: ':',
+                line: 5,
+                col: 16,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 5,
+                col: 17,
+                idLevel: 0
+            },
+            {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 6,
+                col: 5,
+                idLevel:4
+            },
+            {
+                lexeme: 'for',
+                kind: 'for',
+                line: 6,
+                col: 5,
+                idLevel:4
+            },
+            {
+                lexeme: 'i',
+                kind: 'id',
+                line: 6,
+                col: 9,
+                idLevel: 4
+            },
+            {
+                lexeme: 'in',
+                kind: 'in',
+                line: 6,
+                col: 11,
+                idLevel: 4
+            },
+            {
+                lexeme: '(',
+                kind: '(',
+                line: 6,
+                col: 14,
+                idLevel: 4
+            },
+            {
+                lexeme: '0',
+                kind: 'intlit',
+                line: 6,
+                col: 15,
+                idLevel: 4
+            },
+            {
+                lexeme: '...',
+                kind: '...',
+                line: 6,
+                col: 16,
+                idLevel: 4
+            },
+             {
+                lexeme: '4',
+                kind: 'intlit',
+                line: 6,
+                col: 19,
+                idLevel: 4
+            },
+            {
+                lexeme: ')',
+                kind: ')',
+                line: 6,
+                col: 20,
+                idLevel: 4
+            },
+            {
+                lexeme: ':',
+                kind: ':',
+                line: 6,
+                col: 21,
+                idLevel: 4
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 6,
+                col: 22,
+                idLevel: 4
+            },
+            {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 7,
+                col: 8,
+                idLevel:7
+            },
+            {
+                lexeme: 'print',
+                kind: 'print',
+                line: 7,
+                col: 8,
+                idLevel:7
+            },
+            {
+                lexeme: 'hey',
+                kind: 'strlit',
+                line: 7,
+                col: 14,
+                idLevel:7
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 7,
+                col: 19,
+                idLevel:7
+            },
+            {
+                lexeme: 'DEDENT',
+                kind: 'DEDENT',
+                line: 8,
+                col: 5,
+                idLevel: 4
+            },
+            {
+                lexeme: 'print',
+                kind: 'print',
+                line: 8,
+                col: 5,
+                idLevel: 4
+            },
+            {
+                lexeme: 'i',
+                kind: 'id',
+                line: 8,
+                col: 11,
+                idLevel: 4
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 8,
+                col: 12,
+                idLevel: 4
+            },
+            {
                 lexeme: 'EOF',
                 kind: 'EOF'
             }

@@ -1,6 +1,6 @@
 var Comprehension, ListLiteral;
 
-ListLiteral = require ('./list-literal');
+ListLiteral = require('./list-literal');
 
 Comprehension = (function() {
     function Comprehension(start, dots, end, increment) {
@@ -11,9 +11,9 @@ Comprehension = (function() {
     }
 
     Comprehension.prototype.toString = function() {
-    	if (this.increment === undefined) {
-    		this.increment = 1;
-    	}
+        if (this.increment === undefined) {
+            this.increment = 1;
+        }
         return "(" + this.start + " " + this.dots.lexeme + " " + this.end + " by " + this.increment + ")";
     };
 

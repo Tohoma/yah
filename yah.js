@@ -51,4 +51,3 @@ scan(argv._[0], function(tokens) {
     }
     return generate(program);
 });
-

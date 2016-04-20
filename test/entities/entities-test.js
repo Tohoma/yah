@@ -74,7 +74,9 @@ describe('The entities', function() {
 
     describe('comprehension', function() {
         it('successfully creates a list comprehension', function(done) {
-            var newListComp = new Comprehension('0', {'lexeme':'..'}, '4', '2');
+            var newListComp = new Comprehension('0', {
+                'lexeme': '..'
+            }, '4', '2');
             newListComp.toString().should.eql('(0 .. 4 by 2)');
             done();
         });

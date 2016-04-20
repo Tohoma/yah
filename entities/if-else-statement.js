@@ -17,11 +17,9 @@ IfElseStatement = (function() {
         }
         if (this.elseIfBody.length > 0) {
             if (this.elseBody) {
-                return "(If " + this.condition + " " + this.thenBody + " Elif "
-                        + str + " Else " + this.elseBody + ")";
+                return "(If " + this.condition + " " + this.thenBody + " Elif " + str + " Else " + this.elseBody + ")";
             }
-            return "(If " + this.condition + " " + this.thenBody + " Elif "
-                        + str + ")";
+            return "(If " + this.condition + " " + this.thenBody + " Elif " + str + ")";
         }
         return "(If " + this.condition + " " + this.thenBody + " Else " + this.elseBody + ")";
     };

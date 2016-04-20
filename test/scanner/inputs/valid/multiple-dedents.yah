@@ -2,3 +2,7 @@ if yah:
    if eq x,3:
       spit yah
 x is 5
+for i in (0..5):
+    for i in (0...4):
+       print "hey"
+    print i
