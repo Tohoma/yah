@@ -19,4 +19,6 @@ var promise = new Promise(function(resolve, reject) {
 promise.then(function(result) {
     console.log(result);
 
-}).catch( function(){throw new Error("Indentation Error")})
+}).catch(function() {
+    throw new Error("Indentation Error")
+})

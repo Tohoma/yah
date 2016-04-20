@@ -34,6 +34,14 @@ describe('The scanner', function() {
         })
     });
 
+    it('scans multiplededents', function(done) {
+        scan('test/scanner/inputs/valid/multiple-dedents.yah', function(tokens) {
+            var expectedTokens = tokenList.multiplededents;
+            tokens.should.eql(expectedTokens);
+            done();
+        })
+    });
+
     it('scans the invalid sample1.yah file', function(done) {
         // try {
 

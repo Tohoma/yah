@@ -113,9 +113,6 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 stack.pop()
                 break;
             }
-
-
-
         }
 
         //Single line comments
