@@ -95,6 +95,17 @@ describe('The parser', function() {
         });
     });
 
+    // Almost got it, only need Peyton to fix scanner for multiple dedents
+    it.skip('parses the nested-if program correctly', function(done) {
+        scan('./test/parser/inputs/valid/nested-if.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.nested_if);
+            error.count.should.be.eql(priorErrorCount);
+            done();
+        });
+    });
+
     it('throws an error when given syntactically incorrect program', function(done) {
         scan('./test/parser/inputs/invalid/bad-declaration.yah', function(tokens) {
             var priorErrorCount = error.count;

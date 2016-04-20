@@ -15,10 +15,15 @@ IfElseStatement = (function() {
         for (var i = 2; i < this.elseIfBody.length; i += 2) {
             str += " Elif " + this.elseIfBody.slice(i, i + 2).join(" ");
         }
-        return this.elseIfBody.length > 0 ? "(If " + this.condition + " " + this.thenBody + " Elif "
-                                                + str + " Else " + this.elseBody + ")"
-                                            : "(If " + this.condition + " " + this.thenBody 
-                                                + " Else " + this.elseBody + ")";
+        if (this.elseIfBody.length > 0) {
+            if (this.elseBody) {
+                return "(If " + this.condition + " " + this.thenBody + " Elif "
+                        + str + " Else " + this.elseBody + ")";
+            }
+            return "(If " + this.condition + " " + this.thenBody + " Elif "
+                        + str + ")";
+        }
+        return "(If " + this.condition + " " + this.thenBody + " Else " + this.elseBody + ")";
     };
 
     return IfElseStatement;

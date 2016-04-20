@@ -7,7 +7,7 @@ addOne is (p, q) ->
   spit p + q + 1
 
 l is [1, 2,x]
-t is (a,y , trix)
+t is (a,y, trix)
 
 l2 is []
 z is {}

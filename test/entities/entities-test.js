@@ -3,6 +3,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     Binding = require('../../entities/binding'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
+    Comprehension = require('../../entities/comprehension'),
     Func = require('../../entities/function'),
     FieldAccess = require('../../entities/field-access'),
     FunctionCall = require('../../entities/function-call'),
@@ -68,6 +69,14 @@ describe('The entities', function() {
                 'lexeme': 'yah'
             });
             newBoolLit.toString().should.eql('yah');
+            done();
+        });
+    });
+
+    describe('comprehension', function() {
+        it('successfully creates a list comprehension', function(done) {
+            var newListComp = new Comprehension('0', {'lexeme':'..'}, '4', '2');
+            newListComp.toString().should.eql('(0 .. 4 by 2)');
             done();
         });
     });
