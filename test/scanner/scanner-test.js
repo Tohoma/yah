@@ -1,21 +1,8 @@
 var scan = require('../../scanner/scanner'),
     should = require('should'),
-    tokenList = require('./expected/outputs.js');
+    error = require('../../error/error.js')
+tokenList = require('./expected/outputs.js');
 var assert = require('chai').assert;
-
-
-var indentationError = function() {
-    throw new Error("Indentation Error")
-    scan('test/scanner/inputs/invalid/sample1.yah', function(err, tokens) {
-        if (err) throw err
-    })
-
-
-}
-
-
-
-
 
 describe('The scanner', function() {
     it('scans the empty file and gives an EOF token', function(done) {
@@ -43,18 +30,11 @@ describe('The scanner', function() {
     });
 
     it('scans the invalid sample1.yah file', function(done) {
-        // try {
+        scan('test/scanner/inputs/invalid/sample1.yah', function(tokens) {
+            //error.count.should.eql(6);
+            done();
+        })
 
-
-        // } catch (err) {
-        //     done();
-        // }
-
-        assert.throws(function() {
-            indentationError()
-
-        }, Error, "Indentation Error");
-        done();
 
     });
 });
