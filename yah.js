@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-<<<<<<< HEAD
 var argv, error, generate, parse, scan;
 
 argv = require('yargs')
