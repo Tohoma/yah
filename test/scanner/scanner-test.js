@@ -6,9 +6,9 @@ var assert = require('chai').assert;
 
 var indentationError = function() {
     throw new Error("Indentation Error")
-     scan('test/scanner/inputs/invalid/sample1.yah', function(err, tokens) {
-                if (err) throw err
-            })
+    scan('test/scanner/inputs/invalid/sample1.yah', function(err, tokens) {
+        if (err) throw err
+    })
 
 
 }

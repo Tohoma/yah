@@ -22,7 +22,7 @@ var tokenList = {},
                 kind: ':',
                 line: 1,
                 col: 7,
-                idLevel:0
+                idLevel: 0
             },
             {
                 lexeme: 'newline',
@@ -92,63 +92,63 @@ var tokenList = {},
                 kind: 'INDENT',
                 line: 3,
                 col: 7,
-                idLevel:6
+                idLevel: 6
             },
             {
                 lexeme: 'spit',
                 kind: 'spit',
                 line: 3,
                 col: 7,
-                idLevel:6
+                idLevel: 6
             },
             {
                 lexeme: 'yah',
                 kind: 'yah',
                 line: 3,
                 col: 12,
-                idLevel:6
+                idLevel: 6
             },
             {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 3,
                 col: 15,
-                idLevel:6
+                idLevel: 6
             },
             {
                 lexeme: 'DEDENT',
                 kind: 'DEDENT',
                 line: 4,
                 col: 1,
-                idLevel:0
+                idLevel: 0
             },
             {
                 lexeme: 'DEDENT',
                 kind: 'DEDENT',
                 line: 4,
                 col: 1,
-                idLevel:0
+                idLevel: 0
             },
             {
                 lexeme: 'x',
                 kind: 'id',
                 line: 4,
                 col: 1,
-                idLevel:0
+                idLevel: 0
             },
             {
                 lexeme: 'is',
                 kind: 'is',
                 line: 4,
                 col: 3,
-                idLevel:0
+                idLevel: 0
             },
-             {
+            {
                 lexeme: '5',
                 kind: 'intlit',
                 line: 4,
                 col: 6,
-                idLevel:0
+                idLevel: 0
             },
             {
                 lexeme: 'newline',
