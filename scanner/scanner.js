@@ -2,15 +2,15 @@ var fs = require('fs');
 var byline = require('byline');
 var XRegExp = require('xregexp');
 var tokenList = require('./tokens.js');
-
+var error = require('../error/error');
 
 const LETTER = /[a-zA-Z]/
 const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 const DIGIT = /\d/;
-const RESERVED_WORD = /is|be|yah|nah|spit|nil|undefined|NaN|print|for|while|in|and|or|if|elif|else|not|eq|neq|gt|lt|geq|leq|class|new|int|float|bool|string|;ist|tuple|dict/;
-const ONE_CHARACTER_TOKENS = /[+%\*{^}|,\.\:{-}{!}{(}{)}/\/\]\[]/;
-const TWO_CHARACTER_TOKENS = /\->|&&|\|\|/;
-
+const RESERVED_WORD = /^(is|be|yah|nah|spit|return|nil|undefined|NaN|print|for|while|in|and|or|if|elif|else|not|eq|neq|gt|lt|geq|leq|class|new|int|float|bool|string|list|tuple|dict|times|by|each)$/;
+const ONE_CHARACTER_TOKENS = /[+%\*{^}?<>|,\.\:\-{!}{(}{)}/\/\]\[]/;
+const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\*\*|\<\=|\>\=|\=\=/;
+const THREE_CHARACTER_TOKENS = /\.\.\./
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
@@ -28,8 +28,9 @@ module.exports = function(filename, callback) {
     var tokens = []
     var linenumber = 0
     var stack = []
+    var idStack = [0]
     stream.on('readable', function() {
-        scan(stream.read(), linenumber++, tokens, stack)
+        scan(stream.read(), linenumber++, tokens, stack, idStack)
     })
     stream.once('end', function() {
         tokens.push({
@@ -40,11 +41,12 @@ module.exports = function(filename, callback) {
     })
 }
 
-var scan = function(line, linenumber, tokens, stack) {
+var scan = function(line, linenumber, tokens, stack, idStack) {
     var pos = 0;
     var start = 0;
     var indentMode = true;
     var idLevel = 0;
+
 
     var emit = function(type, word, indentation, col, line) {
         tokens.push({
@@ -66,6 +68,23 @@ var scan = function(line, linenumber, tokens, stack) {
             if (!/\s/.test(line[pos])) {
                 idLevel = pos;
                 indentMode = false;
+                if (idStack[idStack.length - 1] < idLevel) {
+                    idStack.push(idLevel);
+                    emit("INDENT", "INDENT", idLevel, pos + 1, linenumber + 1);
+                } else if (idLevel < idStack[idStack.length - 1]) {
+                    while (!(idStack[idStack.length - 1] === idLevel) && !(typeof(idStack[0]) === "undefined")) {
+                        idStack.pop()
+                        emit("DEDENT", "DEDENT", idLevel, pos + 1, linenumber + 1);
+                    }
+
+                }
+                if (typeof idStack[0] === "undefined") {
+                    error("Indentation error", {
+                        line: linenumber + 1
+                    });
+
+                }
+
             } else {
                 pos++
             };
@@ -94,9 +113,6 @@ var scan = function(line, linenumber, tokens, stack) {
                 stack.pop()
                 break;
             }
-
-
-
         }
 
         //Single line comments
@@ -121,11 +137,15 @@ var scan = function(line, linenumber, tokens, stack) {
                 }
                 pos++
             }
+            //Three Character tokens
+        } else if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
+            emit(line.substring(pos, pos + 3), line.substring(pos, pos + 3), idLevel, pos + 1, linenumber + 1);
+            pos +=2;
             //Two Character tokens
         } else if (TWO_CHARACTER_TOKENS.test(line.substring(pos, pos + 2))) {
             emit(line.substring(pos, pos + 2), line.substring(pos, pos + 2), idLevel, pos + 1, linenumber + 1);
+            pos++;
             //One Character tokens
-            pos += 2;
         } else if (ONE_CHARACTER_TOKENS.test(line[pos])) {
             emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
 
@@ -154,15 +174,11 @@ var scan = function(line, linenumber, tokens, stack) {
 
 
         if (line[pos]) {
-            pos++;
-            if (line[pos] === "y" && line[pos - 1] === "!") {
-
-            }
+            pos++
         } else {
 
             emit("newline", "newline", idLevel, pos + 1, linenumber + 1);
 
-            //indentMode = true;
 
             break
         }

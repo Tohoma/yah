@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "js-beautify": "find . -type d \\( -path ./node_modules \\) -prune -o -name \"*.js\" -exec $(npm bin)/js-beautify -kr {} +",
-    "test": "istanbul cover _mocha -- -R spec --recursive test/",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive test/",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "report": "istanbul report text-summary lcov "
+    "report": "istanbul report text-summary lcov"
   },
   "dependencies": {
     "byline": "^4.2.1",
+    "chai": "^3.5.0",
     "describe": "^1.2.0",
     "fs": "0.0.2",
     "hashmap": "^2.0.4",

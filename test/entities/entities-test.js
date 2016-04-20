@@ -1,8 +1,13 @@
 var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
+    Binding = require('../../entities/binding'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
-    // FunctionDeclaration = require('../../entities/function-declaration'),
+    Comprehension = require('../../entities/comprehension'),
+    Func = require('../../entities/function'),
+    FieldAccess = require('../../entities/field-access'),
+    FunctionCall = require('../../entities/function-call'),
+    ForStatement = require('../../entities/for-statement'),
     FloatLiteral = require('../../entities/float-literal'),
     IfElseStatement = require('../../entities/if-else-statement'),
     IntegerLiteral = require('../../entities/integer-literal'),
@@ -19,7 +24,6 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     VariableReference = require('../../entities/variable-reference'),
     WhileStatement = require('../../entities/while-statement'),
     WriteStatement = require('../../entities/write-statement'),
-    TernaryExpression = require('../../entities/ternary-expression'),
     should = require("should");
 
 describe('The entities', function() {
@@ -42,6 +46,14 @@ describe('The entities', function() {
         });
     });
 
+    describe('binding', function() {
+        it('successfully creates a binding expression', function(done) {
+            var newBinding = new Binding('trix', '4kdz');
+            newBinding.toString().should.eql('(: trix 4kdz)');
+            done();
+        });
+    });
+
     describe('block', function() {
         it('successfully creates a block', function(done) {
             var newBlock = new Block(['statement']);
@@ -60,11 +72,23 @@ describe('The entities', function() {
         });
     });
 
-    // describe('function', function() {
-    //     it('successfully creates a function', function(done) {
-    //         done();
-    //     });
-    // });
+    describe('comprehension', function() {
+        it('successfully creates a list comprehension', function(done) {
+            var newListComp = new Comprehension('0', {
+                'lexeme': '..'
+            }, '4', '2');
+            newListComp.toString().should.eql('(0 .. 4 by 2)');
+            done();
+        });
+    });
+
+    describe('field-access', function() {
+        it('successfully creates a field-access expression', function(done) {
+            var newFieldAccess = new FieldAccess('x', '0');
+            newFieldAccess.toString().should.eql('(. x 0)');
+            done();
+        });
+    });
 
     describe('float-literal', function() {
         it('successfully creates a float-literal', function(done) {
@@ -76,16 +100,33 @@ describe('The entities', function() {
         });
     });
 
-    // describe('for-statement', function() {
-    //     it('successfully creates a for-statement', function(done) {
-    //         // var newForStmt = new ForStatement ('i', '');
-    //         done();
-    //     });
-    // });
+    describe('for-statement', function() {
+        it('successfully creates a for-statement', function(done) {
+            var newForStmt = new ForStatement('name', '["trixie", "peyton", "vic", "adrian", "jb", "chris"]', 'spit name');
+            newForStmt.toString().should.eql('(For name ["trixie", "peyton", "vic", "adrian", "jb", "chris"] spit name)')
+            done();
+        });
+    });
+
+    describe('function', function() {
+        it('successfully creates a function', function(done) {
+            var newFunDec = new Func(['a', 'b'], 'spit true');
+            newFunDec.toString().should.eql('(Function (a, b) spit true)');
+            done();
+        });
+    });
+
+    describe('function-call', function() {
+        it('successfully creates a function-call', function(done) {
+            var newFunDec = new FunctionCall('x', ['a, b']);
+            newFunDec.toString().should.eql('(FunCall x (a, b)');
+            done();
+        });
+    });
 
     describe('if-else-statement', function() {
         it('successfully creates an if-else-statement', function(done) {
-            var newStmt = new IfElseStatement("true", "(be (x 3))", "(be (x 4))");
+            var newStmt = new IfElseStatement("true", "(be (x 3))", [], "(be (x 4))");
             newStmt.toString().should.eql('(If true (be (x 3)) Else (be (x 4)))');
             done();
         });
