@@ -14,7 +14,9 @@ var astList = {},
                                 + "(is (addOne (Function (p, q) (Block (Return (+ (+ p q) 1)))))) " 
                                 + "(is (l [1, 2, x])) (is (t (a, y, trix))) (is (l2 [])) "
                                 + "(is (z {})) (is (d {(: a 10), (: b 2), (: c 3)}))))";
-        astList.simple_for = "(Program (Block (For i (0..5) (Block (Return (i))))))";
+        astList.simple_for = "(Program (Block (For i (0 .. 5 by 1) (Block (Return i))) " 
+                                + "(For i 3 (Block (Return WAT))) "
+                                + "(For fruit basket (Block (Return fruit)))))";
         astList.else_if = "(Program (Block (If (> x 3) (Block (Return yah)) "
                                 + "Elif (== x 3) (Block (Return 0)) Else (Block (Return nah))) "
                                 + "(If yah (Block (Return 100)) Elif (> x 3) (Block (Return x)))))"

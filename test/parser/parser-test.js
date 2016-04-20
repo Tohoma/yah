@@ -65,7 +65,7 @@ describe('The parser', function() {
         });
     });
 
-    it.skip('parses the simple-for program correctly', function(done) {
+    it('parses the simple-for program correctly', function(done) {
         scan('./test/parser/inputs/valid/simple-for.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);

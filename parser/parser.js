@@ -22,7 +22,6 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     ReadStatement = require('../entities/read-statement'),
     ReturnStatement = require('../entities/return-statement'),
     StringLiteral = require('../entities/string-literal'),
-    TernaryExp = require('../entities/string-literal'),
     Type = require('../entities/type'),
     TupleLiteral = require('../entities/tuple-literal'),
     UnaryExpression = require('../entities/unary-expression'),
@@ -46,7 +45,7 @@ var AssignmentStatement = require('../entities/assignment-statement'),
                     '[', ']', '{', '}', 'dict', 'tuple', 
                     'list', 'string', 'float', 'nil', 
                     'undefined', 'NaN', 'print', 'for',
-                    'in', 'class', 'new'];
+                    'in', 'class', 'new', 'times', 'each'];
 
 error.quiet = true;
 
@@ -123,7 +122,7 @@ var at = function(kind) {
         match(':');
         thenBody = parseBlock();
 
-        while(at('elif') || (at('else') && tokens[1].lexeme === 'if')) {
+        while(at('elif') || (at('else') && tokens[1].kind === 'if')) {
             match();
             if (at('if')) {
                 match();
@@ -377,9 +376,9 @@ var at = function(kind) {
 
     parseExpression = function() {
         if (at('id')) {
-            if (tokens[1].lexeme === 'is' || tokens[1].lexeme === ':') {
+            if (tokens[1].kind === 'is' || tokens[1].kind === ':') {
                 return parseVariableDeclaration();
-            } else if (tokens[1].lexeme === 'be') {
+            } else if (tokens[1].kind === 'be') {
                 return parseAssignmentStatement();
             } else {
                 return parseTernaryExp();
@@ -389,12 +388,12 @@ var at = function(kind) {
         } else if (at('->')) {
             return parseFunction();
         } else {
-            return parseTernaryExp();     // Will need to replace with TernaryExp when it's done
+            return parseTernaryExp(); 
         }
     },
 
     parseFor = function() {
-        var id, iterable, body, each = false;
+        var id, iterable, body, each;
         if (at('for')) {
             match();
             if (at('each')) {
@@ -406,9 +405,10 @@ var at = function(kind) {
             if (each) {
                 iterable = parseExp9();
             } else if (at('(')) {
-                iterable = parseComprehension();
+                match();
+                iterable = parseExpression();
+                match(')');
             }
-            match(')');
             match(':');
             body = parseBlockOrStatement();
             
@@ -498,7 +498,7 @@ var at = function(kind) {
     parseStatement = function() {
         if (at('while')) {
             return parseWhileStatement();
-        } else if (at('for')) {
+        } else if (at(['for', 'times'])) {
             return parseFor();
         } else if (at(['return', 'spit'])) {
             return parseReturnStatement();

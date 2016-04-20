@@ -7,7 +7,7 @@ Comprehension = (function() {
         this.start = start;
         this.dots = dots;
         this.end = end;
-        this.increment = increment;
+        this.increment = increment || 1;
     }
 
     Comprehension.prototype.toString = function() {

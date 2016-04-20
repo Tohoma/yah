@@ -4,7 +4,7 @@ Type = require('./type');
 
 ForStatement = (function() {
     function ForStatement(id, iterable, body) {
-        this.id = id;
+        this.id = id || "i";
         this.iterable = iterable;
         this.body = body;
     }

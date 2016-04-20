@@ -24,7 +24,6 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     VariableReference = require('../../entities/variable-reference'),
     WhileStatement = require('../../entities/while-statement'),
     WriteStatement = require('../../entities/write-statement'),
-    TernaryExpression = require('../../entities/ternary-expression'),
     should = require("should");
 
 describe('The entities', function() {
