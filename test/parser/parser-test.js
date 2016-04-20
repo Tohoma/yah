@@ -95,12 +95,21 @@ describe('The parser', function() {
         });
     });
 
-    // Almost got it, only need Peyton to fix scanner for multiple dedents
     it('parses the nested-if program correctly', function(done) {
         scan('./test/parser/inputs/valid/nested-if.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.nested_if);
+            error.count.should.be.eql(priorErrorCount);
+            done();
+        });
+    });
+
+    it('parses the ternary-expression-test program correctly', function(done) {
+        scan('./test/parser/inputs/valid/ternary-test.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.tern_exp);
             error.count.should.be.eql(priorErrorCount);
             done();
         });

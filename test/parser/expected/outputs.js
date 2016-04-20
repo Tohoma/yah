@@ -21,6 +21,7 @@ var astList = {},
         astList.nested_if = "(Program (Block (If (> x 3) (Block (Return yah)) Elif (== x 3) (Block (If (< y 2) "
                                 + "(Block (Return y)) Elif (> something 2) (Block (Return (- y))) Else " 
                                 + "(Block (Return 100)))) Else (Block (Return nah)))))";
+        astList.tern_exp = "(Program (Block (If (== x y) yah) (If (== x y) yah Else nah) (If (> x 3) trix Else xirt)))"
 
         return astList;
     }();

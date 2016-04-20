@@ -38,7 +38,7 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     expListItems = [], // ugh global. can't think of another way atm tho
     reserved_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
-                    'false', 'spit', '==', '>',
+                    'false', 'spit', 'return', '==', '>',
                     '<', '>=', '<=', 'or', '||',
                     'and', '&&', '!', 'not', '-',
                     '^', '**', '->', 'for', 'INDENT',
@@ -90,7 +90,6 @@ var at = function(kind) {
     },
 
     parseBlock = function() {
-        console.log("HUH?")
         var statements = [];
         while (at(reserved_tokens)) {
             if (at(['INDENT', 'newline'])) {
@@ -132,18 +131,12 @@ var at = function(kind) {
             elseifs.push(parseExp0());
             match(':');
             match('newline');
-
-            // if (at('INDENT')) {
-            //     return parseBlock();
-            // }
-            console.log("HERE?")
             elseifs.push(parseBlock());
         }
 
         if (at('else')) {
             match();
             match(':');
-            console.log("HERE?2")
             elseBody = parseBlock();
         }
         
@@ -152,12 +145,29 @@ var at = function(kind) {
     },
 
     parseTernaryExp = function() {
-        var left, ifBody, elseBody;
+        // Functional now, but will need to optimize (if there's time)
+        var left, middle, right;
         left = parseExp0();
         if (at('if')) {
             match();
-            ifBody = parseExpression();
+            middle = parseExpression();
+            if (at('else')) {
+                match();
+                right = parseExpression();
+            }
+            left = right ? new IfElseStatement(middle, left, [], right) 
+                        : new IfStatement(middle, left);
+        } else if (at('?')) {
+            match();
+            middle = parseExp0();
+            match(':');
+            right = parseExp0();
+
+            left = right ? new IfElseStatement(left, middle, [], right) 
+                        : new IfStatement(left, middle);
         }
+
+        return left;
     },
 
     parseExp0 = function() {
@@ -274,8 +284,6 @@ var at = function(kind) {
                 match();
                 right = parseExp3();
                 match(']');
-                console.log("MY TOKEN " + tokens[0].lexeme);
-                console.log("MY TOKEN " + tokens[1].lexeme);
             } else {
                 match('(');
                 right = parseExpList();
@@ -354,35 +362,39 @@ var at = function(kind) {
             } else if (tokens[1].lexeme === 'be') {
                 return parseAssignmentStatement();
             } else {
-                return parseExp0();
+                return parseTernaryExp();
             }
         } else if (at('if')) {
             return parseConditionalExp();
         } else if (at('->')) {
             return parseFunction();
         } else {
-            return parseExp0();     // Will need to replace with TernaryExp when it's done
+            return parseTernaryExp();     // Will need to replace with TernaryExp when it's done
         }
     },
 
     parseFor = function() {
-        var id, iterable, body;
+        var id, iterable, body, each = false;
         if (at('for')) {
             match();
             if (at('each')) {
                 match();
+                each = true;
             }
             id = parseExp9();
             match('in');
-            if (at('[')) {
+            if (each) {
                 iterable = parseExp9();
+            } else if (at('(')) {
+                iterable = parseComprehension();
             }
+            match(')');
             match(':');
             body = parseBlockOrExp();
             
         } else {
             match('times');
-            id = parseExp9();
+            iterable = parseExp9();
             match(':');
             body = parseBlockOrExp();
         }
@@ -405,12 +417,12 @@ var at = function(kind) {
         if (at([']', ')'])) {
             expListItems = [];
         } else {
-            expListItems.push(parseExp0());
+            expListItems.push(parseExpression());
         }
 
         while (at([',', 'newline'])) {
             match();
-            expListItems.push(parseExp0());
+            expListItems.push(parseExpression());
         }
         if (at('newline')) {
             match();
@@ -422,7 +434,7 @@ var at = function(kind) {
         var exp,
             parens = []; //TODO: for potentially returning an object, we need to check for ({})
         match();
-        exp = parseExp0();
+        exp = parseTernaryExp();
         return new ReturnStatement(exp);
     },
 
@@ -491,7 +503,7 @@ var at = function(kind) {
             match();
         } else {
             match('is');
-            exp = parseExp0();
+            exp = parseTernaryExp();
         }
         return new VariableDeclaration(id, exp, type);
     },
@@ -499,7 +511,7 @@ var at = function(kind) {
     parseWhileStatement = function() {
         var body, condition;
         match('while');
-        condition = parseExp0();
+        condition = parseExpression();
         match(':');
         body = parseBlockOrExp();
         return new WhileStatement(condition, body);
