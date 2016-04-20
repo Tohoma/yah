@@ -46,7 +46,7 @@ var AssignmentStatement = require('../entities/assignment-statement'),
                     '[', ']', '{', '}', 'dict', 'tuple', 
                     'list', 'string', 'float', 'nil', 
                     'undefined', 'NaN', 'print', 'for',
-                    'in', 'elif', 'else', 'class', 'new'];
+                    'in', 'class', 'new'];
 
 error.quiet = true;
 
@@ -99,11 +99,6 @@ var at = function(kind) {
                 if (at(['DEDENT'])) {
                     match();
                     break;
-                }
-               if (at(['else'])) {
-                    match();
-                    match(':');
-                    statements.push(parseBlock());
                 }
                 statements.push(parseStatement());
                 if (at('EOF')) {
