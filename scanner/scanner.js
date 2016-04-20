@@ -13,6 +13,7 @@ const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\*\*|\<\=|\>\=|\=\=/;
 const THREE_CHARACTER_TOKENS = /\.\.\./
 
 module.exports = function(filename, callback) {
+    console.log("Starting Scanner");
     var baseStream = fs.createReadStream(filename, {
         encoding: 'utf8'
     })
@@ -46,6 +47,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
     var start = 0;
     var indentMode = true;
     var idLevel = 0;
+
 
     var emit = function(type, word, indentation, col, line) {
         tokens.push({
@@ -81,7 +83,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                     error("Indentation error", {
                         line: linenumber + 1
                     });
-                    throw new Error("Indentation Error");
+
                 }
 
             } else {
@@ -169,15 +171,11 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
 
 
         if (line[pos]) {
-            pos++;
-            if (line[pos] === "y" && line[pos - 1] === "!") {
-
-            }
+            pos++
         } else {
 
             emit("newline", "newline", idLevel, pos + 1, linenumber + 1);
 
-            //indentMode = true;
 
             break
         }

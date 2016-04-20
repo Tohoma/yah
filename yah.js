@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+<<<<<<< HEAD
 var argv, error, generate, parse, scan;
 
 argv = require('yargs')
@@ -51,3 +52,4 @@ scan(argv._[0], function(tokens) {
     }
     return generate(program);
 });
+
