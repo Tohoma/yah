@@ -12,7 +12,7 @@ StringLiteral = (function() {
     };
 
     StringLiteral.prototype.analyze = function(context) {
-        return this.type = Type.BOOL;
+        return this.type = Type.STR;
     };
 
     StringLiteral.prototype.optimize = function() {

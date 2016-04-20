@@ -11,7 +11,7 @@ var tokenList = {},
         ]
 
         tokenList.reservedWords = [
-            'Class', 'new',
+            'class', 'new',
             'for', 'in', 'while',
             'and', 'or',
             'is', 'be',
@@ -23,8 +23,8 @@ var tokenList = {},
             'undefined',
             'NaN',
             'eq', 'neq', 'gt', 'lt', 'geq', 'leq',
-            'int', 'float', 'bool', 'String',
-            'List', 'Tuple', 'Dict'
+            'int', 'float', 'bool', 'string',
+            'list', 'tuple', 'dict'
         ]
         return tokenList;
     }();

@@ -1,13 +1,21 @@
+(function() {
+
 var AssignmentStatement = require('../entities/assignment-statement'),
+    Binding = require('../entities/binding'),
     BinaryExpression = require('../entities/binary-expression'),
     Block = require('../entities/block'),
     BooleanLiteral = require('../entities/boolean-literal'),
+    Comprehension = require('../entities/comprehension'),
+    DictLiteral = require('../entities/dict-literal'),
+    FieldAccess = require('../entities/field-access'),
     Func = require('../entities/function'),
     FunctionCall = require('../entities/function-call'),
     ForStatement = require('../entities/for-statement'),
     FloatLiteral = require('../entities/float-literal'),
+    IfStatement = require('../entities/if-statement'),
     IfElseStatement = require('../entities/if-else-statement'),
     IntegerLiteral = require('../entities/integer-literal'),
+    ListLiteral = require('../entities/list-literal'),
     NanLiteral = require('../entities/nan-literal'),
     NilLiteral = require('../entities/nil-literal'),
     Program = require('../entities/program'),
@@ -15,6 +23,7 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     ReturnStatement = require('../entities/return-statement'),
     StringLiteral = require('../entities/string-literal'),
     Type = require('../entities/type'),
+    TupleLiteral = require('../entities/tuple-literal'),
     UnaryExpression = require('../entities/unary-expression'),
     UndefinedLiteral = require('../entities/undefined-literal'),
     VariableDeclaration = require('../entities/variable-declaration'),
@@ -25,13 +34,18 @@ var AssignmentStatement = require('../entities/assignment-statement'),
     error = require('../error/error'),
     scan = require('../scanner/scanner'),
     tokens = [],
-    items = [],
-    yah_tokens = ['id', 'is', 'be', 'intlit', 'newline',
+    expListItems = [], // ugh global. can't think of another way atm tho
+    reserved_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
-                    'false', 'spit', 'eq', 'neq', 'gt',
-                    'lt', 'geq', 'leq', 'or', '||',
+                    'false', 'spit', 'return', '==', '>',
+                    '<', '>=', '<=', 'or', '||',
                     'and', '&&', '!', 'not', '-',
-                    '^', '**', '->', 'for'];
+                    '^', '**', '->', 'for', 'INDENT',
+                    'DEDENT', '.', '..', '...', '(', ')',
+                    '[', ']', '{', '}', 'dict', 'tuple', 
+                    'list', 'string', 'float', 'nil', 
+                    'undefined', 'NaN', 'print', 'for',
+                    'in', 'class', 'new', 'times', 'each'];
 
 error.quiet = true;
 
@@ -64,10 +78,10 @@ var at = function(kind) {
 
     parseAssignmentStatement = function() {
         var left, exp;
-        left = parseExp0();
+        left = parseExp8();
         if (at('be')) {
             match();
-            exp = parseExp0();
+            exp = parseExpression();
             return new AssignmentStatement(left, exp);
         } else {
             return left;
@@ -76,49 +90,84 @@ var at = function(kind) {
 
     parseBlock = function() {
         var statements = [];
-        while (at(yah_tokens)) {
-            if (at('newline')) {
+        while (at(reserved_tokens)) {
+            if (at(['INDENT', 'newline'])) {
                 match();
             } else {
-                statements.push(parseStatement());
-                if (at(['EOF'])) {
+                if (at(['DEDENT'])) {
+                    match();
                     break;
                 }
-                match();
+                statements.push(parseStatement());
+                if (at('EOF')) {
+                    break;
+                }
             }
         }
         return new Block(statements);
     },
 
+    parseClassExp = function() {
+        //TODO
+    },
+
     //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
     // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
-    parseConditionalExp = function() { // No backtracking needed if you already check for if-else already instead of just if
+    parseConditionalExp = function() {
         var condition, thenBody, elseBody, elseifs;
-        thenBody = []
         elseifs = [];
         match('if');
         condition = parseExp0();
         match(':');
         thenBody = parseBlock();
-        match('else');
-        if (at('if')) {
-            return parseConditionalExp();
+
+        while(at('elif') || (at('else') && tokens[1].kind === 'if')) {
+            match();
+            if (at('if')) {
+                match();
+            }
+            elseifs.push(parseExp0());
+            match(':');
+            match('newline');
+            elseifs.push(parseBlock());
         }
-        match(':');
-        elseBody = parseBlock();
-        // will need to add for 'else if'
-        return new IfElseStatement(condition, thenBody, elseBody);;
+
+        if (at('else')) {
+            match();
+            match(':');
+            elseBody = parseBlock();
+        }
+        
+        return elseifs.length > 0 || elseBody ? new IfElseStatement(condition, thenBody, elseifs, elseBody) 
+                        : new IfStatement(condition, thenBody);
     },
 
-    // parseTernaryExp = function() {
-    //     var left, ifBody, elseBody;
-    //     left = parseExp0();
-    //     if (at('if')) {
-    //         match();
-    //         ifBody = parseExpression();
-    //     }
-    // },
+    parseTernaryExp = function() {
+        // Functional now, but will need to optimize (if there's time)
+        var left, middle, right;
+        left = parseExp0();
+        if (at('if')) {
+            match();
+            middle = parseExpression();
+            if (at('else')) {
+                match();
+                right = parseExpression();
+            }
+            left = right ? new IfElseStatement(middle, left, [], right) 
+                        : new IfStatement(middle, left);
+        } else if (at('?')) {
+            match();
+            middle = parseExp0();
+            match(':');
+            right = parseExp0();
+
+            left = right ? new IfElseStatement(left, middle, [], right) 
+                        : new IfStatement(left, middle);
+        }
+
+        return left;
+    },
 
     parseExp0 = function() {
         // console.log("Exp0");
@@ -147,24 +196,28 @@ var at = function(kind) {
     parseExp2 = function() {
         // console.log("Exp2");
         var left, op, right;
-        if (at(['eq', 'neq', 'gt', 'lt', 'geq', 'leq'])) { // relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
+        left = parseExp3();
+        if (at(['==', '>', '<', '>=', '<='])) {
             op = match();
-            left = parseExp3();
             right = parseExp3();
-            return new BinaryExpression(op, left, right);
-        } else {
-            return parseExp3();
+            left = new BinaryExpression(op, left, right);
         }
+        return left;
+
     },
 
     parseExp3 = function() {
         // console.log("Exp3");
-        var left, op, right;
+        var left, op, right, inc;
         left = parseExp4();
-        if (at(['..', '...', 'by'])) { // Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
+        if (at(['..', '...'])) {
             op = match();
             right = parseExp4();
-            left = new BinaryExpression(op, left, right);
+            if (at('by')) {
+                match();
+                inc = parseExp4();
+            }
+            left = new Comprehension(left, op, right, inc);
         }
         return left;
     },
@@ -205,26 +258,47 @@ var at = function(kind) {
         }
     },
 
-    parseExp7 = function() { // Exp8 ('^' | '**' Exp8)?
+    parseExp7 = function() {
         // console.log("Exp7");
         var left, op, right;
-        left = parseExp9(); // Don't know how to do tuples for now so skip exp8
+        left = parseExp8();
         if (at(['^', '**'])) {
             op = match();
-            right = parseExp9();
-            return new BinaryExpression(op, left, right);
-        } else {
-            return left;
+            right = parseExp8();
+            left = new BinaryExpression(op, left, right);
         }
+        return left;
     },
 
-    // parseExp8 = function() { // Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
-    //     var expression = parseExp9();
-    //     if (at(['.', '['])) {
-
-    //     }
-
-    // },
+    // The grammar for this looks exactly the same as VarExp
+    parseExp8 = function() { 
+        // console.log("Exp8");
+        var left, right;
+        left = parseExp9();
+        while (at(['.', '[', '('])) {
+            if (at('.')) {
+                match();
+                right = parseExp9();
+            } else if (at('[')) {
+                match();
+                right = parseExp3();
+                match(']');
+            } else {
+                match('(');
+                expListItems = []; // Ugh, I need to optimize this too
+                while (at(['newline', 'INDENT', 'DEDENT'])) {
+                    match();
+                }
+                right = parseExpList();
+                while (at(['newline', 'INDENT', 'DEDENT'])) {
+                    match();
+                }
+                match(')');
+            }
+            left = new FieldAccess(left, right);
+        }
+        return left;
+    },
 
     parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
         // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
@@ -234,8 +308,7 @@ var at = function(kind) {
         } else if (at('nil')) {
             return new NilLiteral(match());
         } else if (at('intlit')) {
-            var int = match();
-            return new IntegerLiteral(int.lexeme);
+            return new IntegerLiteral(match().lexeme);
         } else if (at('floatlit')) {
             return new FloatLiteral(match());
         } else if (at('strlit')) {
@@ -246,101 +319,186 @@ var at = function(kind) {
             return new NaNLiteral(match());
         } else if (at('id')) {
             return new VariableReference(match());
-        } else if (at('[')) {
-            // parseListLiteral();
-            //} else if (at('(') && tokens[1].kind in types) { // Need to change this for Tuples to not use lookaheads
-            // console.log("Found a tuple"); 
-            // parseTupleLiteral();
-        } else if (at('{')) {
-            match();
-            var expression = parseExpList();
-            match('}');
-            return expression;
-        } else if (at('(')) {
-            match();
-            var expression = parseExpList();
-            match(')');
-            if (at('->')) {
-                return parseFunction();
+        } else if (at(['[', '('])) {
+
+            // We might need to rethink allowing lists, tuples, and dicts to be multiline.
+            // Removing the in-/de- dents and newlines work, but may not be optimal
+            // CTRL+F "removeDentAndNewlineTokens();" to see where I placed them
+            // if you want to delete them in case we think of a better way
+            expListItems = [];
+            var openGrouper = match().lexeme;
+            var expressionList = parseExpList();
+            if (openGrouper === '[') {
+                match(']');
+                removeDentAndNewlineTokens(); 
+                return new ListLiteral(expressionList);
             } else {
-                return expression;
+                match(')');
+                removeDentAndNewlineTokens()
+                if (at('->')) {
+                    return parseFunction();
+                } else {
+                    return new TupleLiteral(expressionList);
+                }
             }
+
+        } else if (at(['{'])) {
+            match();
+            var bindList = parseBind();
+            match('}');
+            removeDentAndNewlineTokens(); 
+            return new DictLiteral(bindList);
         } else {
             return error("Illegal start of expression", tokens[0]);
         }
     },
 
+    removeDentAndNewlineTokens = function() {
+        while(at(['newline', 'INDENT', 'DEDENT'])) {
+            match();
+        }
+    },
+
+    parseBlockOrStatement = function() {
+        var body;
+        if (at('newline')) {
+            body = parseBlock();
+        } else {
+            body = parseStatement();
+        }
+        return body;
+    },
+
     parseProgram = function() {
+        // console.log(JSON.stringify(tokens));
         return new Program(parseBlock());
     },
 
     parseExpression = function() {
         if (at('id')) {
-            if (tokens[1].kind === 'is') {
+            if (tokens[1].kind === 'is' || tokens[1].kind === ':') {
                 return parseVariableDeclaration();
             } else if (tokens[1].kind === 'be') {
                 return parseAssignmentStatement();
+            } else {
+                return parseTernaryExp();
             }
         } else if (at('if')) {
             return parseConditionalExp();
         } else if (at('->')) {
             return parseFunction();
         } else {
-            return parseExp0();
+            return parseTernaryExp(); 
         }
     },
 
     parseFor = function() {
-        match('for');
-        var id = match(),
-            iterable,
-            body;
-        match('in');
-        if (at('(')) {
-            iterable = parseComprehension(); // Will need to change to parseExpList
+        var id, iterable, body, each;
+        if (at('for')) {
+            match();
+            if (at('each')) {
+                match();
+                each = true;
+            }
+            id = parseExp9();
+            match('in');
+            if (each) {
+                iterable = parseExp9();
+            } else if (at('(')) {
+                match();
+                iterable = parseExpression();
+                match(')');
+            }
+            match(':');
+            body = parseBlockOrStatement();
+            
+        } else {
+            match('times');
+            iterable = parseExp9();
+            match(':');
+            body = parseBlockOrStatement();
         }
-        return new ForStatement(id, iterable, body);
+        return new ForStatement(id, iterable, body); 
     },
 
     parseFunction = function() {
-        var body;
+        var body, args;
+        args = expListItems;
         match('->');
         body = parseBlock();
-        return new Func(items, body);
+        return new Func(args, body);
     },
 
-    parseComprehension = function() {
-
-    },
 
     parseExpList = function() {
-        items.push(parseExp0());
+        removeDentAndNewlineTokens();
+        if (at([']', ')'])) {
+            expListItems = [];
+        } else {
+            expListItems.push(parseExpression());
+        }
         while (at(',')) {
             match();
-            items.push(parseExp0());
+            removeDentAndNewlineTokens();
+            expListItems.push(parseExpression());
         }
-        return items.join(', ');
+        removeDentAndNewlineTokens();
+        return expListItems.join(', ');
     },
 
     parseReturnStatement = function() {
         var exp,
-            parens = []; //for potentially returning an object, we need to check for ({})
+            parens = []; //TODO: for potentially returning an object, we need to check for ({})
         match();
-        // if (at ('(')) {
-        //     while(!(at(')'))) {
-
-        //     }
-        // } else {
-
-        // }
-        exp = parseExp0();
+        exp = parseTernaryExp();
         return new ReturnStatement(exp);
+    },
+
+    parseBindList = function() {
+        removeDentAndNewlineTokens();
+        var id = match('id').lexeme;
+        match(':');
+        var exp = parseExpression();
+        removeDentAndNewlineTokens();
+        return new Binding(id, exp);
+    },
+
+    parseBind = function() {
+        removeDentAndNewlineTokens();
+        var bindings = [];
+        if (!at('}')) {
+            bindings.push(parseBindList());
+        }
+        while (at(',')) {
+            match();
+            removeDentAndNewlineTokens();
+            bindings.push(parseBindList());
+        }
+        removeDentAndNewlineTokens();
+        return bindings.join(', ');
+    },
+
+    // May not work. Chris has to look at macrosyntax
+    parseComprehension = function() {
+        // var tern = parseTernaryExp();
+        match('for');
+        if (at('each')) {
+            match();
+            var id = parseExp9();
+        }
+        match('in');
+        var exp = parseExpression();
+        var intlit;
+        if (at('by')) {
+            match();
+            intlit = parseExp9();
+        }
     },
 
     parseStatement = function() {
         if (at('while')) {
             return parseWhileStatement();
-        } else if (at('for')) {
+        } else if (at(['for', 'times'])) {
             return parseFor();
         } else if (at(['return', 'spit'])) {
             return parseReturnStatement();
@@ -350,18 +508,27 @@ var at = function(kind) {
     },
 
     parseVariableDeclaration = function() {
-        var id, exp;
+        var id, exp, type;
         id = match('id');
-        match('is');
-        exp = parseExp0();
-        return new VariableDeclaration(id, exp);
+        if (at(':')) {
+            match();
+            type = match();
+        }
+        if (at('newline')) {
+            match();
+        } else {
+            match('is');
+            exp = parseTernaryExp();
+        }
+        return new VariableDeclaration(id, exp, type);
     },
 
     parseWhileStatement = function() {
         var body, condition;
         match('while');
-        condition = parseExp0();
+        condition = parseExpression();
         match(':');
-        body = parseBlock();
+        body = parseBlockOrStatement();
         return new WhileStatement(condition, body);
     };
+})();

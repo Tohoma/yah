@@ -1,42 +1,55 @@
 #!/usr/bin/env node
 
-var scan = require('./scanner/scanner.js');
-var parse = require('./parser/parser.js')
-var error = require('./error/error.js')
-var argv = require('yargs')
-    .command('scan', 'Scans the file for tokens', function(yargs) {
-        yargs.options({
-            file: {
-                demand: true,
-                alias: 'f',
-                description: 'the filepath',
-                type: 'string'
-            }
-        })
-    }).command('parse', 'Generates AST of file', function(yargs) {
-        yargs.options({
-            file: {
-                demand: true,
-                alias: 'f',
-                description: 'the filepath',
-                type: 'string'
-            }
-        })
-    }).argv
-var command = argv._[0];
+<<<<<<< HEAD
+var argv, error, generate, parse, scan;
 
+argv = require('yargs')
+    .usage('$0 [-t] [-a] [-o] [-i] filename')
+    .boolean(['t', 'a', 'o', 'i'])
+    .describe('t', 'show tokens after scanning then stop')
+    .describe('a', 'show abstract syntax tree after parsing then stop')
+    .describe('o', 'do optimizations')
+    .describe('i', 'generate and show the intermediate code then stop')
+    .describe('target', 'generate code for JavaScript')
+    .demand(1)
+    .argv;
 
-if (command === "scan") {
-    console.log(argv.f)
-    scan("./" + argv.f, function(tokens) {
-        console.log(tokens);
-        console.log("The error count "+error.count)
-    })
-} else if (command === "parse") {
-    scan("./" + argv.f, function(tokens) {
-        var code = parse(tokens);
-        console.log(code.toString())
+scan = require('./scanner/scanner');
+parse = require('./parser/parser');
+// generate = (require('./generator'))(argv.target);
+error = require('./error/error');
 
-    })
+scan(argv._[0], function(tokens) {
+    var i, len, program, t;
+    if (error.count > 0) {
+        return;
+    }
+    if (argv.t) {
+        for (i = 0, len = tokens.length; i < len; i++) {
+            t = tokens[i];
+            console.log(t);
+        }
+        return;
+    }
+    program = parse(tokens);
+    if (error.count > 0) {
+        return;
+    }
+    if (argv.a) {
+        console.log(program.toString());
+        return;
+    }
+    // program.analyze();
+    if (error.count > 0) {
+        return;
+    }
+    if (argv.o) {
+        program = program.optimize();
+    }
+    if (argv.i) {
+        program.showSemanticGraph();
+        return;
+    }
+    return generate(program);
+});
 
-}

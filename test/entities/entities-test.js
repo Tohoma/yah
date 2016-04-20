@@ -1,8 +1,11 @@
 var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
+    Binding = require('../../entities/binding'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
+    Comprehension = require('../../entities/comprehension'),
     Func = require('../../entities/function'),
+    FieldAccess = require('../../entities/field-access'),
     FunctionCall = require('../../entities/function-call'),
     ForStatement = require('../../entities/for-statement'),
     FloatLiteral = require('../../entities/float-literal'),
@@ -20,7 +23,8 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     VariableDeclaration = require('../../entities/variable-declaration'),
     VariableReference = require('../../entities/variable-reference'),
     WhileStatement = require('../../entities/while-statement'),
-    WriteStatement = require('../../entities/write-statement');
+    WriteStatement = require('../../entities/write-statement'),
+    should = require("should");
 
 describe('The entities', function() {
     describe('assignment-statement', function() {
@@ -42,6 +46,14 @@ describe('The entities', function() {
         });
     });
 
+    describe('binding', function() {
+        it('successfully creates a binding expression', function(done) {
+            var newBinding = new Binding('trix', '4kdz');
+            newBinding.toString().should.eql('(: trix 4kdz)');
+            done();
+        });
+    });
+
     describe('block', function() {
         it('successfully creates a block', function(done) {
             var newBlock = new Block(['statement']);
@@ -56,6 +68,22 @@ describe('The entities', function() {
                 'lexeme': 'yah'
             });
             newBoolLit.toString().should.eql('yah');
+            done();
+        });
+    });
+
+    describe('comprehension', function() {
+        it('successfully creates a list comprehension', function(done) {
+            var newListComp = new Comprehension('0', {'lexeme':'..'}, '4', '2');
+            newListComp.toString().should.eql('(0 .. 4 by 2)');
+            done();
+        });
+    });
+
+    describe('field-access', function() {
+        it('successfully creates a field-access expression', function(done) {
+            var newFieldAccess = new FieldAccess('x', '0');
+            newFieldAccess.toString().should.eql('(. x 0)');
             done();
         });
     });
@@ -96,7 +124,7 @@ describe('The entities', function() {
 
     describe('if-else-statement', function() {
         it('successfully creates an if-else-statement', function(done) {
-            var newStmt = new IfElseStatement("true", "(be (x 3))", "(be (x 4))");
+            var newStmt = new IfElseStatement("true", "(be (x 3))", [], "(be (x 4))");
             newStmt.toString().should.eql('(If true (be (x 3)) Else (be (x 4)))');
             done();
         });
