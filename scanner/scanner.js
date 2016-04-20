@@ -141,8 +141,8 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
             //Two Character tokens
         } else if (TWO_CHARACTER_TOKENS.test(line.substring(pos, pos + 2))) {
             emit(line.substring(pos, pos + 2), line.substring(pos, pos + 2), idLevel, pos + 1, linenumber + 1);
+            pos ++;
             //One Character tokens
-            pos += 2;
         } else if (ONE_CHARACTER_TOKENS.test(line[pos])) {
             emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
 
