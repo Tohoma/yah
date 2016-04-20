@@ -211,7 +211,7 @@ var at = function(kind) {
         // console.log("Exp3");
         var left, op, right, inc;
         left = parseExp4();
-        if (at(['..', '...'])) { // Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
+        if (at(['..', '...'])) {
             op = match();
             right = parseExp4();
             if (at('by')) {
@@ -286,7 +286,14 @@ var at = function(kind) {
                 match(']');
             } else {
                 match('(');
+                expListItems = []; // Ugh, I need to optimize this too
+                while (at(['newline', 'INDENT', 'DEDENT'])) {
+                    match();
+                }
                 right = parseExpList();
+                while (at(['newline', 'INDENT', 'DEDENT'])) {
+                    match();
+                }
                 match(')');
             }
             left = new FieldAccess(left, right);
@@ -314,15 +321,21 @@ var at = function(kind) {
         } else if (at('id')) {
             return new VariableReference(match());
         } else if (at(['[', '('])) {
-            expListItems = [];
-            var openGrouper = match().lexeme,
-                expressionList = parseExpList();
 
+            // We might need to rethink allowing lists, tuples, and dicts to be multiline.
+            // Removing the in-/de- dents and newlines work, but may not be optimal
+            // CTRL+F "removeDentAndNewlineTokens();" to see where I placed them
+            // if you want to delete them in case we think of a better way
+            expListItems = [];
+            var openGrouper = match().lexeme;
+            var expressionList = parseExpList();
             if (openGrouper === '[') {
                 match(']');
+                removeDentAndNewlineTokens(); 
                 return new ListLiteral(expressionList);
             } else {
                 match(')');
+                removeDentAndNewlineTokens()
                 if (at('->')) {
                     return parseFunction();
                 } else {
@@ -334,18 +347,25 @@ var at = function(kind) {
             match();
             var bindList = parseBind();
             match('}');
+            removeDentAndNewlineTokens(); 
             return new DictLiteral(bindList);
         } else {
             return error("Illegal start of expression", tokens[0]);
         }
     },
 
-    parseBlockOrExp = function() {
+    removeDentAndNewlineTokens = function() {
+        while(at(['newline', 'INDENT', 'DEDENT'])) {
+            match();
+        }
+    },
+
+    parseBlockOrStatement = function() {
         var body;
         if (at('newline')) {
             body = parseBlock();
         } else {
-            body = parseExpression();
+            body = parseStatement();
         }
         return body;
     },
@@ -390,13 +410,13 @@ var at = function(kind) {
             }
             match(')');
             match(':');
-            body = parseBlockOrExp();
+            body = parseBlockOrStatement();
             
         } else {
             match('times');
             iterable = parseExp9();
             match(':');
-            body = parseBlockOrExp();
+            body = parseBlockOrStatement();
         }
         return new ForStatement(id, iterable, body); 
     },
@@ -409,24 +429,20 @@ var at = function(kind) {
         return new Func(args, body);
     },
 
-    parseExpList = function() {
-        if (at('newline')) {
-            match();
-        }
 
+    parseExpList = function() {
+        removeDentAndNewlineTokens();
         if (at([']', ')'])) {
             expListItems = [];
         } else {
             expListItems.push(parseExpression());
         }
-
-        while (at([',', 'newline'])) {
+        while (at(',')) {
             match();
+            removeDentAndNewlineTokens();
             expListItems.push(parseExpression());
         }
-        if (at('newline')) {
-            match();
-        }
+        removeDentAndNewlineTokens();
         return expListItems.join(', ');
     },
 
@@ -439,27 +455,26 @@ var at = function(kind) {
     },
 
     parseBindList = function() {
-        if (at('newline')) {
-            match();
-        }
+        removeDentAndNewlineTokens();
         var id = match('id').lexeme;
         match(':');
         var exp = parseExpression();
-        if (at('newline')) {
-            match();
-        }
+        removeDentAndNewlineTokens();
         return new Binding(id, exp);
     },
 
     parseBind = function() {
+        removeDentAndNewlineTokens();
         var bindings = [];
         if (!at('}')) {
             bindings.push(parseBindList());
         }
         while (at(',')) {
             match();
+            removeDentAndNewlineTokens();
             bindings.push(parseBindList());
         }
+        removeDentAndNewlineTokens();
         return bindings.join(', ');
     },
 
@@ -513,7 +528,7 @@ var at = function(kind) {
         match('while');
         condition = parseExpression();
         match(':');
-        body = parseBlockOrExp();
+        body = parseBlockOrStatement();
         return new WhileStatement(condition, body);
     };
 })();

@@ -11,7 +11,9 @@ t is (a,y, trix)
 
 l2 is []
 z is {}
-d is {a: 10, b: 2, c: 3}
+d is {a: 10, 
+	b: 2, 
+	c: 3}
 
 //sample((x) -> print(x))
 

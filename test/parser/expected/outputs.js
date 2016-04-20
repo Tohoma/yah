@@ -9,7 +9,7 @@ var astList = {},
         astList.simple_while = "(Program (Block (While (nah) (Block (be (you yah))))))";
         astList.expressions = "(Program (Block (or yah nah) (and yah nah) (|| yah nah) (&& yah nah) (> 3 3) " 
                                 + "(+ (+ 5 10) 1) (/ 100 20) (! yah) (^ 4 2) (is (x [1, 2, 3])) (. (. x y) 2) " 
-                                + "(10 .. 40 by 2)))";
+                                + "(10 .. 40 by 2) (. f 1, 2) (While (3) (Return x))))";
         astList.sample1 = "(Program (Block (is (x (/ (* 3 4) 2))) (is (y yah)) (is (trix 4kdz)) " 
                                 + "(is (addOne (Function (p, q) (Block (Return (+ (+ p q) 1)))))) " 
                                 + "(is (l [1, 2, x])) (is (t (a, y, trix))) (is (l2 [])) "

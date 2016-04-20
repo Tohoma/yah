@@ -3,7 +3,7 @@ yah and nah
 yah || nah
 yah && nah
 
-//gt (3, 3, 2, 1)	// 3 > 3 && 3 > 2 && 2 > 1
+//gt (3, 3, 2, 1)   // 3 > 3 && 3 > 2 && 2 > 1
 // (and (and (gt 3 3) (gt 3 2)) (gt 2 1))
 
 3 > 3
@@ -15,3 +15,7 @@ x:list is [1,2,3]
 x.y[2]
 
 10 .. 40 by 2
+
+f(1,2)
+
+while 3: spit x

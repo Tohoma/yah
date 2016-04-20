@@ -3,7 +3,7 @@ if x > 3:
 elif x == 3:
     if y < 2:
         spit y
-    elif something > 2:
+    else if something > 2:
         spit -y
     else:
         spit 100

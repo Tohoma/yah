@@ -13,10 +13,7 @@ Comprehension = (function() {
     Comprehension.prototype.toString = function() {
     	if (this.increment === undefined) {
     		this.increment = 1;
-    		console.log("WTF")
-    		console.log(this.increment);
     	}
-		console.log(this.increment);
         return "(" + this.start + " " + this.dots.lexeme + " " + this.end + " by " + this.increment + ")";
     };
 
