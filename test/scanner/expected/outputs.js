@@ -2,6 +2,167 @@ var tokenList = {},
 
     testTokens = function() {
 
+        tokenList.multiplededents = [
+            {
+                lexeme: 'if',
+                kind: 'if',
+                line: 1,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'yah',
+                kind: 'yah',
+                line: 1,
+                col: 4,
+                idLevel: 0
+            },
+            {
+                lexeme: ':',
+                kind: ':',
+                line: 1,
+                col: 7,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 1,
+                col: 8,
+                idLevel: 0
+            },
+            {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 2,
+                col: 4,
+                idLevel: 3
+            },
+            {
+                lexeme: 'if',
+                kind: 'if',
+                line: 2,
+                col: 4,
+                idLevel: 3
+            },
+            {
+                lexeme: 'eq',
+                kind: 'eq',
+                line: 2,
+                col: 7,
+                idLevel: 3
+            },
+            {
+                lexeme: 'x',
+                kind: 'id',
+                line: 2,
+                col: 10,
+                idLevel: 3
+            },
+            {
+                lexeme: ',',
+                kind: ',',
+                line: 2,
+                col: 11,
+                idLevel: 3
+            },
+            {
+                lexeme: '3',
+                kind: 'intlit',
+                line: 2,
+                col: 12,
+                idLevel: 3
+            },
+            {
+                lexeme: ':',
+                kind: ':',
+                line: 2,
+                col: 13,
+                idLevel: 3
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 2,
+                col: 14,
+                idLevel: 3
+            },
+            {
+                lexeme: 'INDENT',
+                kind: 'INDENT',
+                line: 3,
+                col: 7,
+                idLevel: 6
+            },
+            {
+                lexeme: 'spit',
+                kind: 'spit',
+                line: 3,
+                col: 7,
+                idLevel: 6
+            },
+            {
+                lexeme: 'yah',
+                kind: 'yah',
+                line: 3,
+                col: 12,
+                idLevel: 6
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 3,
+                col: 15,
+                idLevel: 6
+            },
+            {
+                lexeme: 'DEDENT',
+                kind: 'DEDENT',
+                line: 4,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'DEDENT',
+                kind: 'DEDENT',
+                line: 4,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'x',
+                kind: 'id',
+                line: 4,
+                col: 1,
+                idLevel: 0
+            },
+            {
+                lexeme: 'is',
+                kind: 'is',
+                line: 4,
+                col: 3,
+                idLevel: 0
+            },
+            {
+                lexeme: '5',
+                kind: 'intlit',
+                line: 4,
+                col: 6,
+                idLevel: 0
+            },
+            {
+                lexeme: 'newline',
+                kind: 'newline',
+                line: 4,
+                col: 7,
+                idLevel: 0
+            },
+            {
+                lexeme: 'EOF',
+                kind: 'EOF'
+            }
+        ]
+
         tokenList.empty_tokens = [
             {
                 lexeme: 'EOF',

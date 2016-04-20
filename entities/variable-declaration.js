@@ -7,6 +7,7 @@ VariableDeclaration = (function() {
         this.id = id;
         this.value = value;
         this.type = type;
+        //console.log(type);
     }
 
     VariableDeclaration.prototype.toString = function() {

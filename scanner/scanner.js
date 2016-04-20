@@ -4,7 +4,6 @@ var XRegExp = require('xregexp');
 var tokenList = require('./tokens.js');
 var error = require('../error/error');
 
-
 const LETTER = /[a-zA-Z]/
 const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 const DIGIT = /\d/;
@@ -12,7 +11,6 @@ const RESERVED_WORD = /^(is|be|yah|nah|spit|nil|undefined|NaN|print|for|while|in
 const ONE_CHARACTER_TOKENS = /[+%\*{^}?<>|,\.\:\-{!}{(}{)}/\/\]\[]/;
 const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\*\*|\<\=|\>\=|\=\=/;
 const THREE_CHARACTER_TOKENS = /\.\.\./
-
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
@@ -75,9 +73,6 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 } else if (idLevel < idStack[idStack.length - 1]) {
                     while (!(idStack[idStack.length - 1] === idLevel) && !(typeof(idStack[0]) === "undefined")) {
                         idStack.pop()
-                    }
-
-                    if (idStack[idStack.length - 1] === idLevel) {
                         emit("DEDENT", "DEDENT", idLevel, pos + 1, linenumber + 1);
                     }
 
@@ -117,9 +112,6 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 stack.pop()
                 break;
             }
-
-
-
         }
 
         //Single line comments
