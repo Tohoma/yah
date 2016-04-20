@@ -13,7 +13,6 @@ const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\*\*|\<\=|\>\=|\=\=/;
 const THREE_CHARACTER_TOKENS = /\.\.\./
 
 module.exports = function(filename, callback) {
-    console.log("Starting Scanner");
     var baseStream = fs.createReadStream(filename, {
         encoding: 'utf8'
     })
