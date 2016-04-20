@@ -199,7 +199,7 @@ var tokenList = {},
                 col: 12,
                 idLevel: 0
             },
-             {
+            {
                 lexeme: '5',
                 kind: 'intlit',
                 line: 5,
@@ -232,14 +232,14 @@ var tokenList = {},
                 kind: 'INDENT',
                 line: 6,
                 col: 5,
-                idLevel:4
+                idLevel: 4
             },
             {
                 lexeme: 'for',
                 kind: 'for',
                 line: 6,
                 col: 5,
-                idLevel:4
+                idLevel: 4
             },
             {
                 lexeme: 'i',
@@ -276,7 +276,7 @@ var tokenList = {},
                 col: 16,
                 idLevel: 4
             },
-             {
+            {
                 lexeme: '4',
                 kind: 'intlit',
                 line: 6,
@@ -309,28 +309,28 @@ var tokenList = {},
                 kind: 'INDENT',
                 line: 7,
                 col: 8,
-                idLevel:7
+                idLevel: 7
             },
             {
                 lexeme: 'print',
                 kind: 'print',
                 line: 7,
                 col: 8,
-                idLevel:7
+                idLevel: 7
             },
             {
                 lexeme: 'hey',
                 kind: 'strlit',
                 line: 7,
                 col: 14,
-                idLevel:7
+                idLevel: 7
             },
             {
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 7,
                 col: 19,
-                idLevel:7
+                idLevel: 7
             },
             {
                 lexeme: 'DEDENT',

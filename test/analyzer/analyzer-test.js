@@ -5,7 +5,7 @@ var scan = require('../../scanner/scanner'),
 
 
 describe('The analyzer', function() {
-	//FAILING TEST SECTION!!!!!!!!!!!!!!!!!!!!!!!
+    //FAILING TEST SECTION!!!!!!!!!!!!!!!!!!!!!!!
     it('Analyzer detects Type Mismatch', function(done) {
         scan('./test/analyzer/inputs/invalid/type-mismatch.yah', function(tokens) {
             error.count = 0;
@@ -117,7 +117,7 @@ describe('The analyzer', function() {
     });
 
     it('Analyzes no error parameter match', function(done) {
-       scan('./test/analyzer/inputs/valid/good-parameter-match.yah', function(tokens) {
+        scan('./test/analyzer/inputs/valid/good-parameter-match.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
             program.analyze();
