@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "js-beautify": "find . -type d \\( -path ./node_modules \\) -prune -o -name \"*.js\" -exec $(npm bin)/js-beautify -kr {} +",
-    "test": "istanbul cover _mocha -- -R spec --recursive test/",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive test/",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "report": "istanbul report text-summary lcov "
   },
