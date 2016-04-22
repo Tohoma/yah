@@ -3,11 +3,11 @@ var tokenList = {},
     tokens = function() {
 
         tokenList.oneCharacterToken = [
-            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?', '<', '>', '<=', '>='
+            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?', '<', '>'
         ]
 
         tokenList.twoCharacterToken = [
-            '->', '&&', '||'
+            '->', '&&', '||', '<=', '>='
         ]
 
         tokenList.reservedWords = [
@@ -23,7 +23,8 @@ var tokenList = {},
             'undefined',
             'NaN',
             'int', 'float', 'bool', 'string',
-            'list', 'tuple', 'dict'
+            'list', 'tuple', 'dict',
+            'times', 'by', 'each'
         ]
         return tokenList;
     }();
