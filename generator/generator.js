@@ -50,7 +50,7 @@ var Generator = (function () {
 		Program: function(program) {
 			indentLevel = 0;
 			emit('function() {');
-			gen(program.block);
+			generate(program.block);
 			return emit('}())');
 		},
 
@@ -60,7 +60,7 @@ var Generator = (function () {
 			ref = block.statements;
 			for (i = 0, len = ref.length; i < len; i++) {
 				statement = ref[i];
-				gen(statement);
+				generate(statement);
 			}
 			return indentLevel--;
 		},
@@ -69,12 +69,17 @@ var Generator = (function () {
 			var initializer = {
 				'int': '0',
 				'bool': 'false',
+				'String': '',
+				'float': '0.0',
+				list: '[]',
+				tuple: '[]',
+				dict: '{}'
 			}[variable.type];
 			return emit("var " + (makeVariable(v)) + " = " + initializer + ";");
 		},
 
 		AssignmentStatement: function (statement) {
-			return emit((gen(statement.target)) + " = " + (gen(statement.source)) + ";");
+			return emit((generate(statement.target)) + " = " + (generate(statement.source)) + ";");
 		},
 
 		ReadStatement: function(statement) {
@@ -95,14 +100,14 @@ var Generator = (function () {
 			results = [];
 			for (i = 0, len = ref.length; i < len; i++) {
 				e = ref[i];
-				results.push(emit("alert(" + (gen(e)) + ");"));
+				results.push(emit("alert(" + (generate(e)) + ");"));
 			}
 			return results;
 		},
 
 		WhileStatement: function(s) {
-			emit("while (" + (gen(s.condition)) + ") {");
-			gen(s.body);
+			emit("while (" + (generate(s.condition)) + ") {");
+			generate(s.body);
 			return emit('}');
 		},
 
@@ -119,11 +124,11 @@ var Generator = (function () {
 		},
 
 		UnaryExpression: function(e) {
-			return "(" + (makeOperator(e.op.lexeme)) + " " + (gen(e.right)) + ")";
+			return "(" + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
 		},
 
 		BinaryExpression: function(e) {
-			return "(" + (gen(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (gen(e.right)) + ")";
+			return "(" + (generate(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
 		}
 	};
 
