@@ -36,12 +36,29 @@ describe('The entities', function() {
     });
 
     describe('binary-expression', function() {
-        it('successfully creates a binary-expression', function(done) {
+        it('successfully creates a binary-expression with addition', function(done) {
             var newBinExp = new BinaryExpression({
                 'lexeme': '+',
                 'kind': '+'
             }, '2', '3');
             newBinExp.toString().should.eql('(+ 2 3)');
+            done();
+        });
+
+        it('successfully creates a binary-expression with a boolean operator', function(done) {
+            var newBinExp = new BinaryExpression({
+                'lexeme': '<=',
+                'kind': '<='
+            }, '2', '3');
+            newBinExp.toString().should.eql('(<= 2 3)');
+            done();
+        });
+        it('successfully throws an error with type mismatch on boolean operators', function(done) {
+            var newBinExp = new BinaryExpression({
+                'lexeme': '<=',
+                'kind': '<='
+            }, 'true', '3');
+            newBinExp.toString().should.eql('(<= true 3)');
             done();
         });
     });

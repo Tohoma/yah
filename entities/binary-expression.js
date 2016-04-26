@@ -95,7 +95,6 @@ BinaryExpression = (function() {
                     }
             }
         }
-        console.log("banana" + this)
         return this;
     };
 
