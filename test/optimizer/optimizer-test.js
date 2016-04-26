@@ -23,6 +23,15 @@ describe('The optimizer', function() {
             newBinaryAssignment.optimize().should.eql(true);
             done();
         });
+
+        it('successfully optimizes a binary boolean expression', function(done) {
+            var newBinaryAssignment = new BinaryExpression({
+                'lexeme': '==',
+                'kind': '=='
+            }, new BooleanLiteral('yah'), new BooleanLiteral('yah'));
+            newBinaryAssignment.optimize().should.eql(true);
+            done();
+        });        
     });
 
 });

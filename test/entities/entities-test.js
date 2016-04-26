@@ -81,9 +81,7 @@ describe('The entities', function() {
 
     describe('boolean-literal', function() {
         it('successfully creates a boolean-literal', function(done) {
-            var newBoolLit = new BooleanLiteral({
-                'lexeme': 'yah'
-            });
+            var newBoolLit = new BooleanLiteral('yah');
             newBoolLit.toString().should.eql('yah');
             done();
         });

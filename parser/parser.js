@@ -301,7 +301,7 @@
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
             if (at(['yah', 'nah', 'true', 'false'])) {
-                return new BooleanLiteral(match());
+                return new BooleanLiteral(match().lexeme);
             } else if (at('nil')) {
                 return new NilLiteral(match());
             } else if (at('intlit')) {
