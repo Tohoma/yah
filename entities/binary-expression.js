@@ -51,7 +51,7 @@ BinaryExpression = (function() {
         this.left = this.left.optimize();
         this.right = this.right.optimize();
         if (this.left instanceof IntegerLiteral &&  this.right instanceof IntegerLiteral) {
-            return foldIntegerConstants(this.op.lexeme, +this.left.value, +this.right.value);
+            return foldIntegerConstants(this.op.lexeme, +this.left.value, +this.right.value).value;
         } else if (this.left instanceof BooleanLiteral && this.right instanceof BooleanLiteral) {
             return foldBooleanConstants(this.op.lexeme, this.left.value(), this.right.value());
         } else {

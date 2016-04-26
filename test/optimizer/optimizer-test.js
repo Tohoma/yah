@@ -11,7 +11,7 @@ describe('The optimizer', function() {
                 'lexeme': '+',
                 'kind': '+'
             }, new IntegerLiteral('3'), new IntegerLiteral('3'));
-            newBinaryAssignment.optimize().toString().should.eql(6);
+            newBinaryAssignment.optimize().toString().should.eql('6');
             done();
         });
 
@@ -20,7 +20,7 @@ describe('The optimizer', function() {
                 'lexeme': '<=',
                 'kind': '<='
             }, new IntegerLiteral('2123'), new IntegerLiteral('3222'));
-            newBinaryAssignment.optimize().value.should.eql(true);
+            newBinaryAssignment.optimize().should.eql(true);
             done();
         });
     });
