@@ -1,0 +1,5 @@
+dog is "animal"
+
+animal is (x)->
+    dog is "puppy"
+    spit x

@@ -1,1 +1,6 @@
-for i in (0...5):
+y is "Hello"
+givenum is (x, y) ->
+	y:int is 5
+	x:string is y
+    spit x
+

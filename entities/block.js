@@ -1,3 +1,4 @@
+var chalk = require('chalk');
 var Block;
 
 Block = (function() {
@@ -9,7 +10,7 @@ Block = (function() {
         return "(Block " + (this.statements.join(' ')) + ")";
     };
 
-    Block.prototype.analyze = function(context) {
+    Block.prototype.analyze = function(context, symbols) {
         var i, len, localContext, ref, results, statement;
         localContext = context.createChildContext();
         ref = this.statements;
