@@ -81,7 +81,10 @@
             left = parseExp8();
             if (at('be')) {
                 match();
+                //console.log("parseAssignementStatement left is " +  left);
+
                 exp = parseExpression();
+                //console.log("parseAssignementStatement exp is " + exp);
                 return new AssignmentStatement(left, exp);
             } else {
                 return left;

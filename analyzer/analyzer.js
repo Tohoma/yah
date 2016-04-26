@@ -24,7 +24,7 @@ AnalysisContext = (function() {
         }
     };
 
-    AnalysisContext.prototype.addVariable = function(name, entity) {
+    AnalysisContext.prototype.addVariable = function(name, entity, type) {
         return this.symbolTable[name] = entity;
     };
 
