@@ -25,14 +25,14 @@ BinaryExpression = (function() {
         this.right.analyze(context);
         op = this.op.lexeme;
         switch (op) {
-            case 'lt':
-            case 'geq':
-            case 'leq':
-            case 'gt':
+            case '<':
+            case '>=':
+            case '<=':
+            case '>':
                 this.mustHaveIntegerOperands();
                 return this.type = Type.BOOL;
-            case 'eq':
-            case '!eq':
+            case '==':
+            case '!eq': // could be token in language revisit FLAG
                 this.mustHaveCompatibleOperands();
                 return this.type = Type.BOOL;
             case 'and':
@@ -50,7 +50,7 @@ BinaryExpression = (function() {
     BinaryExpression.prototype.optimize = function() {
         this.left = this.left.optimize();
         this.right = this.right.optimize();
-        if (this.left instanceof IntegerLiteral && this.right instanceof IntegerLiteral) {
+        if (this.left instanceof IntegerLiteral &&  this.right instanceof IntegerLiteral) {
             return foldIntegerConstants(this.op.lexeme, +this.left.value, +this.right.value);
         } else if (this.left instanceof BooleanLiteral && this.right instanceof BooleanLiteral) {
             return foldBooleanConstants(this.op.lexeme, this.left.value(), this.right.value());
@@ -95,6 +95,7 @@ BinaryExpression = (function() {
                     }
             }
         }
+        console.log("banana" + this)
         return this;
     };
 
