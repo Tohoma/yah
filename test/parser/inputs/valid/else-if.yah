@@ -1,0 +1,11 @@
+if x > 3:
+    spit yah
+elif x == 3:
+    spit 0  
+else:
+    spit nah
+
+if yah:
+    spit 100
+elif x > 3:
+    spit x

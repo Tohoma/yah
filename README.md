@@ -21,6 +21,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 * Multi expression relational operations
 * Optional type specification
 * Multiple operation styles
+* Multi parameter relational operations
 
 # Grammar
 
@@ -43,7 +44,7 @@ floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
 declareop -> 'is'
 assignop  -> 'be'
 boolop    -> 'and' | 'or' | '&&' | '||'
-relop     -> 'eq'  | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
+relop     -> '='   | '<' | '>' | '>=' | '<='
 addop     -> '+'   | '-'
 mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
@@ -74,22 +75,23 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList
+VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList 
+            | (id | TupLit) ':' (int | String | float | bool | List | Tuple | Dict) [?!]?
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
 FunBlock   -> Exp | (newline Block)
-FunExp     -> id declareop Args '(\s)? ->' FunBlock
+FunExp     -> Args '(\s)? ->' FunBlock
 
 ConditionExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
                 | 'if' Exp0 ':' Exp
 
 ClassExp   -> 'Class (\s)? ->' newline (Exp newline)*
 
-TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)?
+TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)? | Exp0 ('?' Exp0 ':' TernaryExp)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
 Exp1       -> Exp2 ('and' | '&&' Exp2)*
-Exp2       -> relop ('(' Exp3 (',' Exp3)+ ')' | Exp3 (',' Exp3)+) | Exp3
+Exp2       -> Exp3 (relop Exp3)?
 Exp3       -> Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
 Exp4       -> Exp5 (addop Exp4)*
 Exp5       -> Exp6 (mulop Exp5)*
@@ -103,11 +105,11 @@ ExpList    -> newline? Exp (newline? ',' Exp)* newline?
 
 Args       -> '(' ExpList ')'
 
-ListLit    -> '[' ExpList ']'
+ListLit    -> '[' ExpList ']' | Comprehension
 TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
-BindList   -> Binding (',' Binding)*
+BindList   -> Bind (',' Bind)*
 
 Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp ('by' intlit)?
 ```
@@ -197,11 +199,11 @@ else:                                                       } else {
 
 //Allows for both else if and elif
 
-if 5 > 10:                                                  if (5 > 10) {
+if gt 5,10:                                                  if (5 > 10) {
   print "amazing"                                             console.log("amazing");
-elif 6 > 10:                                                else if (6 > 10) {
+elif gt 6,10:                                                else if (6 > 10) {
   print "still amazing"                                       console.log("still amazing");
-else if 7 > 10:                                             else if (7 > 10) {
+else if gt 7,10:                                             else if (7 > 10) {
   print "still amazinger"                                     console.log("still amazinger");
 else:                                                       } else {
   print "logical"                                             console.log("logical")
@@ -344,7 +346,7 @@ yah first searches for a variable in the local namespace. If the variable cannot
 The following code would output:
 5
 10
-5
+10
 
 ```
 i is 5                                                      var i = 5;
@@ -354,7 +356,7 @@ bar is () ->                                                var bar = function (
                                                             }
 
 foo is () ->                                                var foo = function () {
-    i is 10                                                     var i = 10;
+    i be 10                                                     var i = 10;
     print i                                                     console.log(i);
                                                             }
 
@@ -363,42 +365,24 @@ foo()                                                       foo();
 print i                                                     console.log(i);
 
 ```
-yah allows for skipping namespace levels by using the reserved word noscope. In the below example, the output would be:
+yah allows for specifying the desired namespace using the keywords global and local. In the below example, the output would be:
 5
+7
 15
 
 ```
 i is 5                                                      var i = 5;
 
 apple is () ->                                              var apple = function () {
-    noscope i                                                   i = 15;
-    i is 15                                                     console.log(i);
+    global i be 15                                                 i = 15;
+    local i is 7                                                   console.log(i);
     print i                                                 }
 
 print i                                                     console.log(i);
 apple()                                                     apple();
+print i                                                     console.log(i);
 
 ```
-
-By calling noscope multiple times, multiple namespace levels can be skipped.
-
-```
-k is 10                                                     var k = 10;
-
-sup is () ->                                                var sup = function () {
-    k is 20                                                     var k = 20;
-    bruh is () ->                                               var bruh = function () {
-         noscope noscope k                                          k = 99;
-        k is 99                                                     console.log(k);
-        print k                                                 }
-    bruh()                                                      bruh();
-                                                            }
-
-print k                                                     console.log(k);
-sup()                                                       sup();
-print k                                                     console.log(k);
-```
-
 
 ### Classes and Objects
 Classes and objects behave like dictionaries.

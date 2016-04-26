@@ -3,15 +3,15 @@ var tokenList = {},
     tokens = function() {
 
         tokenList.oneCharacterToken = [
-            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?'
+            '+', '-', '*', '/', '%', '^', '!', '.', ',', '?', '<', '>'
         ]
 
         tokenList.twoCharacterToken = [
-            '->', '&&', '||'
+            '->', '&&', '||', '<=', '>='
         ]
 
         tokenList.reservedWords = [
-            'Class', 'new',
+            'class', 'new',
             'for', 'in', 'while',
             'and', 'or',
             'is', 'be',
@@ -22,9 +22,9 @@ var tokenList = {},
             'nil',
             'undefined',
             'NaN',
-            'eq', 'neq', 'gt', 'lt', 'geq', 'leq',
-            'int', 'float', 'bool', 'String',
-            'List', 'Tuple', 'Dict'
+            'int', 'float', 'bool', 'string',
+            'list', 'tuple', 'dict',
+            'times', 'by', 'each'
         ]
         return tokenList;
     }();

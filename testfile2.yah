@@ -1,0 +1,6 @@
+y is "Hello"
+givenum is (x, y) ->
+	y:int is 5
+	x:string is y
+    spit x
+
