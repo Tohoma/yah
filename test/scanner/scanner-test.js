@@ -13,7 +13,7 @@ describe('The scanner', function() {
         });
     });
 
-    it('scans sample1.yah file and gives an array of objects that match sample1_tokens', function(done) {
+    it('scans the valid sample1.yah file and gives an array of objects that match sample1_tokens', function(done) {
         scan('test/scanner/inputs/valid/sample1.yah', function(tokens) {
             var expectedTokens = tokenList.sample1_tokens;
             tokens.should.eql(expectedTokens);
@@ -36,7 +36,5 @@ describe('The scanner', function() {
             error.count.should.eql(1);
             done();
         })
-
-
     });
 });
