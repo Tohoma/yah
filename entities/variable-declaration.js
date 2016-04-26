@@ -15,6 +15,8 @@ VariableDeclaration = (function() {
         };
 
         VariableDeclaration.prototype.analyze = function(context) {
+            console.log("The value is ")
+            console.log(this.value)
             this.value.analyze(context);
             context.variableMustNotBeAlreadyDeclared(this.id);
             if (this.type) {

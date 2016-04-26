@@ -1,6 +1,2 @@
-y is "Hello"
-givenum is (x, y) ->
-	y:int is 5
-	x:string is y
+x:int is (x) ->
     spit x
-

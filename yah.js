@@ -40,7 +40,6 @@ scan(argv._[0], function(tokens) {
     }
      program.analyze();
     if (error.count > 0) {
-    	console.log("FAIL!!")
         return;
     }
     if (argv.o) {
