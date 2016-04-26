@@ -5,7 +5,7 @@ var error = function(message, location) {
             message += ", column " + location.col;
         }
     }
-    if (!error.quiet) {
+    if (error.quiet) {
         console.log("Error: " + message);
     }
     return error.count++;

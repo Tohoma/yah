@@ -9,6 +9,11 @@ FunctionStatement = (function() {
         this.type = type;
     };
 
+    FunctionStatement.prototype.analyze = function (context) {
+    	//console.log("This is the context")
+    	return this.body.analyze(context, 1)
+    }
+
     FunctionStatement.prototype.toString = function() {
         return "(Function (" + this.args.join(", ") + ") " + this.body + ")";
     };

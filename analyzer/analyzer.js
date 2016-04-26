@@ -25,6 +25,8 @@ AnalysisContext = (function() {
     };
 
     AnalysisContext.prototype.addVariable = function(name, entity, type) {
+        // console.log("This is the entity")
+        // console.log(entity);
         return this.symbolTable[name] = entity;
     };
 
