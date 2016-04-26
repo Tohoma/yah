@@ -1,3 +1,6 @@
-givenum is (x:int) ->
+y is "Hello"
+givenum is (x, y) ->
+	y:int is 5
+	x:int is y
     spit x
-givenum("Frog")
+

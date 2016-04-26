@@ -25,9 +25,9 @@ AnalysisContext = (function() {
     };
 
     AnalysisContext.prototype.addVariable = function(name, entity, type) {
-         console.log(chalk.magenta("Analyzer"))
-         console.log(chalk.bgBlue("entity"));
-         console.log(entity);
+         // console.log(chalk.magenta("Analyzer"))
+         // console.log(chalk.bgBlue("entity"));
+         // console.log(entity);
         return this.symbolTable[name] = entity;
     };
 

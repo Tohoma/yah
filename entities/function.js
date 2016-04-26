@@ -12,13 +12,14 @@ FunctionStatement = (function() {
     };
 
     FunctionStatement.prototype.analyze = function (context) {
-    	console.log(chalk.white("Function.js"))
-    	console.log(chalk.bgBlue("The args is is:"))
-    	console.log(this.args[0].token.lexeme)
-    	console.log(chalk.bgBlue("The args is is:"))
-    	varDec = new VariableDeclaration(this.args[0].token.lexeme, " ", Type.ARBITRARY)
     	functionContext = context.createChildContext();
-    	this.args[0].addVariabletoContext(functionContext, varDec)
+    	this.args.forEach(function(param) {
+    	console.log(param.token.lexeme)
+    	varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
+    	param.addVariabletoContext(functionContext, varDec)
+
+    	} )
+    	
     	return this.body.analyze(functionContext, 1)
     }
 
