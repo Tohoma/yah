@@ -14,9 +14,7 @@ VariableDeclaration = (function() {
             return "(is (" + this.id.lexeme + " " + this.value + "))";
         };
 
-        VariableDeclaration.prototype.analyze = function(context, level) {
-            // console.log("The level is ")
-            // console.log(level)
+        VariableDeclaration.prototype.analyze = function(context) {
             this.value.analyze(context);
             context.variableMustNotBeAlreadyDeclared(this.id);
             if (this.type) {

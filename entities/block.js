@@ -1,3 +1,4 @@
+var chalk = require('chalk');
 var Block;
 
 Block = (function() {
@@ -16,10 +17,8 @@ Block = (function() {
         results = [];
         for (i = 0, len = ref.length; i < len; i++) {
             statement = ref[i];
-            console.log("block.js")
-            console.log("Symbols")
-            console.log(symbols)
-            console.log("Statements")
+            console.log(chalk.yellow("block.js"))
+            console.log(chalk.bgBlue("Statements"))
             console.log(statement)
             results.push(statement.analyze(localContext));
         }

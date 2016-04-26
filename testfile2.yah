@@ -1,5 +1,3 @@
-x is (fun) ->
-   y is fun
-y is 5
-
-
+givenum is (x:int) ->
+    spit x
+givenum("Frog")
