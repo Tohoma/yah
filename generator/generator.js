@@ -2,7 +2,7 @@ var Generator = (function () {
 
 	var util = require('util');
 	var HashMap = require('hashmap').HashMap;
-	module.exports = fucntion(program) {
+	module.exports = function(program) {
 		return generate(program)
 	}
 
@@ -75,7 +75,7 @@ var Generator = (function () {
 				tuple: '[]',
 				dict: '{}'
 			}[variable.type];
-			return emit("var " + (makeVariable(v)) + " = " + initializer + ";");
+			return emit("var " + (makeVariable(variable)) + " = " + variable.value || initializer + ";");
 		},
 
 		AssignmentStatement: function (statement) {
