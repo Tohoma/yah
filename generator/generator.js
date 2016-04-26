@@ -114,6 +114,10 @@ var Generator = (function () {
 			return literal.toString();
 		},
 
+		StringLiteral: function (literal) {
+			return '"' + literal.toString() + '"';
+		}
+
 		VariableReference: function(v) {
 			return makeVariable(v.referent);
 		},
