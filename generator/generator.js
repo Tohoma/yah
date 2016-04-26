@@ -1,7 +1,7 @@
 var Generator = (function () {
 
 	var util = require('util');
-	var HashMap, = require('hashmap').HashMap;
+	var HashMap = require('hashmap').HashMap;
 	module.exports = fucntion(program) {
 		return get(program)
 	}
