@@ -23,13 +23,13 @@ var Generator = (function () {
 			or: '||',
 			eq: "==",
 			neq: '!=',
-			// gt: '>',
-			// lt: '<',
-			// geq: '>=',
-			// leq: '<=',
 			yah: 'true',
 			nah: 'false',
-			not: '!'
+			not: '!',
+			'° ͜ʖ ͡°': 'undefined',
+			'ಠ_ಠ': 'null',
+			nil: 'null',
+			':^)': 'NaN'
 		}[operator] || operator;
 	};
 
