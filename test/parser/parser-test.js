@@ -125,7 +125,7 @@ describe('The parser', function() {
     });
 
     it('throws an error when trying to edit the properties of an object constant', function(done) {
-        scan('./test/parser/inputs/invalid/sample2).yah', function(tokens) {
+        scan('./test/parser/inputs/invalid/sample2.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);
@@ -134,7 +134,7 @@ describe('The parser', function() {
     });
 
     it('throws an error when given syntactically incorrect program', function(done) {
-        scan('./test/parser/inputs/invalid/sample3).yah', function(tokens) {
+        scan('./test/parser/inputs/invalid/sample3.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);
@@ -143,7 +143,7 @@ describe('The parser', function() {
     });
 
     it('throws an error when trying to use an undeclared variable', function(done) {
-        scan('./test/parser/inputs/invalid/sample3).yah', function(tokens) {
+        scan('./test/parser/inputs/invalid/sample4.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);
