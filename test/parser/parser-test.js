@@ -123,4 +123,13 @@ describe('The parser', function() {
             done();
         });
     });
+
+    it('throws an error when given syntactically incorrect program', function(done) {
+        scan('./test/parser/inputs/invalid/sample2).yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
 });
