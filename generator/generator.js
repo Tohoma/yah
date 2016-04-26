@@ -3,7 +3,7 @@ var Generator = (function () {
 	var util = require('util');
 	var HashMap = require('hashmap').HashMap;
 	module.exports = fucntion(program) {
-		return get(program)
+		return generate(program)
 	}
 
 	indentPadding = 4;
@@ -42,7 +42,7 @@ var Generator = (function () {
 		};
 	})(0, new HashMap());
 
-	gen = function(e) {
+	generate = function(e) {
 		return generator[e.constructor.name](e);
 	}
 
@@ -65,21 +65,21 @@ var Generator = (function () {
 			return indentLevel--;
 		},
 
-		VariableDeclaration: function(v) {
+		VariableDeclaration: function(variable) {
 			var initializer = {
 				'int': '0',
 				'bool': 'false',
-			}[v.type];
+			}[variable.type];
 			return emit("var " + (makeVariable(v)) + " = " + initializer + ";");
 		},
 
-		AssignmentStatement: function (s) {
-			return emit((gen(s.target)) + " = " + (gen(s.source)) + ";");
+		AssignmentStatement: function (statement) {
+			return emit((gen(statement.target)) + " = " + (gen(statement.source)) + ";");
 		},
 
-		ReadStatement: function(s) {
+		ReadStatement: function(statement) {
 			var i, len, ref, results, v;
-			ref = s.varrefs;
+			ref = statement.varrefs;
 			results = [];
 			for (i = 0, len = ref.length; i < len; i++) {
 				v = ref[i];
