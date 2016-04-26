@@ -17,7 +17,7 @@ scan = require('./scanner/scanner');
 parse = require('./parser/parser');
 // generate = (require('./generator'))(argv.target);
 error = require('./error/error');
-
+error.quiet = false;
 scan(argv._[0], function(tokens) {
     var i, len, program, t;
     if (error.count > 0) {
@@ -40,6 +40,7 @@ scan(argv._[0], function(tokens) {
     }
      program.analyze();
     if (error.count > 0) {
+    	console.log("FAIL!!")
         return;
     }
     if (argv.o) {
