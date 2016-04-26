@@ -10,7 +10,8 @@ FunctionStatement = (function() {
     };
 
     FunctionStatement.prototype.analyze = function (context) {
-    	//console.log("This is the context")
+    	console.log("The body is:")
+    	console.log(this.body)
     	return this.body.analyze(context, 1)
     }
 

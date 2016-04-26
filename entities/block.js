@@ -9,13 +9,18 @@ Block = (function() {
         return "(Block " + (this.statements.join(' ')) + ")";
     };
 
-    Block.prototype.analyze = function(context) {
+    Block.prototype.analyze = function(context, symbols) {
         var i, len, localContext, ref, results, statement;
         localContext = context.createChildContext();
         ref = this.statements;
         results = [];
         for (i = 0, len = ref.length; i < len; i++) {
             statement = ref[i];
+            console.log("block.js")
+            console.log("Symbols")
+            console.log(symbols)
+            console.log("Statements")
+            console.log(statement)
             results.push(statement.analyze(localContext));
         }
         return results;

@@ -1,3 +1,4 @@
+var chalk = require('chalk');
 var error = function(message, location) {
     if (location && location.line) {
         message += " at line " + location.line;
@@ -6,7 +7,7 @@ var error = function(message, location) {
         }
     }
     if (error.quiet) {
-        console.log("Error: " + message);
+        console.log(chalk.red(("Error: " + message)));
     }
     return error.count++;
 };

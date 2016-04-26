@@ -1,9 +1,5 @@
-dog:int is 5
-dog be 2
 x is (fun) ->
-   y is 25
-       j is (x) ->
-          y is 10
+   y is fun
 y is 5
 
 
