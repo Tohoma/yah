@@ -1,6 +1,7 @@
 var BinaryExpression = require('./variable-reference'),
     BooleanLiteral = require('./boolean-literal'),
     IntegerLiteral = require('./integer-literal'),
+    StringLiteral = require('./string-literal'),
     Type = require('./type'),
     VariableReference,
     foldBooleanConstants,
@@ -50,10 +51,15 @@ BinaryExpression = (function() {
     BinaryExpression.prototype.optimize = function() {
         this.left = this.left.optimize();
         this.right = this.right.optimize();
+        var stringMultiplication = (this.left instanceof StringLiteral && this.right instanceof IntegerLiteral || 
+            this.left instanceof IntegerLiteral && this.right instanceof StringLiteral) && this.op.lexeme === "*";
+
         if (this.left instanceof IntegerLiteral &&  this.right instanceof IntegerLiteral) {
             return foldIntegerConstants(this.op.lexeme, +this.left.value, +this.right.value).value;
         } else if (this.left instanceof BooleanLiteral && this.right instanceof BooleanLiteral) {
             return foldBooleanConstants(this.op.lexeme, this.left.value, this.right.value).value;
+        } else if (stringMultiplication) {
+            return foldStringMultiplication(this.left, this.right);
         } else {
             switch (this.op.lexeme) {
                 case '+':
@@ -166,6 +172,22 @@ foldBooleanConstants = function(op, x, y) {
         case 'or':
             return new BooleanLiteral(x || y);
     }
+};
+
+foldStringMultiplication = function(x, y) {
+    var i;
+    var multipliedString = "";
+    console.log(x)
+    if (x instanceof IntegerLiteral) {
+        for (i = 0; i < x.value; i += 1) {
+            multipliedString += y.value;
+        }
+    } else {
+        for (i = 0; i < y.value; i += 1) {
+            multipliedString += x.value;
+        }
+    }
+    return multipliedString;
 };
 
 module.exports = BinaryExpression;
