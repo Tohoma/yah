@@ -1,4 +1,5 @@
 var AssignmentStatement, VariableReference;
+error = require('../error/error');
 
 VariableReference = require('./variable-reference');
 
@@ -15,6 +16,9 @@ AssignmentStatement = (function() {
     AssignmentStatement.prototype.analyze = function(context) {
         this.target.analyze(context);
         this.source.analyze(context);
+        if (error.count > 0) {
+            return;
+        }
         return this.source.type.mustBeCompatibleWith(this.target.type, 'Type mismatch in assignment');
     };
 

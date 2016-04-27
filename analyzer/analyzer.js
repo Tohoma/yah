@@ -1,5 +1,5 @@
 var AnalysisContext, VariableDeclaration, error;
-
+var chalk = require('chalk');
 error = require('../error/error');
 
 VariableDeclaration = require('../entities/variable-declaration');
@@ -24,7 +24,10 @@ AnalysisContext = (function() {
         }
     };
 
-    AnalysisContext.prototype.addVariable = function(name, entity) {
+    AnalysisContext.prototype.addVariable = function(name, entity, type) {
+         // console.log(chalk.magenta("Analyzer"))
+         // console.log(chalk.bgBlue("entity"));
+         // console.log(entity);
         return this.symbolTable[name] = entity;
     };
 
