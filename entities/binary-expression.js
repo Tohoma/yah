@@ -177,7 +177,6 @@ foldBooleanConstants = function(op, x, y) {
 foldStringMultiplication = function(x, y) {
     var i;
     var multipliedString = "";
-    console.log(x)
     if (x instanceof IntegerLiteral) {
         for (i = 0; i < x.value; i += 1) {
             multipliedString += y.value;
