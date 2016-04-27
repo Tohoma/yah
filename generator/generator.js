@@ -75,7 +75,7 @@ var Generator = (function () {
 				tuple: '[]',
 				dict: '{}'
 			}[variable.type];
-			return emit("var " + (makeVariable(variable)) + " = " + variable.value || initializer + ";");
+			return emit("var " + (makeVariable(variable)) + " = " + (generate(variable.value) || initializer) + ";");
 		},
 
 		AssignmentStatement: function (statement) {
@@ -111,6 +111,17 @@ var Generator = (function () {
 			return emit('}');
 		},
 
+		IfStatement: function (s) {
+			emit("if (" + (generate(s.condition)) + ") {");
+			generate(s.body);
+			return emit('}');
+		},
+
+
+		ReturnStatement: function (s) {
+			return "return";
+		},
+
 		IntegerLiteral: function(literal) {
 			return literal.toString();
 		},
@@ -121,7 +132,15 @@ var Generator = (function () {
 
 		StringLiteral: function (literal) {
 			return '"' + literal.toString() + '"';
-		}
+		},
+
+		DictLiteral: function (literal) {
+			return '{' + literal.items + '}';
+		},
+
+		NaNLiteral: function (literal) {
+			return literal.toString;
+		},
 
 		VariableReference: function(v) {
 			return makeVariable(v.referent);
@@ -134,6 +153,7 @@ var Generator = (function () {
 		BinaryExpression: function(e) {
 			return "(" + (generate(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
 		}
+		
 	};
 
 
