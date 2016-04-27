@@ -108,6 +108,14 @@ describe('The entities', function() {
         });
     });
 
+    describe('bodyless-for-statement', function() {
+        it('successfully creates a bodyless for-statement', function(done) {
+            var newForStmt = new ForStatement('x', '[0, 1, 2, 3, 4, 5]', '');
+            newForStmt.toString().should.eql('(For x [0, 1, 2, 3, 4, 5] )');
+            done();
+        });
+    })
+
     describe('function', function() {
         it('successfully creates a function', function(done) {
             var newFunDec = new Func(['a', 'b'], 'spit true');
@@ -189,12 +197,6 @@ describe('The entities', function() {
     // describe('read-statement', function () {
     //     it('successfully creates read-statement', function (done) {
 
-    //         done();
-    //     });
-    // });
-
-    // describe('tuple-literal', function() {
-    //     it('successfully creates an tuple-literal', function(done) {
     //         done();
     //     });
     // });

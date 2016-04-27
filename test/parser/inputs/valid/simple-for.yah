@@ -1,8 +1,8 @@
-for i in (0.. 5):
+for i in (0 .. 5):
     spit i
 
 times 3:     
   spit "WAT"
 
-for each fruit in basket:
+for each fruit in "potato":
     spit fruit

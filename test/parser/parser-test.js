@@ -95,6 +95,16 @@ describe('The parser', function() {
         });
     });
 
+    it('parses the simple-if-elif-else program correctly', function(done) {
+        scan('./test/parser/inputs/valid/simple-if-elif-else.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.simple_if_elif_else);
+            error.count.should.be.eql(priorErrorCount);
+            done();
+        });
+    });
+
     it('parses the nested-if program correctly', function(done) {
         scan('./test/parser/inputs/valid/nested-if.yah', function(tokens) {
             var priorErrorCount = error.count;
@@ -110,6 +120,16 @@ describe('The parser', function() {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.tern_exp);
+            error.count.should.be.eql(priorErrorCount);
+            done();
+        });
+    });
+
+    it('parses the list comprehension program correctly', function(done) {
+        scan('./test/parser/inputs/valid/comprehension.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.comprehension);
             error.count.should.be.eql(priorErrorCount);
             done();
         });

@@ -24,7 +24,8 @@ var tokenList = {},
             'NaN',
             'int', 'float', 'bool', 'string',
             'list', 'tuple', 'dict',
-            'times', 'by', 'each'
+            'times', 'by', 'each',
+            'global', 'local'
         ]
         return tokenList;
     }();

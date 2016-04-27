@@ -1,0 +1,6 @@
+if yah:
+    x is 1
+elif nah:
+    x is 2
+else:
+    x is 0
