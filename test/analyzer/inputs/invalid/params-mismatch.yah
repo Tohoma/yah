@@ -1,0 +1,3 @@
+givenum is (x:int) ->
+    spit x
+givenum("Frog")

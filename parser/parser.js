@@ -1,7 +1,6 @@
 (function() {
 
     var AssignmentStatement = require('../entities/assignment-statement'),
-        Params = require('../entities/params'),
         Binding = require('../entities/binding'),
         BinaryExpression = require('../entities/binary-expression'),
         Block = require('../entities/block'),
@@ -83,7 +82,10 @@
             left = parseVarExp();
             if (at('be')) {
                 match();
+                //console.log("parseAssignementStatement left is " +  left);
+
                 exp = parseExpression();
+                //console.log("parseAssignementStatement exp is " + exp);
                 return new AssignmentStatement(left, exp);
             } else {
                 return left;
