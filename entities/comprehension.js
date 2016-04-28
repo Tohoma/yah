@@ -3,8 +3,8 @@ var Comprehension, ListLiteral;
 ListLiteral = require('./list-literal');
 
 Comprehension = (function() {
-    //function Comprehension(start, ops, end, increment) {
-    function Comprehension( props ) {
+    function Comprehension(start, dots, end, increment) {
+    /*function Comprehension( props ) {
         if(props.type.equals("for-in")) {
             this.id = props.id;
             this.expression = props.expression;
@@ -15,11 +15,11 @@ Comprehension = (function() {
             this.operator = props.operator;
         }
         this.type = props.type;
-        this.increment = props.increment || 1;
-        /*this.expression = expression;
+        this.increment = props.increment || 1;*/
         this.start = start;
+        this.dots = dots;
         this.end = end;
-        this.increment = increment || 1;*/
+        this.increment = increment || 1;
     }
 
     Comprehension.prototype.toString = function() {
@@ -27,7 +27,7 @@ Comprehension = (function() {
             this.increment = 1;
         }
         console.log(this.start);
-        return "(" + this.expression + " " + this.start + " " + this.end + " by " + this.increment + ")";
+        return "(" + this.start + " " + this.dots.lexeme + " " + this.end + " by " + this.increment + ")";
     };
 
     return Comprehension;

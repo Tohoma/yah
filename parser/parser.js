@@ -214,10 +214,12 @@
                 op = match();
                 right = parseExp4();
                 if (at('by')) {
+                    // Include increment factor in comprehension
                     match();
                     inc = parseExp4();
                 }
-                left = new Comprehension({start: left, operator: op, end:right, increment:inc, type:"other"});
+                //left = new Comprehension({start: left, operator: op, end:right, increment:inc, type:"other"});
+                left = new Comprehension(left, op, right, inc);
             }
             return left;
         },

@@ -103,11 +103,11 @@ Exp9       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
 
 ExpList    -> newline? Exp (newline? ',' Exp)* newline?
 
-Args       -> '(' ExpList ')'
+Args       -> '(' ExpList? ')'
 
-ListLit    -> '[' ExpList ']' | Comprehension
-TupLit     -> '(' ExpList ')'
-DictLit    -> '{' BindList '}'
+ListLit    -> '[' ExpList? | Comprehension ']'
+TupLit     -> '(' ExpList? ')'
+DictLit    -> '{' BindList? '}'
 Bind       -> newline? id ':' Exp newline?
 BindList   -> Bind (',' Bind)*
 
