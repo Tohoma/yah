@@ -1,0 +1,27 @@
+x is 3 * 4 / 2
+y is yah
+
+trix is "4kdz"   // Comment here
+
+addOne is (p::int, q) ->
+  spit p + q + 1
+
+l is [1, 2,x]
+t is (a,y, trix)
+
+l2 is []
+z is {}
+d is {a: 10, b: 2, c: 3}
+
+//sample((x) -> print(x))
+
+//z.y is 120
+//(x + z.y) * 10
+///
+
+
+yaaaaahhhhhh
+
+
+
+///

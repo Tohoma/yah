@@ -1,0 +1,16 @@
+a is 2           
+b is "what"                                                
+c is yah                                          
+d is nah                                          
+
+banana is undefined                                
+apple is nil
+orange is NaN
+
+h is [1,2,3,4,5]         
+i is (1,2,3,4,5)
+j is {0:1, 2:3}
+
+h[0] be 6
+i[0] be 6
+j[2] be 5
