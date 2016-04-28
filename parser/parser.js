@@ -509,7 +509,7 @@
                 match();
                 intlit = parseExp9();
             } 
-            return new Comprehension({expression: tern, id:id, iterable:exp, increment:intlit, type:"for-in"});
+            return new Comprehension();
         },
 
         parseStatement = function() {

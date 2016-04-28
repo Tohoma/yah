@@ -68,15 +68,15 @@ Block      -> (Stmt newline)*
 Stmt       -> WhileStmt | ForStmt | ReturnStmt | Exp
 
 WhileStmt  -> 'while' Exp ':' (newline Block | Exp)
-ForStmt    -> 'for' ('each')? id 'in' ListLit ':' (newline Block | Exp)
+ForStmt    -> 'for' ('each')? id 'in' (ListLit | id) ':' (newline Block | Exp)
             | 'times' int ':' (newline Block | Exp)
 
 ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList 
-            | (id | TupLit) ':' (int | String | float | bool | List | Tuple | Dict) [?!]?
+VarDeclare -> (id | TupLit) ('::' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList 
+            | (id | TupLit) '::' (int | String | float | bool | List | Tuple | Dict) [?!]?
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 

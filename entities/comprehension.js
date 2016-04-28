@@ -26,7 +26,7 @@ Comprehension = (function() {
         if (this.increment === undefined) {
             this.increment = 1;
         }
-        console.log(this.start);
+        console.log(this.dots);
         return "(" + this.start + " " + this.dots.lexeme + " " + this.end + " by " + this.increment + ")";
     };
 
