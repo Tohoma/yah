@@ -51,10 +51,10 @@ BinaryExpression = (function() {
     BinaryExpression.prototype.optimize = function() {
         this.left = this.left.optimize();
         this.right = this.right.optimize();
-        var stringMultiplication = (this.left instanceof StringLiteral && this.right instanceof IntegerLiteral || 
+        var stringMultiplication = (this.left instanceof StringLiteral && this.right instanceof IntegerLiteral ||
             this.left instanceof IntegerLiteral && this.right instanceof StringLiteral) && this.op.lexeme === "*";
 
-        if (this.left instanceof IntegerLiteral &&  this.right instanceof IntegerLiteral) {
+        if (this.left instanceof IntegerLiteral && this.right instanceof IntegerLiteral) {
             return foldIntegerConstants(this.op.lexeme, +this.left.value, +this.right.value).value;
         } else if (this.left instanceof BooleanLiteral && this.right instanceof BooleanLiteral) {
             return foldBooleanConstants(this.op.lexeme, this.left.value, this.right.value).value;

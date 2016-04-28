@@ -316,10 +316,10 @@
                 return new NaNLiteral(match());
             } else if (at('[')) {
                 return parseListLit();
-            }  else if (at('{')) {
+            } else if (at('{')) {
                 return parseDictLit();
-            } else if (at('(')) { 
-                return parseTupLit();       // Missing '(' Exp ')' HOW??? Grammar is ambiguous
+            } else if (at('(')) {
+                return parseTupLit(); // Missing '(' Exp ')' HOW??? Grammar is ambiguous
             } else {
                 return error("Illegal start of expression", tokens[0]);
             }
@@ -426,7 +426,9 @@
 
         copyTokens = function() {
             var copyTokens = [];
-            tokens.forEach(function(token) { copyTokens.push(token); });
+            tokens.forEach(function(token) {
+                copyTokens.push(token);
+            });
             return copyTokens;
         },
 
@@ -510,8 +512,9 @@
         },
 
         parseVarExp = function() {
-            var id = match('id').lexeme, field;
-            
+            var id = match('id').lexeme,
+                field;
+
             while (at(['.', '['])) {
                 if (at('.')) {
                     match();
@@ -545,7 +548,7 @@
             if (!at(')')) {
                 args.push(parseExpression());
             }
-            while(at(',')) {
+            while (at(',')) {
                 match();
                 removeDentAndNewlineTokens();
                 args.push(parseExpression());

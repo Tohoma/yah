@@ -49,7 +49,7 @@ describe('The optimizer', function() {
             }, new IntegerLiteral('2'), new StringLiteral('nah'));
             newBinaryAssignment.optimize().should.eql('nahnah');
             done();
-        });         
+        });
     });
 
 });
