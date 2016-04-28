@@ -1,6 +1,7 @@
 (function() {
 
     var AssignmentStatement = require('../entities/assignment-statement'),
+        Args = require('../entities/args'),
         Binding = require('../entities/binding'),
         BinaryExpression = require('../entities/binary-expression'),
         Block = require('../entities/block'),
@@ -16,7 +17,7 @@
         IfElseStatement = require('../entities/if-else-statement'),
         IntegerLiteral = require('../entities/integer-literal'),
         ListLiteral = require('../entities/list-literal'),
-        NanLiteral = require('../entities/nan-literal'),
+        NaNLiteral = require('../entities/nan-literal'),
         NilLiteral = require('../entities/nil-literal'),
         Program = require('../entities/program'),
         ReadStatement = require('../entities/read-statement'),
@@ -31,7 +32,9 @@
         WhileStatement = require('../entities/while-statement'),
         WriteStatement = require('../entities/write-statement'),
 
-        error = require('../error/error'),
+        ERROR = {},
+        errHold = require('../error/error'),
+        error = function() { tokens = []; errHold(); return ERROR; },
         scan = require('../scanner/scanner'),
         tokens = [],
         expListItems = [], // ugh global. can't think of another way atm tho
@@ -45,9 +48,10 @@
                     '[', ']', '{', '}', 'dict', 'tuple',
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
-                    'in', 'class', 'new', 'times', 'each'];
+                    'in', 'class', 'new', 'times', 'each'],
+        paramMode;
 
-    error.quiet = true;
+    // error.quiet = true;
 
     module.exports = function(scannerOutput) {
         tokens = scannerOutput;
@@ -78,7 +82,7 @@
 
         parseAssignmentStatement = function() {
             var left, exp;
-            left = parseExp8();
+            left = parseVarExp();
             if (at('be')) {
                 match();
                 exp = parseExpression();
@@ -110,9 +114,6 @@
         parseClassExp = function() {
             //TODO
         },
-
-        //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
-        // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
         parseConditionalExp = function() {
             var condition, thenBody, elseBody, elseifs;
@@ -159,10 +160,8 @@
                 middle = parseExp0();
                 match(':');
                 right = parseExp0();
-
                 left = right ? new IfElseStatement(left, middle, [], right) : new IfStatement(left, middle);
             }
-
             return left;
         },
 
@@ -283,13 +282,9 @@
                 } else {
                     match('(');
                     expListItems = []; // Ugh, I need to optimize this too
-                    while (at(['newline', 'INDENT', 'DEDENT'])) {
-                        match();
-                    }
+                    removeDentAndNewlineTokens();
                     right = parseExpList();
-                    while (at(['newline', 'INDENT', 'DEDENT'])) {
-                        match();
-                    }
+                    removeDentAndNewlineTokens();
                     match(')');
                 }
                 left = new FieldAccess(left, right);
@@ -300,22 +295,43 @@
         parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
-            if (at(['yah', 'nah', 'true', 'false'])) {
+            if (at('id')) {
+                // var id = match(),
+                //     type,
+                //     defaultVal;
+                // if (at([':', '='])) {
+                //     if (at(':')) {
+                //         match();
+                //         type = match();
+                //     } else {
+                //         match('=');
+                //         defaultVal = match();
+                //     }
+                //     return new Args(id, type, defaultVal);
+                // } else {
+                    // return new VariableReference(id);
+
+                    var id = match();
+                    if (at(':')) {
+                        match();
+                        match();
+                    }
+                    return new VariableReference(id);
+                // }
+            } else if (at(['yah', 'nah', 'true', 'false'])) {
                 return new BooleanLiteral(match().lexeme);
             } else if (at('nil')) {
                 return new NilLiteral(match());
             } else if (at('intlit')) {
-                return new IntegerLiteral(match().lexeme);
+                return new IntegerLiteral(match());
             } else if (at('floatlit')) {
                 return new FloatLiteral(match());
             } else if (at('strlit')) {
                 return new StringLiteral(match());
-            } else if (at('undeflit')) {
+            } else if (at('undefined')) {
                 return new UndefinedLiteral(match());
-            } else if (at('nanlit')) {
+            } else if (at('NaN')) {
                 return new NaNLiteral(match());
-            } else if (at('id')) {
-                return new VariableReference(match());
             } else if (at(['[', '('])) {
 
                 // We might need to rethink allowing lists, tuples, and dicts to be multiline.
@@ -331,8 +347,10 @@
                     return new ListLiteral(expressionList);
                 } else {
                     match(')');
+                    paramMode = false;
                     removeDentAndNewlineTokens()
                     if (at('->')) {
+                        paramMode = true;
                         return parseFunction();
                     } else {
                         return new TupleLiteral(expressionList);
@@ -372,19 +390,48 @@
         },
 
         parseExpression = function() {
-            if (at('id')) {
-                if (tokens[1].kind === 'is' || tokens[1].kind === ':') {
-                    return parseVariableDeclaration();
-                } else if (tokens[1].kind === 'be') {
-                    return parseAssignmentStatement();
-                } else {
-                    return parseTernaryExp();
-                }
-            } else if (at('if')) {
+            // var copyTokens = [];
+            // tokens.forEach(function(t) { copyTokens.push(t); });
+
+            // if(parseVarExp() !== ERROR) {
+            //     tokens = copyTokens;
+            //     return parseVariableDeclaration();
+            // }
+            // tokens = copyTokens;
+
+            // if (at('id')) {
+            //     if (tokens[1].kind === 'is' || tokens[1].kind === ':') {
+            //         return parseVariableDeclaration();
+            //     } else if (tokens[1].kind === 'be') {
+            //         return parseAssignmentStatement();
+            //     } else {
+            //         return parseTernaryExp();
+            //     }
+            // }
+
+            // if (at('be')) {
+            //     return parseAssignmentStatement();
+            // } else if (at('if')) {
+            //     return parseConditionalExp();
+            // } else {
+            //     return parseTernaryExp();
+            // }
+
+            if (at('if')) {
                 return parseConditionalExp();
             } else if (at('->')) {
                 return parseFunction();
             } else {
+                var t = copyTokens();
+                var exp = parseTernaryExp();
+                if (at('is')) {
+                    tokens = t;
+                    return parseVariableDeclaration();
+                } else if (at('be')) {
+                    tokens = t;
+                    return parseAssignmentStatement();
+                }
+                tokens = t;
                 return parseTernaryExp();
             }
         },
@@ -408,7 +455,6 @@
                 }
                 match(':');
                 body = parseBlockOrStatement();
-
             } else {
                 match('times');
                 iterable = parseExp9();
@@ -422,8 +468,14 @@
             var body, args;
             args = expListItems;
             match('->');
-            body = parseBlock();
+            body = parseBlockOrStatement();
             return new Func(args, body);
+        },
+
+        copyTokens = function() {
+            var copyTokens = [];
+            tokens.forEach(function(token) { copyTokens.push(token); });
+            return copyTokens;
         },
 
 
@@ -453,7 +505,7 @@
 
         parseBindList = function() {
             removeDentAndNewlineTokens();
-            var id = match('id').lexeme;
+            var id = match().lexeme;
             match(':');
             var exp = parseExpression();
             removeDentAndNewlineTokens();
@@ -473,23 +525,6 @@
             }
             removeDentAndNewlineTokens();
             return bindings.join(', ');
-        },
-
-        // May not work. Chris has to look at macrosyntax
-        parseComprehension = function() {
-            // var tern = parseTernaryExp();
-            match('for');
-            if (at('each')) {
-                match();
-                var id = parseExp9();
-            }
-            match('in');
-            var exp = parseExpression();
-            var intlit;
-            if (at('by')) {
-                match();
-                intlit = parseExp9();
-            }
         },
 
         parseStatement = function() {
@@ -518,6 +553,33 @@
                 exp = parseTernaryExp();
             }
             return new VariableDeclaration(id, exp, type);
+        },
+
+        parseVarExp = function() {
+            var id = match('id').lexeme, field;
+            
+            while (at(['.', '[', '('])) {
+                if (at('.')) {
+                    match();
+                    field = parseExp8();
+                } else if ('[') {
+                    match();
+                    field = parseExp3();
+                    match(']');
+                } else {
+                    // TODO
+                    match(')');
+                }
+                id = new FieldAccess(id, field);
+            }
+            return id;
+        },
+
+        parseArgs = function() {
+            match('(');
+            var args = parseExpList();
+            match(')');
+            return args;
         },
 
         parseWhileStatement = function() {

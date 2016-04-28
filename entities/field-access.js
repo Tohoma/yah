@@ -1,6 +1,4 @@
-var FieldAccess, IfElseStatement;
-
-BooleanLiteral = require('./boolean-literal');
+var FieldAccess;
 
 FieldAccess = (function() {
     function FieldAccess(object, field) {

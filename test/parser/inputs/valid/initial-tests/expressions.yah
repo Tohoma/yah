@@ -16,3 +16,5 @@ x.y[2]
 f(1,2)
 
 while 3: spit x
+
+(x) -> spit x

@@ -149,7 +149,7 @@ describe('The entities', function() {
 
     describe('integer-literal', function() {
         it('successfully creates an integer-literal', function(done) {
-            var newIntLit = new IntegerLiteral('10000');
+            var newIntLit = new IntegerLiteral({'lexeme':'10000'});
             newIntLit.toString().should.eql('10000');
             done();
         });

@@ -6,7 +6,7 @@ var scan = require('../../scanner/scanner'),
 
 describe('The parser', function() {
     it('parses the simple-declaration program correctly', function(done) {
-        scan('./test/parser/inputs/valid/simple-declaration.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/simple-declaration.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_declaration);
@@ -16,7 +16,7 @@ describe('The parser', function() {
     });
 
     it('parses the simple-assignment program correctly', function(done) {
-        scan('./test/parser/inputs/valid/simple-assignment.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/simple-assignment.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_assignment);
@@ -26,7 +26,7 @@ describe('The parser', function() {
     });
 
     it('parses the simple-if-else program correctly', function(done) {
-        scan('./test/parser/inputs/valid/simple-if-else.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/simple-if-else.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_if_else);
@@ -36,7 +36,7 @@ describe('The parser', function() {
     });
 
     it('parses the simple-while program correctly', function(done) {
-        scan('./test/parser/inputs/valid/simple-while.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/simple-while.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_while);
@@ -46,7 +46,7 @@ describe('The parser', function() {
     });
 
     it('parses the sample1.yah program correctly', function(done) {
-        scan('./test/parser/inputs/valid/sample1.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/sample1.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.sample1);
@@ -56,7 +56,7 @@ describe('The parser', function() {
     });
 
     it('parses the expressions program correctly', function(done) {
-        scan('./test/parser/inputs/valid/expressions.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/expressions.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.expressions);
@@ -66,7 +66,7 @@ describe('The parser', function() {
     });
 
     it('parses the simple-for program correctly', function(done) {
-        scan('./test/parser/inputs/valid/simple-for.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/simple-for.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_for);
@@ -76,7 +76,7 @@ describe('The parser', function() {
     });
 
     it('parses the simple-if-with-indents program correctly', function(done) {
-        scan('./test/parser/inputs/valid/simple-if-with-indents.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/simple-if-with-indents.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.simple_if_with_indents);
@@ -86,7 +86,7 @@ describe('The parser', function() {
     });
 
     it('parses the else-if program correctly', function(done) {
-        scan('./test/parser/inputs/valid/else-if.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/else-if.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.else_if);
@@ -96,7 +96,7 @@ describe('The parser', function() {
     });
 
     it('parses the nested-if program correctly', function(done) {
-        scan('./test/parser/inputs/valid/nested-if.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/nested-if.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.nested_if);
@@ -106,7 +106,7 @@ describe('The parser', function() {
     });
 
     it('parses the ternary-expression-test program correctly', function(done) {
-        scan('./test/parser/inputs/valid/ternary-test.yah', function(tokens) {
+        scan('./test/parser/inputs/valid/initial-tests/ternary-test.yah', function(tokens) {
             var priorErrorCount = error.count;
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.tern_exp);
@@ -115,8 +115,27 @@ describe('The parser', function() {
         });
     });
 
-    it('throws an error when given syntactically incorrect program', function(done) {
+    it('parses the primitives-and-reference-types program correctly', function(done) {
+        scan('./test/parser/inputs/valid/readme-sample-code/primitives-and-reference-types.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.primitives);
+            error.count.should.be.eql(priorErrorCount);
+            done();
+        });
+    });
+
+    it('throws an error when there is a bad declaration program', function(done) {
         scan('./test/parser/inputs/invalid/bad-declaration.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
+
+    it.skip('throws an error when parsing incorrect expressions', function(done) {
+        scan('./test/parser/inputs/invalid/bad-expressions.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);
