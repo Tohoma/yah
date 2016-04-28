@@ -1,3 +1,3 @@
-givenum is (x:int) ->
+givenum is (x::int) ->
     spit x
 givenum("Frog")

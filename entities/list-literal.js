@@ -1,3 +1,4 @@
+var chalk = require('chalk');
 var ListLiteral, Type;
 
 Type = require('./type');
@@ -12,7 +13,7 @@ ListLiteral = (function() {
     };
 
     ListLiteral.prototype.analyze = function() {
-    	console.log("TODO: ListLiteral")
+    	console.log(chalk.red("TODO: ListLiteral"));
     	return;
     }
     return ListLiteral;

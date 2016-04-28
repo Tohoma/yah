@@ -1,3 +1,4 @@
+var chalk = require('chalk');
 var FieldAccess;
 
 FieldAccess = (function() {
@@ -11,7 +12,7 @@ FieldAccess = (function() {
     };
 
     FieldAccess.prototype.analyze = function() {
-    	console.log("TODO: FieldAccess");
+    	console.log(chalk.red("TODO: FieldAccess"));
     	return;
     }
 

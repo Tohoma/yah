@@ -82,7 +82,8 @@
         parseAssignmentStatement = function() {
             var left, exp;
             left = parseVarExp();
-            match();
+            console.log(typeof(left));
+            match('be');
             exp = parseExpression();
             return new AssignmentStatement(left, exp);
         },
@@ -535,7 +536,7 @@
         },
 
         parseVarExp = function() {
-            var id = match('id').lexeme,
+            var id = parseExp9(),
                 field;
 
             while (at(['.', '['])) {
