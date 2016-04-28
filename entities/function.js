@@ -12,9 +12,6 @@ FunctionStatement = (function() {
     };
 
     FunctionStatement.prototype.analyze = function (context) {
-    	console.log(chalk.white("Function.js"))
-    	console.log(chalk.bgBlue("The type is:"))
-    	console.log(this.type);
     	functionContext = context.createChildContext();
     	this.args.forEach(function(param) {
     	console.log(param.token.lexeme)
