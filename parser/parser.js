@@ -33,8 +33,8 @@
         WriteStatement = require('../entities/write-statement'),
 
         ERROR = {},
-        errHold = require('../error/error'),
-        error = function() { tokens = []; errHold(); return ERROR; },
+        error = require('../error/error'),
+        // error = function() { tokens = []; errHold(); return ERROR; },
         scan = require('../scanner/scanner'),
         tokens = [],
         expListItems = [], // ugh global. can't think of another way atm tho
@@ -51,7 +51,7 @@
                     'in', 'class', 'new', 'times', 'each'],
         paramMode;
 
-    // error.quiet = true;
+    error.quiet = true;
 
     module.exports = function(scannerOutput) {
         tokens = scannerOutput;
@@ -312,7 +312,7 @@
                     // return new VariableReference(id);
 
                     var id = match();
-                    if (at(':')) {
+                    if (at('::')) {
                         match();
                         match();
                     }
@@ -444,7 +444,7 @@
                     match();
                     each = true;
                 }
-                id = parseExp9();
+                id = match('id');
                 match('in');
                 if (each) {
                     iterable = parseExp9();
@@ -462,6 +462,10 @@
                 body = parseBlockOrStatement();
             }
             return new ForStatement(id, iterable, body);
+        },
+
+        parseListLit = function() {
+
         },
 
         parseFunction = function() {
@@ -542,7 +546,7 @@
         parseVariableDeclaration = function() {
             var id, exp, type;
             id = match('id');
-            if (at(':')) {
+            if (at('::')) {
                 match();
                 type = match();
             }

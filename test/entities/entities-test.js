@@ -117,7 +117,7 @@ describe('The entities', function() {
 
     describe('for-statement', function() {
         it('successfully creates a for-statement', function(done) {
-            var newForStmt = new ForStatement('name', '["trixie", "peyton", "vic", "adrian", "jb", "chris"]', 'spit name');
+            var newForStmt = new ForStatement({lexeme:'name'}, '["trixie", "peyton", "vic", "adrian", "jb", "chris"]', 'spit name');
             newForStmt.toString().should.eql('(For name ["trixie", "peyton", "vic", "adrian", "jb", "chris"] spit name)')
             done();
         });
