@@ -46,9 +46,11 @@
                     '[', ']', '{', '}', 'dict', 'tuple',
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
-                    'in', 'class', 'new', 'times', 'each'];
+                    'in', 'class', 'new', 'times', 'each'],
+        type_tokens = ["int", "string", "float", "bool", "list", 
+                    "tuple", "dict"];
 
-    error.quiet = true;
+    // error.quiet = true;
 
     module.exports = function(scannerOutput) {
         tokens = scannerOutput;
@@ -81,10 +83,7 @@
             var left, exp;
             left = parseVarExp();
             match();
-            //console.log("parseAssignementStatement left is " +  left);
-
             exp = parseExpression();
-            //console.log("parseAssignementStatement exp is " + exp);
             return new AssignmentStatement(left, exp);
         },
 
@@ -407,6 +406,32 @@
             return new TupleLiteral(expList);
         },
 
+        parseType = function() {
+            var type;
+            match('::');
+            if (at(type_tokens)) {
+                type = match();
+            } else {
+                return error("Invalid type");
+            }
+
+            if (type === 'int') {
+                return Type.INT;
+            } else if (type === 'bool') {
+                return Type.BOOL;
+            } else if (type === 'list') {
+                return Type.LIST;
+            } else if (type === 'str') {
+                return Type.STR;
+            } else if (type === 'float') {
+                return Type.FLOAT;
+            } else if (type === 'tuple') {
+                return Type.TUPLE;
+            } else {
+                return Type.DICT;
+            }
+        },
+
         parseDictLit = function() {
             match('{');
             var bindList = parseBind();
@@ -497,8 +522,8 @@
             var id, exp, type;
             id = match('id');
             if (at('::')) {
-                match();
-                type = match();
+                console.log("WTF")
+                type = parseType();
             }
             if (at('newline')) {
                 match();

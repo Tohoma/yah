@@ -10,6 +10,11 @@ FieldAccess = (function() {
         return "(. " + this.object + " " + this.field + ")";
     };
 
+    FieldAccess.prototype.analyze = function() {
+    	console.log("TODO: FieldAccess");
+    	return;
+    }
+
     return FieldAccess;
 
 })();

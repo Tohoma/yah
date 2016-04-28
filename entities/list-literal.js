@@ -10,6 +10,11 @@ ListLiteral = (function() {
     ListLiteral.prototype.toString = function() {
         return "[" + this.items + "]";
     };
+
+    ListLiteral.prototype.analyze = function() {
+    	console.log("TODO: ListLiteral")
+    	return;
+    }
     return ListLiteral;
 })();
 
