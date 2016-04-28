@@ -2,7 +2,7 @@ var Generator = (function () {
 
 	var util = require('util');
 	var HashMap = require('hashmap').HashMap;
-	module.exports = fucntion(program) {
+	module.exports = function(program) {
 		return generate(program)
 	}
 
@@ -50,7 +50,7 @@ var Generator = (function () {
 		Program: function(program) {
 			indentLevel = 0;
 			emit('function() {');
-			gen(program.block);
+			generate(program.block);
 			return emit('}())');
 		},
 
@@ -60,7 +60,7 @@ var Generator = (function () {
 			ref = block.statements;
 			for (i = 0, len = ref.length; i < len; i++) {
 				statement = ref[i];
-				gen(statement);
+				generate(statement);
 			}
 			return indentLevel--;
 		},
@@ -69,12 +69,17 @@ var Generator = (function () {
 			var initializer = {
 				'int': '0',
 				'bool': 'false',
+				'String': '',
+				'float': '0.0',
+				list: '[]',
+				tuple: '[]',
+				dict: '{}'
 			}[variable.type];
-			return emit("var " + (makeVariable(v)) + " = " + initializer + ";");
+			return emit("var " + (makeVariable(variable)) + " = " + (generate(variable.value) || initializer) + ";");
 		},
 
 		AssignmentStatement: function (statement) {
-			return emit((gen(statement.target)) + " = " + (gen(statement.source)) + ";");
+			return emit((generate(statement.target)) + " = " + (generate(statement.source)) + ";");
 		},
 
 		ReadStatement: function(statement) {
@@ -95,15 +100,26 @@ var Generator = (function () {
 			results = [];
 			for (i = 0, len = ref.length; i < len; i++) {
 				e = ref[i];
-				results.push(emit("alert(" + (gen(e)) + ");"));
+				results.push(emit("alert(" + (generate(e)) + ");"));
 			}
 			return results;
 		},
 
 		WhileStatement: function(s) {
-			emit("while (" + (gen(s.condition)) + ") {");
-			gen(s.body);
+			emit("while (" + (generate(s.condition)) + ") {");
+			generate(s.body);
 			return emit('}');
+		},
+
+		IfStatement: function (s) {
+			emit("if (" + (generate(s.condition)) + ") {");
+			generate(s.body);
+			return emit('}');
+		},
+
+
+		ReturnStatement: function (s) {
+			return "return";
 		},
 
 		IntegerLiteral: function(literal) {
@@ -114,17 +130,30 @@ var Generator = (function () {
 			return literal.toString();
 		},
 
+		StringLiteral: function (literal) {
+			return '"' + literal.toString() + '"';
+		},
+
+		DictLiteral: function (literal) {
+			return '{' + literal.items + '}';
+		},
+
+		NaNLiteral: function (literal) {
+			return literal.toString;
+		},
+
 		VariableReference: function(v) {
 			return makeVariable(v.referent);
 		},
 
 		UnaryExpression: function(e) {
-			return "(" + (makeOperator(e.op.lexeme)) + " " + (gen(e.right)) + ")";
+			return "(" + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
 		},
 
 		BinaryExpression: function(e) {
-			return "(" + (gen(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (gen(e.right)) + ")";
+			return "(" + (generate(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
 		}
+		
 	};
 
 

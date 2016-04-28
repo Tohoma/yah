@@ -11,6 +11,9 @@ ReturnStatement = (function() {
     };
 
     ReturnStatement.prototype.analyze = function(context) {
+        // TODO exp.analyze();
+        // TODO exp.type.mustBeCompatibleWith(context.currentFunction.returnType);
+
     	console.log(chalk.red("Return Statment Analyzer todo"))
     	return
     }

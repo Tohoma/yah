@@ -8,7 +8,7 @@ IntegerLiteral = (function() {
     }
 
     IntegerLiteral.prototype.toString = function() {
-        return this.value;
+        return this.value.lexeme;
     };
 
     IntegerLiteral.prototype.analyze = function(context) {

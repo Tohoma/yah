@@ -8,7 +8,7 @@ yah && nah
 100 / 20
 !yah
 4^2
-x:list is [1,2,3]
+x::list is [1,2,3]
 x.y[2]
 
 10 .. 40 by 2
@@ -16,3 +16,5 @@ x.y[2]
 f(1,2)
 
 while 3: spit x
+
+(x::int) -> spit x

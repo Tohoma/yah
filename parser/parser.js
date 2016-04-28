@@ -16,7 +16,7 @@
         IfElseStatement = require('../entities/if-else-statement'),
         IntegerLiteral = require('../entities/integer-literal'),
         ListLiteral = require('../entities/list-literal'),
-        NanLiteral = require('../entities/nan-literal'),
+        NaNLiteral = require('../entities/nan-literal'),
         NilLiteral = require('../entities/nil-literal'),
         Program = require('../entities/program'),
         ReadStatement = require('../entities/read-statement'),
@@ -31,10 +31,11 @@
         WhileStatement = require('../entities/while-statement'),
         WriteStatement = require('../entities/write-statement'),
 
+        ERROR = {},
         error = require('../error/error'),
+        // error = function() { tokens = []; errHold(); return ERROR; },
         scan = require('../scanner/scanner'),
         tokens = [],
-        expListItems = [], // ugh global. can't think of another way atm tho
         reserved_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
                     'false', 'spit', 'return', '==', '>',
@@ -78,17 +79,13 @@
 
         parseAssignmentStatement = function() {
             var left, exp;
-            left = parseExp8();
-            if (at('be')) {
-                match();
-                //console.log("parseAssignementStatement left is " +  left);
+            left = parseVarExp();
+            match();
+            //console.log("parseAssignementStatement left is " +  left);
 
-                exp = parseExpression();
-                //console.log("parseAssignementStatement exp is " + exp);
-                return new AssignmentStatement(left, exp);
-            } else {
-                return left;
-            }
+            exp = parseExpression();
+            //console.log("parseAssignementStatement exp is " + exp);
+            return new AssignmentStatement(left, exp);
         },
 
         parseBlock = function() {
@@ -113,9 +110,6 @@
         parseClassExp = function() {
             //TODO
         },
-
-        //'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* 
-        // ('else:' newline Block)? | 'if' Exp0 ':' Exp
 
         parseConditionalExp = function() {
             var condition, thenBody, elseBody, elseifs;
@@ -162,10 +156,8 @@
                 middle = parseExp0();
                 match(':');
                 right = parseExp0();
-
                 left = right ? new IfElseStatement(left, middle, [], right) : new IfStatement(left, middle);
             }
-
             return left;
         },
 
@@ -288,13 +280,9 @@
                 } else {
                     match('(');
                     expListItems = []; // Ugh, I need to optimize this too
-                    while (at(['newline', 'INDENT', 'DEDENT'])) {
-                        match();
-                    }
+                    removeDentAndNewlineTokens();
                     right = parseExpList();
-                    while (at(['newline', 'INDENT', 'DEDENT'])) {
-                        match();
-                    }
+                    removeDentAndNewlineTokens();
                     match(')');
                 }
                 left = new FieldAccess(left, right);
@@ -305,63 +293,33 @@
         parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
-            if (at(['yah', 'nah', 'true', 'false'])) {
-                return new BooleanLiteral(match());
+            if (at('id')) {
+                var id = match();
+                if (at('::')) {
+                    match();
+                    match();
+                }
+                return new VariableReference(id);
+            } else if (at(['yah', 'nah', 'true', 'false'])) {
+                return new BooleanLiteral(match().lexeme);
             } else if (at('nil')) {
                 return new NilLiteral(match());
             } else if (at('intlit')) {
-                return new IntegerLiteral(match().lexeme);
+                return new IntegerLiteral(match());
             } else if (at('floatlit')) {
                 return new FloatLiteral(match());
             } else if (at('strlit')) {
                 return new StringLiteral(match());
-            } else if (at('undeflit')) {
+            } else if (at('undefined')) {
                 return new UndefinedLiteral(match());
-            } else if (at('nanlit')) {
+            } else if (at('NaN')) {
                 return new NaNLiteral(match());
-            } else if (at('id')) {
-                return new VariableReference(match());
-            } else if (at(['[', '('])) {
-
-                // We might need to rethink allowing lists, tuples, and dicts to be multiline.
-                // Removing the in-/de- dents and newlines work, but may not be optimal
-                // CTRL+F "removeDentAndNewlineTokens();" to see where I placed them
-                // if you want to delete them in case we think of a better way
-                var copyTokens = [];
-                var openGrouper = match().lexeme;
-                tokens.forEach(function(token) { copyTokens.push(token) });
-                parseExpression();
-                if (at('for')) {
-                    tokens = copyTokens;
-                    var comp = parseComprehension();
-                    match(']');
-                    return comp;
-                } else {
-                    tokens = copyTokens;
-                    expListItems = [];
-                    // var openGrouper = match().lexeme;
-                    var expressionList = parseExpList();
-                    if (openGrouper === '[') {
-                        match(']');
-                        removeDentAndNewlineTokens();
-                        return new ListLiteral(expressionList);
-                    } else {
-                        match(')');
-                        removeDentAndNewlineTokens()
-                        if (at('->')) {
-                            return parseFunction();
-                        } else {
-                            return new TupleLiteral(expressionList);
-                        }
-                    }
-                }
-
-            } else if (at(['{'])) {
-                match();
-                var bindList = parseBind();
-                match('}');
-                removeDentAndNewlineTokens();
-                return new DictLiteral(bindList);
+            } else if (at('[')) {
+                return parseListLit();
+            } else if (at('{')) {
+                return parseDictLit();
+            } else if (at('(')) {
+                return parseTupLit(); // Missing '(' Exp ')' HOW??? Grammar is ambiguous
             } else {
                 return error("Illegal start of expression", tokens[0]);
             }
@@ -389,19 +347,22 @@
         },
 
         parseExpression = function() {
-            if (at('id')) {
-                if (tokens[1].kind === 'is' || tokens[1].kind === ':') {
-                    return parseVariableDeclaration();
-                } else if (tokens[1].kind === 'be') {
-                    return parseAssignmentStatement();
-                } else {
-                    return parseTernaryExp();
-                }
-            } else if (at('if')) {
+            if (at('if')) {
                 return parseConditionalExp();
-            } else if (at('->')) {
-                return parseFunction();
             } else {
+                var t = copyTokens();
+                var exp = parseTernaryExp();
+                if (at('is')) {
+                    tokens = t;
+                    return parseVariableDeclaration();
+                } else if (at('be')) {
+                    tokens = t;
+                    return parseAssignmentStatement();
+                } else if (at('->')) {
+                    tokens = t;
+                    return parseFunction();
+                }
+                tokens = t;
                 return parseTernaryExp();
             }
         },
@@ -414,7 +375,7 @@
                     match();
                     each = true;
                 }
-                id = parseExp9();
+                id = match('id');
                 match('in');
                 if (each) {
                     iterable = parseExp9();
@@ -427,7 +388,6 @@
                 }
                 match(':');
                 body = parseBlockOrStatement();
-
             } else {
                 match('times');
                 iterable = parseExp9();
@@ -437,19 +397,50 @@
             return new ForStatement(id, iterable, body);
         },
 
+        parseListLit = function() {
+            match('[');
+            var expList = parseExpList();
+            match(']');
+            return new ListLiteral(expList);
+        },
+
+        parseTupLit = function() {
+            match('(');
+            var expList = parseExpList();
+            match(')');
+            return new TupleLiteral(expList);
+        },
+
+        parseDictLit = function() {
+            match('{');
+            var bindList = parseBind();
+            match('}');
+            return new DictLiteral(bindList);
+        },
+
         parseFunction = function() {
             var body, args;
-            args = expListItems;
+            args = parseArgs();
             match('->');
-            body = parseBlock();
+            body = parseBlockOrStatement();
             return new Func(args, body);
+        },
+
+        copyTokens = function() {
+            var copyTokens = [];
+            tokens.forEach(function(token) {
+                copyTokens.push(token);
+            });
+            return copyTokens;
         },
 
 
         parseExpList = function() {
             removeDentAndNewlineTokens();
+            var expListItems = [];
+            removeDentAndNewlineTokens();
             if (at([']', ')'])) {
-                expListItems = [];
+                return expListItems;
             } else {
                 expListItems.push(parseExpression());
             }
@@ -472,7 +463,7 @@
 
         parseBindList = function() {
             removeDentAndNewlineTokens();
-            var id = match('id').lexeme;
+            var id = match().lexeme;
             match(':');
             var exp = parseExpression();
             removeDentAndNewlineTokens();
@@ -527,7 +518,7 @@
         parseVariableDeclaration = function() {
             var id, exp, type;
             id = match('id');
-            if (at(':')) {
+            if (at('::')) {
                 match();
                 type = match();
             }
@@ -535,9 +526,56 @@
                 match();
             } else {
                 match('is');
-                exp = parseTernaryExp();
+                exp = parseExpression();
             }
             return new VariableDeclaration(id, exp, type);
+        },
+
+        parseVarExp = function() {
+            var id = match('id').lexeme,
+                field;
+
+            while (at(['.', '['])) {
+                if (at('.')) {
+                    match();
+                    field = parseExp8();
+                } else if ('[') {
+                    match();
+                    field = parseExp3();
+                    match(']');
+                }
+                // } else {
+                //     parseArgs();
+                //     while (at(['.', '['])) {
+                //         if (at('.')) {
+                //             match();
+                //             field = parseExp8();
+                //         } else {
+                //             match();
+                //             field = parseExp3();
+                //             match(']');
+                //         }
+                //     }
+                // }
+                id = new FieldAccess(id, field);
+            }
+            return id;
+        },
+
+        parseArgs = function() {
+            match('(');
+            var args = [];
+            if (!at(')')) {
+                args.push(parseExpression());
+            }
+            while (at(',')) {
+                match();
+                removeDentAndNewlineTokens();
+                args.push(parseExpression());
+            }
+            removeDentAndNewlineTokens();
+            match(')');
+            return args
         },
 
         parseWhileStatement = function() {

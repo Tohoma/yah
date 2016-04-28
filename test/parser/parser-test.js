@@ -131,12 +131,30 @@ describe('The parser', function() {
             var program = parse(tokens);
             program.toString().should.eql(expected_ast.comprehension);
             error.count.should.be.eql(priorErrorCount);
+        });
+    });
+    
+    it('parses the primitives-and-reference-types program correctly', function(done) {
+        scan('./test/parser/inputs/valid/primitives-and-reference-types.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            var program = parse(tokens);
+            program.toString().should.eql(expected_ast.primitives);
+            error.count.should.be.eql(priorErrorCount);
             done();
         });
     });
 
-    it('throws an error when given syntactically incorrect program', function(done) {
+    it('throws an error when there is a bad declaration program', function(done) {
         scan('./test/parser/inputs/invalid/bad-declaration.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
+
+    it.skip('throws an error when parsing incorrect expressions', function(done) {
+        scan('./test/parser/inputs/invalid/bad-expressions.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);

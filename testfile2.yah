@@ -1,3 +1,14 @@
+<<<<<<< HEAD
 dog is [0,1,2,3]
 for i in dog:
     x is 5
+=======
+x::int is (x) ->
+    spit x
+
+y is "Hello"
+y be "eyDud"
+x is 0
+while yah:
+    spit "Suh"
+>>>>>>> 3ed7b564e52ed6bf59ab3ee295563c15b294e10a
