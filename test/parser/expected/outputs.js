@@ -14,7 +14,7 @@ var astList = {},
         astList.else_if = "(Program (Block (If (> x 3) (Block (Return yah)) " + "Elif (== x 3) (Block (Return 0)) Else (Block (Return nah))) " + "(If yah (Block (Return 100)) Elif (> x 3) (Block (Return x)))))"
         astList.nested_if = "(Program (Block (If (> x 3) (Block (Return yah)) Elif (== x 3) (Block (If (< y 2) " + "(Block (Return y)) Elif (> something 2) (Block (Return (- y))) Else " + "(Block (Return 100)))) Else (Block (Return nah)))))";
         astList.tern_exp = "(Program (Block (If (== x y) yah) (If (== x y) yah Else nah) (If (> x 3) trix Else xirt)))";
-        astList.comprehension = "(Program (Block (is (a (+ x 1))) (For x (0 ... 9 by 3) )))";
+        astList.comprehension = "(Program (Block (is (a (+ x 1))) (For x (0 ... 9 by 3) (Block ))))";
 
         return astList;
     }();

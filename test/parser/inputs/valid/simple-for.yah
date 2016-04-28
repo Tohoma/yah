@@ -4,5 +4,5 @@ for i in (0 .. 5):
 times 3:     
   spit "WAT"
 
-for each fruit in "potato":
+for each fruit in basket:
     spit fruit

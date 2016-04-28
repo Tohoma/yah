@@ -47,7 +47,7 @@
                     'undefined', 'NaN', 'print', 'for',
                     'in', 'class', 'new', 'times', 'each'];
 
-    error.quiet = true;
+    // error.quiet = true;
 
     module.exports = function(scannerOutput) {
         tokens = scannerOutput;
@@ -217,7 +217,7 @@
                     match();
                     inc = parseExp4();
                 }
-                left = new Comprehension(left, op, right, inc);
+                left = new Comprehension({start: left, operator: op, end:right, increment:inc, type:"other"});
             }
             return left;
         },
@@ -325,20 +325,32 @@
                 // Removing the in-/de- dents and newlines work, but may not be optimal
                 // CTRL+F "removeDentAndNewlineTokens();" to see where I placed them
                 // if you want to delete them in case we think of a better way
-                expListItems = [];
+                var copyTokens = [];
                 var openGrouper = match().lexeme;
-                var expressionList = parseExpList();
-                if (openGrouper === '[') {
+                tokens.forEach(function(token) { copyTokens.push(token) });
+                parseExpression();
+                if (at('for')) {
+                    tokens = copyTokens;
+                    var comp = parseComprehension();
                     match(']');
-                    removeDentAndNewlineTokens();
-                    return new ListLiteral(expressionList);
+                    return comp;
                 } else {
-                    match(')');
-                    removeDentAndNewlineTokens()
-                    if (at('->')) {
-                        return parseFunction();
+                    tokens = copyTokens;
+                    expListItems = [];
+                    // var openGrouper = match().lexeme;
+                    var expressionList = parseExpList();
+                    if (openGrouper === '[') {
+                        match(']');
+                        removeDentAndNewlineTokens();
+                        return new ListLiteral(expressionList);
                     } else {
-                        return new TupleLiteral(expressionList);
+                        match(')');
+                        removeDentAndNewlineTokens()
+                        if (at('->')) {
+                            return parseFunction();
+                        } else {
+                            return new TupleLiteral(expressionList);
+                        }
                     }
                 }
 
@@ -408,6 +420,8 @@
                     match();
                     iterable = parseExpression();
                     match(')');
+                } else {
+                    iterable = parseExpression();
                 }
                 match(':');
                 body = parseBlockOrStatement();
@@ -480,19 +494,20 @@
 
         // May not work. Chris has to look at macrosyntax
         parseComprehension = function() {
-            // var tern = parseTernaryExp();
+            var tern = parseTernaryExp();
             match('for');
             if (at('each')) {
                 match();
-                var id = parseExp9();
             }
+            var id = match('id');
             match('in');
             var exp = parseExpression();
             var intlit;
             if (at('by')) {
                 match();
                 intlit = parseExp9();
-            }
+            } 
+            return new Comprehension({expression: tern, id:id, iterable:exp, increment:intlit, type:"for-in"});
         },
 
         parseStatement = function() {
