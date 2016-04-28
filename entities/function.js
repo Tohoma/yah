@@ -9,6 +9,7 @@ FunctionStatement = (function() {
         this.args = args;
         this.body = body;
         this.type = type;
+        console.log(typeof(args))
     };
 
     FunctionStatement.prototype.analyze = function (context) {
@@ -19,7 +20,7 @@ FunctionStatement = (function() {
     	param.addVariabletoContext(functionContext, varDec)
 
     	} )
-    	
+
     	return this.body.analyze(functionContext, 1)
     }
 

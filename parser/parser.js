@@ -80,16 +80,12 @@
         parseAssignmentStatement = function() {
             var left, exp;
             left = parseVarExp();
-            if (at('be')) {
-                match();
-                //console.log("parseAssignementStatement left is " +  left);
+            match();
+            //console.log("parseAssignementStatement left is " +  left);
 
-                exp = parseExpression();
-                //console.log("parseAssignementStatement exp is " + exp);
-                return new AssignmentStatement(left, exp);
-            } else {
-                return left;
-            }
+            exp = parseExpression();
+            //console.log("parseAssignementStatement exp is " + exp);
+            return new AssignmentStatement(left, exp);
         },
 
         parseBlock = function() {
@@ -557,7 +553,7 @@
             }
             removeDentAndNewlineTokens();
             match(')');
-            return args.join(', ');
+            return args
         },
 
         parseWhileStatement = function() {

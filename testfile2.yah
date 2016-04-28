@@ -1,4 +1,4 @@
-x:int is (x) ->
+x::int is (x) ->
     spit x
 
 y is "Hello"
