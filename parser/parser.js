@@ -1,7 +1,7 @@
 (function() {
 
     var AssignmentStatement = require('../entities/assignment-statement'),
-        Args = require('../entities/args'),
+        Params = require('../entities/params'),
         Binding = require('../entities/binding'),
         BinaryExpression = require('../entities/binary-expression'),
         Block = require('../entities/block'),
@@ -37,7 +37,6 @@
         // error = function() { tokens = []; errHold(); return ERROR; },
         scan = require('../scanner/scanner'),
         tokens = [],
-        expListItems = [], // ugh global. can't think of another way atm tho
         reserved_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
                     'false', 'spit', 'return', '==', '>',
@@ -48,8 +47,7 @@
                     '[', ']', '{', '}', 'dict', 'tuple',
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
-                    'in', 'class', 'new', 'times', 'each'],
-        paramMode;
+                    'in', 'class', 'new', 'times', 'each'];
 
     error.quiet = true;
 
@@ -296,28 +294,12 @@
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
             if (at('id')) {
-                // var id = match(),
-                //     type,
-                //     defaultVal;
-                // if (at([':', '='])) {
-                //     if (at(':')) {
-                //         match();
-                //         type = match();
-                //     } else {
-                //         match('=');
-                //         defaultVal = match();
-                //     }
-                //     return new Args(id, type, defaultVal);
-                // } else {
-                    // return new VariableReference(id);
-
-                    var id = match();
-                    if (at('::')) {
-                        match();
-                        match();
-                    }
-                    return new VariableReference(id);
-                // }
+                var id = match();
+                if (at('::')) {
+                    match();
+                    match();
+                }
+                return new VariableReference(id);
             } else if (at(['yah', 'nah', 'true', 'false'])) {
                 return new BooleanLiteral(match().lexeme);
             } else if (at('nil')) {
@@ -332,37 +314,12 @@
                 return new UndefinedLiteral(match());
             } else if (at('NaN')) {
                 return new NaNLiteral(match());
-            } else if (at(['[', '('])) {
-
-                // We might need to rethink allowing lists, tuples, and dicts to be multiline.
-                // Removing the in-/de- dents and newlines work, but may not be optimal
-                // CTRL+F "removeDentAndNewlineTokens();" to see where I placed them
-                // if you want to delete them in case we think of a better way
-                expListItems = [];
-                var openGrouper = match().lexeme;
-                var expressionList = parseExpList();
-                if (openGrouper === '[') {
-                    match(']');
-                    removeDentAndNewlineTokens();
-                    return new ListLiteral(expressionList);
-                } else {
-                    match(')');
-                    paramMode = false;
-                    removeDentAndNewlineTokens()
-                    if (at('->')) {
-                        paramMode = true;
-                        return parseFunction();
-                    } else {
-                        return new TupleLiteral(expressionList);
-                    }
-                }
-
-            } else if (at(['{'])) {
-                match();
-                var bindList = parseBind();
-                match('}');
-                removeDentAndNewlineTokens();
-                return new DictLiteral(bindList);
+            } else if (at('[')) {
+                return parseListLit();
+            }  else if (at('{')) {
+                return parseDictLit();
+            } else if (at('(')) { 
+                return parseTupLit();       // Missing '(' Exp ')' HOW??? Grammar is ambiguous
             } else {
                 return error("Illegal start of expression", tokens[0]);
             }
@@ -390,37 +347,8 @@
         },
 
         parseExpression = function() {
-            // var copyTokens = [];
-            // tokens.forEach(function(t) { copyTokens.push(t); });
-
-            // if(parseVarExp() !== ERROR) {
-            //     tokens = copyTokens;
-            //     return parseVariableDeclaration();
-            // }
-            // tokens = copyTokens;
-
-            // if (at('id')) {
-            //     if (tokens[1].kind === 'is' || tokens[1].kind === ':') {
-            //         return parseVariableDeclaration();
-            //     } else if (tokens[1].kind === 'be') {
-            //         return parseAssignmentStatement();
-            //     } else {
-            //         return parseTernaryExp();
-            //     }
-            // }
-
-            // if (at('be')) {
-            //     return parseAssignmentStatement();
-            // } else if (at('if')) {
-            //     return parseConditionalExp();
-            // } else {
-            //     return parseTernaryExp();
-            // }
-
             if (at('if')) {
                 return parseConditionalExp();
-            } else if (at('->')) {
-                return parseFunction();
             } else {
                 var t = copyTokens();
                 var exp = parseTernaryExp();
@@ -430,6 +358,9 @@
                 } else if (at('be')) {
                     tokens = t;
                     return parseAssignmentStatement();
+                } else if (at('->')) {
+                    tokens = t;
+                    return parseFunction();
                 }
                 tokens = t;
                 return parseTernaryExp();
@@ -465,12 +396,29 @@
         },
 
         parseListLit = function() {
+            match('[');
+            var expList = parseExpList();
+            match(']');
+            return new ListLiteral(expList);
+        },
 
+        parseTupLit = function() {
+            match('(');
+            var expList = parseExpList();
+            match(')');
+            return new TupleLiteral(expList);
+        },
+
+        parseDictLit = function() {
+            match('{');
+            var bindList = parseBind();
+            match('}');
+            return new DictLiteral(bindList);
         },
 
         parseFunction = function() {
             var body, args;
-            args = expListItems;
+            args = parseArgs();
             match('->');
             body = parseBlockOrStatement();
             return new Func(args, body);
@@ -485,8 +433,10 @@
 
         parseExpList = function() {
             removeDentAndNewlineTokens();
+            var expListItems = [];
+            removeDentAndNewlineTokens();
             if (at([']', ')'])) {
-                expListItems = [];
+                return expListItems;
             } else {
                 expListItems.push(parseExpression());
             }
@@ -554,7 +504,7 @@
                 match();
             } else {
                 match('is');
-                exp = parseTernaryExp();
+                exp = parseExpression();
             }
             return new VariableDeclaration(id, exp, type);
         },
@@ -562,7 +512,7 @@
         parseVarExp = function() {
             var id = match('id').lexeme, field;
             
-            while (at(['.', '[', '('])) {
+            while (at(['.', '['])) {
                 if (at('.')) {
                     match();
                     field = parseExp8();
@@ -570,10 +520,20 @@
                     match();
                     field = parseExp3();
                     match(']');
-                } else {
-                    // TODO
-                    match(')');
                 }
+                // } else {
+                //     parseArgs();
+                //     while (at(['.', '['])) {
+                //         if (at('.')) {
+                //             match();
+                //             field = parseExp8();
+                //         } else {
+                //             match();
+                //             field = parseExp3();
+                //             match(']');
+                //         }
+                //     }
+                // }
                 id = new FieldAccess(id, field);
             }
             return id;
@@ -581,9 +541,18 @@
 
         parseArgs = function() {
             match('(');
-            var args = parseExpList();
+            var args = [];
+            if (!at(')')) {
+                args.push(parseExpression());
+            }
+            while(at(',')) {
+                match();
+                removeDentAndNewlineTokens();
+                args.push(parseExpression());
+            }
+            removeDentAndNewlineTokens();
             match(')');
-            return args;
+            return args.join(', ');
         },
 
         parseWhileStatement = function() {

@@ -17,4 +17,4 @@ f(1,2)
 
 while 3: spit x
 
-(x) -> spit x
+(x::int) -> spit x

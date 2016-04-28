@@ -123,14 +123,6 @@ describe('The entities', function() {
         });
     });
 
-    describe('function', function() {
-        it('successfully creates a function', function(done) {
-            var newFunDec = new Func(['a', 'b'], 'spit true');
-            newFunDec.toString().should.eql('(Function (a, b) spit true)');
-            done();
-        });
-    });
-
     describe('function-call', function() {
         it('successfully creates a function-call', function(done) {
             var newFunDec = new FunctionCall('x', ['a, b']);
