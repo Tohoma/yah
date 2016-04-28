@@ -1,8 +1,1 @@
-x::int is (x) ->
-    spit x
-
-y is "Hello"
-y be "eyDud"
-x is 0
-while yah:
-    spit "Suh"
+dog be 10

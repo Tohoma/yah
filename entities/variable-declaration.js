@@ -18,11 +18,7 @@ VariableDeclaration = (function() {
             this.value.analyze(context);
             context.variableMustNotBeAlreadyDeclared(this.id);
             if (this.type) {
-                if (this.type.kind != this.value.type.toString()) {
-                    error("Type mismatch", this.type);
-                } else {
-                    this.type = this.value.type
-                }
+                this.type.mustBeCompatibleWith(value.type);
             } else {
                 this.type = Type.ARBITRARY
             }
