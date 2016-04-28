@@ -24,7 +24,7 @@ FunctionStatement = (function() {
     }
 
     FunctionStatement.prototype.toString = function() {
-        return "(Function (" + this.args.join(", ") + ") " + this.body + ")";
+        return "(Function (" + this.args + ") " + this.body + ")";
     };
 
     return FunctionStatement;

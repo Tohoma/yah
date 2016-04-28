@@ -9,7 +9,7 @@ const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 const DIGIT = /\d/;
 const RESERVED_WORD = /^(is|be|yah|nah|spit|return|nil|undefined|NaN|print|for|while|in|and|or|if|elif|else|not|eq|neq|gt|lt|geq|leq|class|new|int|float|bool|string|list|tuple|dict|times|by|each)$/;
 const ONE_CHARACTER_TOKENS = /[+%\*{^}?<>|,\.\:\-{!}{(}{)}/\/\]\[]/;
-const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\*\*|\<\=|\>\=|\=\=/;
+const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\:\:|\*\*|\<\=|\>\=|\=\=/;
 const THREE_CHARACTER_TOKENS = /\.\.\./
 
 module.exports = function(filename, callback) {
