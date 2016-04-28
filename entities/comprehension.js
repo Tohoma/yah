@@ -30,6 +30,14 @@ Comprehension = (function() {
         return "(" + this.start + " " + this.dots.lexeme + " " + this.end + " by " + this.increment + ")";
     };
 
+    Comprehension.prototype.analyze = function(context) {
+        this.start.analyze(context);
+        this.end.analyze(context);
+        if (this.increment) { this.increment.analyze(context); }
+        this.type = Type.ListLiteral;
+        return this.start.type.mustBeCompatibleWith(this.end.type, 'Comprehension must use integer operands exclusively');
+    }
+
     return Comprehension;
 
 })();
