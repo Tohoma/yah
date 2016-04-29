@@ -15,7 +15,7 @@ FunctionStatement = (function() {
     FunctionStatement.prototype.analyze = function (context) {
         functionContext = context.createChildContext();
         this.args.forEach(function(param) {
-        console.log(param.token)
+        console.log(param)
         var varDec = new VariableDeclaration(param.token, " ", Type.ARBITRARY)
         param.addVariabletoContext(functionContext, varDec)
 

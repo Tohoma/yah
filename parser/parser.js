@@ -275,9 +275,9 @@
                     right = parseExp3();
                     match(']');
                 } else {
-                    console.log(tokens[0].lexeme)
+                    // console.log(tokens[0].lexeme)
                     right = parseArgs();
-                    console.log(tokens[0].lexeme)                    
+                    // console.log(tokens[0].lexeme)                    
                 }
                 left = new FieldAccess(left, right);
             }
@@ -288,7 +288,7 @@
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
             if (at('id')) {
-                console.log(tokens[0].lexeme)
+                // console.log(tokens[0].lexeme)
                 var id = match();
                 if (at('::')) {
                     parseType();
@@ -303,7 +303,7 @@
             } else if (at('floatlit')) {
                 return new FloatLiteral(match());
             } else if (at('strlit')) {
-                console.log(tokens[0].lexeme)
+                // console.log(tokens[0].lexeme)
                 return new StringLiteral(match());
             } else if (at('undefined')) {
                 return new UndefinedLiteral(match());
@@ -556,19 +556,7 @@
 
         parseArgs = function() {
             match('(');
-            var args = [];
-            if (!at(')')) {
-                args.push(parseExpList());
-                console.log(args[0].toString())
-                console.log(tokens[0].lexeme)
-            }
-            while (at(',')) {
-                match();
-                removeDentAndNewlineTokens();
-                args.push(parseExpList());
-            }
-            removeDentAndNewlineTokens();
-            console.log(tokens[0].lexeme)
+            var args = parseExpList();
             match(')');
             return args;
         },
