@@ -31,13 +31,13 @@ yah is a statically typed programming language with all of the dynamic benefits.
 newline   -> \s* (\r*\n)+
 letter    -> [a-zA-z]
 digit     -> [0-9]
-keyword   -> 'Class' | 'new' | 'for' | 'in' | 'while' 
+keyword   -> 'class' | 'new' | 'for' | 'in' | 'while' 
           | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
           | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
           | 'not' | 'yah' | 'nah' |
           | 'spit' | 'nil' | 'undefined' | 'NaN'
-          | 'int' | 'bool' | 'String' | 'float' | 'List'
-          | 'Tuple' | 'Dict'
+          | 'int' | 'bool' | 'string' | 'float' | 'list'
+          | 'tuple' | 'dict' | 'Class'
 id        -> (letter | '_') (letter | digit | '_')*
 intlit    -> digit+
 floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
@@ -75,10 +75,12 @@ ReturnStmt -> ('return' | 'spit') Exp
 
 Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) (':' (int | String | float | bool | List | Tuple | Dict) ([?!])?)? declareop ExpList 
-            | (id | TupLit) ':' (int | String | float | bool | List | Tuple | Dict) [?!]?
+VarDeclare -> (id | TupLit) ('::' Type)? declareop Exp
+            | (id | TupLit) '::' Type
 VarAssign  -> VarExp assignop Exp
 VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
+
+Type       -> ('int' | 'string' | 'float' | 'bool' | 'list' | 'tuple' | 'dict') [?!]?
 
 FunBlock   -> Exp | (newline Block)
 FunExp     -> Args '(\s)? ->' FunBlock
@@ -86,7 +88,7 @@ FunExp     -> Args '(\s)? ->' FunBlock
 ConditionExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
                 | 'if' Exp0 ':' Exp
 
-ClassExp   -> 'Class (\s)? ->' newline (Exp newline)*
+ClassExp   -> 'Class ->' newline (Exp newline)*
 
 TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)? | Exp0 ('?' Exp0 ':' TernaryExp)?
 Exp0       -> Exp1 ('or' | '||' Exp1)*
@@ -105,13 +107,13 @@ ExpList    -> newline? Exp (newline? ',' Exp)* newline?
 
 Args       -> '(' ExpList ')'
 
-ListLit    -> '[' ExpList ']' | Comprehension
+ListLit    -> '[' ExpList | Comprehension ']'
 TupLit     -> '(' ExpList ')'
 DictLit    -> '{' BindList '}'
 Bind       -> newline? id ':' Exp newline?
 BindList   -> Bind (',' Bind)*
 
-Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp ('by' intlit)?
+Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp
 ```
 
 # Features
@@ -153,8 +155,8 @@ y is 2 - x                                                  var y = 2 - x;
 z is 3 - y                                                  var z = 3 - y;
 u is 4 - z                                                  var u = 4 - z;
 
-dog:int is 5                                                var dog = 5;
-cat:String is "furry"                                       var cat = "furry";
+dog::int is 5                                                var dog = 5;
+cat::String is "furry"                                       var cat = "furry";
 cat be 10                                                   // Produces a compile-time error
 
 // Example use of constants
@@ -322,7 +324,7 @@ d is 0 ... 9 by 3                                         var d = [];
                                                               }
                                                           }
 
-e is x + 1 for x in 0 ... 9 by 3                          var e = [];
+e is [x + 1 for x in 0 ... 9 by 3]                        var e = [];
 // [1, 4, 7, 10]                                          for (var i = 0; i <= 9; i++) {
                                                               if (i % 3 == 0) {
                                                                   e.push(i + 1);
@@ -356,7 +358,7 @@ bar is () ->                                                var bar = function (
                                                             }
 
 foo is () ->                                                var foo = function () {
-    i be 10                                                     var i = 10;
+    i be 10                                                     i = 10;
     print i                                                     console.log(i);
                                                             }
 
@@ -419,7 +421,7 @@ sample is (functionvar) ->                                  var sample = functio
 
 sample((x) -> print(x))                                     sample(function (x) {
 // The output would be "dog"                                    console.log(x);
-                                                            })
+                                                            });
 
 ```
 
