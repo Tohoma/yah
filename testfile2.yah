@@ -1,1 +1,4 @@
-dog be 10
+x is 5
+x be 4
+givenum is (y,x,y,z) ->
+    spit x

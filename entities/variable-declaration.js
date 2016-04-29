@@ -18,7 +18,7 @@ VariableDeclaration = (function() {
             this.value.analyze(context);
             context.variableMustNotBeAlreadyDeclared(this.id);
             if (this.type) {
-                this.type.mustBeCompatibleWith(value.type);
+                this.type.mustBeCompatibleWith(this.value.type, "Type mistmatch",{line: this.value.value.line, col: this.value.value.col});
             } else {
                 this.type = Type.ARBITRARY
             }

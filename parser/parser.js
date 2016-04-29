@@ -50,7 +50,7 @@
         type_tokens = ["int", "string", "float", "bool", "list", 
                     "tuple", "dict"];
 
-    // error.quiet = true;
+    error.quiet = true;
 
     module.exports = function(scannerOutput) {
         tokens = scannerOutput;

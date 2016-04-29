@@ -9,19 +9,19 @@ FunctionStatement = (function() {
         this.args = args;
         this.body = body;
         this.type = type;
-        console.log(typeof(args))
+        console.log((this.args))
     };
 
     FunctionStatement.prototype.analyze = function (context) {
     	functionContext = context.createChildContext();
     	this.args.forEach(function(param) {
-    	console.log(param.token.lexeme)
     	varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
     	param.addVariabletoContext(functionContext, varDec)
 
     	} )
+        functionContext.addGlobal(context.symbolTable);
 
-    	return this.body.analyze(functionContext, 1)
+    	return this.body.analyze(functionContext)
     }
 
     FunctionStatement.prototype.toString = function() {
