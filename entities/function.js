@@ -9,7 +9,8 @@ FunctionStatement = (function() {
         this.args = args;
         this.body = body;
         this.type = type;
-        console.log((this.args))
+
+        console.log(chalk.blue(this.args))
     };
 
     FunctionStatement.prototype.analyze = function (context) {
@@ -22,6 +23,7 @@ FunctionStatement = (function() {
         functionContext.addGlobal(context.symbolTable);
 
     	return this.body.analyze(functionContext)
+
     }
 
     FunctionStatement.prototype.toString = function() {
