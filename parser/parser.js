@@ -47,10 +47,10 @@
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
                     'in', 'class', 'new', 'times', 'each'],
-        type_tokens = ["int", "string", "float", "bool", "list", 
-                    "tuple", "dict"];
+        type_tokens = ['int', 'string', 'float', 'bool', 'list', 
+                    'tuple', 'dict'];
 
-    // error.quiet = true;
+    error.quiet = true;
 
     module.exports = function(scannerOutput) {
         tokens = scannerOutput;
@@ -82,7 +82,6 @@
         parseAssignmentStatement = function() {
             var left, exp;
             left = parseVarExp();
-            console.log(typeof(left));
             match('be');
             exp = parseExpression();
             return new AssignmentStatement(left, exp);
@@ -99,6 +98,7 @@
                         break;
                     }
                     statements.push(parseStatement());
+                    // console.log(statements);
                     if (at('EOF')) {
                         break;
                     }
@@ -262,7 +262,6 @@
             return left;
         },
 
-        // The grammar for this looks exactly the same as VarExp
         parseExp8 = function() {
             // console.log("Exp8");
             var left, right;
@@ -276,12 +275,9 @@
                     right = parseExp3();
                     match(']');
                 } else {
-                    match('(');
-                    expListItems = []; // Ugh, I need to optimize this too
-                    removeDentAndNewlineTokens();
-                    right = parseExpList();
-                    removeDentAndNewlineTokens();
-                    match(')');
+                    console.log(tokens[0].lexeme)
+                    right = parseArgs();
+                    console.log(tokens[0].lexeme)                    
                 }
                 left = new FieldAccess(left, right);
             }
@@ -292,14 +288,14 @@
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
             if (at('id')) {
+                console.log(tokens[0].lexeme)
                 var id = match();
                 if (at('::')) {
-                    match();
-                    match();
+                    parseType();
                 }
                 return new VariableReference(id);
             } else if (at(['yah', 'nah', 'true', 'false'])) {
-                return new BooleanLiteral(match().lexeme);
+                return new BooleanLiteral(match());
             } else if (at('nil')) {
                 return new NilLiteral(match());
             } else if (at('intlit')) {
@@ -307,6 +303,7 @@
             } else if (at('floatlit')) {
                 return new FloatLiteral(match());
             } else if (at('strlit')) {
+                console.log(tokens[0].lexeme)
                 return new StringLiteral(match());
             } else if (at('undefined')) {
                 return new UndefinedLiteral(match());
@@ -359,9 +356,11 @@
                 } else if (at('->')) {
                     tokens = t;
                     return parseFunction();
+                } else if (at(['.', '[', '('])) {
+                    tokens = t;
+                    return parseVarExp();
                 }
-                tokens = t;
-                return parseTernaryExp();
+                return exp;
             }
         },
 
@@ -416,17 +415,17 @@
                 return error("Invalid type");
             }
 
-            if (type === 'int') {
+            if (type.kind === 'int') {
                 return Type.INT;
-            } else if (type === 'bool') {
+            } else if (type.kind === 'bool') {
                 return Type.BOOL;
-            } else if (type === 'list') {
+            } else if (type.kind === 'list') {
                 return Type.LIST;
-            } else if (type === 'str') {
+            } else if (type.kind === 'str') {
                 return Type.STR;
-            } else if (type === 'float') {
+            } else if (type.kind === 'float') {
                 return Type.FLOAT;
-            } else if (type === 'tuple') {
+            } else if (type.kind === 'tuple') {
                 return Type.TUPLE;
             } else {
                 return Type.DICT;
@@ -472,7 +471,7 @@
                 expListItems.push(parseExpression());
             }
             removeDentAndNewlineTokens();
-            return expListItems.join(', ');
+            return expListItems;
         },
 
         parseReturnStatement = function() {
@@ -504,7 +503,7 @@
                 bindings.push(parseBindList());
             }
             removeDentAndNewlineTokens();
-            return bindings.join(', ');
+            return bindings;
         },
 
         parseStatement = function() {
@@ -523,7 +522,6 @@
             var id, exp, type;
             id = match('id');
             if (at('::')) {
-                console.log("WTF")
                 type = parseType();
             }
             if (at('newline')) {
@@ -539,7 +537,7 @@
             var id = parseExp9(),
                 field;
 
-            while (at(['.', '['])) {
+            while (at(['.', '[', '('])) {
                 if (at('.')) {
                     match();
                     field = parseExp8();
@@ -547,20 +545,10 @@
                     match();
                     field = parseExp3();
                     match(']');
+                } else {
+                    field = parseArgs();
+                    return parseVarExp();
                 }
-                // } else {
-                //     parseArgs();
-                //     while (at(['.', '['])) {
-                //         if (at('.')) {
-                //             match();
-                //             field = parseExp8();
-                //         } else {
-                //             match();
-                //             field = parseExp3();
-                //             match(']');
-                //         }
-                //     }
-                // }
                 id = new FieldAccess(id, field);
             }
             return id;
@@ -570,16 +558,19 @@
             match('(');
             var args = [];
             if (!at(')')) {
-                args.push(parseExpression());
+                args.push(parseExpList());
+                console.log(args[0].toString())
+                console.log(tokens[0].lexeme)
             }
             while (at(',')) {
                 match();
                 removeDentAndNewlineTokens();
-                args.push(parseExpression());
+                args.push(parseExpList());
             }
             removeDentAndNewlineTokens();
+            console.log(tokens[0].lexeme)
             match(')');
-            return args
+            return args;
         },
 
         parseWhileStatement = function() {

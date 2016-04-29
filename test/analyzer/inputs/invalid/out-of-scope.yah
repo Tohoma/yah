@@ -1,3 +1,3 @@
-x is (fun) ->
+x is (fun, func) ->
    y is 2
 y be 5

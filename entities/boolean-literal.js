@@ -8,7 +8,7 @@ BooleanLiteral = (function() {
     }
 
     BooleanLiteral.prototype.toString = function() {
-        return this.value;
+        return this.value.lexeme;
     };
 
     BooleanLiteral.prototype.analyze = function(context) {
