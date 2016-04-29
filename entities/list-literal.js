@@ -1,3 +1,4 @@
+var chalk = require('chalk');
 var ListLiteral, Type;
 
 Type = require('./type');
@@ -10,6 +11,11 @@ ListLiteral = (function() {
     ListLiteral.prototype.toString = function() {
         return "[" + this.items + "]";
     };
+
+    ListLiteral.prototype.analyze = function() {
+    	console.log(chalk.red("TODO: ListLiteral"));
+    	return;
+    }
     return ListLiteral;
 })();
 
