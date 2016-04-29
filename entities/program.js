@@ -1,4 +1,5 @@
 var HashMap, Program, initialContext;
+var chalk = require('chalk');
 
 initialContext = require('../analyzer/analyzer').initialContext;
 
@@ -14,6 +15,7 @@ Program = (function() {
     };
 
     Program.prototype.analyze = function() {
+        //console.log(chalk.yellow(this.block))
         return this.block.analyze(initialContext());
     };
 

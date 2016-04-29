@@ -10,6 +10,7 @@ AnalysisContext = (function() {
         this.symbolTable = {};
         this.globalSymbolTable = {};
         this.funFlag = false;
+        this.returnType;
     }
 
     AnalysisContext.prototype.addGlobal = function (symbolTable) {

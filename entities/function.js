@@ -10,10 +10,12 @@ FunctionStatement = (function() {
         this.body = body;
         this.type = type;
 
-        console.log(chalk.blue(this.args))
     };
 
     FunctionStatement.prototype.analyze = function (context) {
+        //console.log("We are analying function");
+        //console.log("The return type is " + context.returnType);
+        newReturnType = context.returnType;
     	functionContext = context.createChildContext();
     	this.args.forEach(function(param) {
     	varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
@@ -21,6 +23,8 @@ FunctionStatement = (function() {
 
     	} )
         functionContext.addGlobal(context.symbolTable);
+        functionContext.returnType = newReturnType;
+        //console.log(newReturnType);
 
     	return this.body.analyze(functionContext)
 

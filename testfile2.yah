@@ -1,4 +1,3 @@
-x is 5
-x be 4
-givenum is (x,y,z) ->
-    spit x
+y is "cattle"
+givenum::int is (x) ->
+   spit y

@@ -1,5 +1,6 @@
-var ReturnStatement;
+var ReturnStatement, error;
 var chalk = require('chalk');
+error = require('../error/error');
 
 ReturnStatement = (function() {
     function ReturnStatement(exp) {
@@ -10,12 +11,19 @@ ReturnStatement = (function() {
         return "(Return " + this.exp + ")";
     };
 
-    ReturnStatement.prototype.analyze = function(context) {
-        // TODO exp.analyze();
-        // TODO exp.type.mustBeCompatibleWith(context.currentFunction.returnType);
+    ReturnStatement.prototype.analyze = function(context, num) {
+        this.exp.analyze(context);
+        //console.log("The return type for the context is " + context.returnType)
+        console.log(context.globalSymbolTable);
+        try {
+            this.exp.type.mustBeCompatibleWith(context.returnType, "Return type mismatch");
+        } catch (e) {
+            error("Return type does not match function type");
+        }
 
-    	console.log(chalk.red("Return Statment Analyzer todo"))
-    	return
+
+
+        return
     }
 
     return ReturnStatement;
