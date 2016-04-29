@@ -1,3 +1,22 @@
+yah or nah
+yah and nah
+yah || nah
+yah && nah
 
+3 > 3
+5 + 10 + 1
+100 / 20
+!yah
+4^2
+x::list is [1,2,3]
+x.y[2]
 
-id("arg").field
+10 .. 40 by 2
+
+f(1,2)
+
+while yah: spit x
+
+(x::int) -> spit x
+
+id("arg", 1).field

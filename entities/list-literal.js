@@ -9,6 +9,7 @@ ListLiteral = (function() {
     }
 
     ListLiteral.prototype.toString = function() {
+        console.log(this.items)
         return "[" + this.items + "]";
     };
 

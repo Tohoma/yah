@@ -65,7 +65,7 @@ describe('The entities', function() {
 
     describe('binding', function() {
         it('successfully creates a binding expression', function(done) {
-            var newBinding = new Binding('trix', '4kdz');
+            var newBinding = new Binding({'lexeme':'trix'}, '4kdz');
             newBinding.toString().should.eql('(: trix 4kdz)');
             done();
         });
@@ -128,7 +128,7 @@ describe('The entities', function() {
     describe('function-call', function() {
         it('successfully creates a function-call', function(done) {
             var newFunDec = new FunctionCall('x', ['a, b']);
-            newFunDec.toString().should.eql('(FunCall x (a, b)');
+            newFunDec.toString().should.eql('(FunCall x (a, b))');
             done();
         });
     });

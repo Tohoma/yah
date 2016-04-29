@@ -39,7 +39,7 @@
         reserved_tokens = ['id', 'is', 'be', 'intlit', 'newline',
                     'if', 'while', 'yah', 'nah', 'true',
                     'false', 'spit', 'return', '==', '>',
-                    '<', '>=', '<=', 'or', '||',
+                    '<', '>=', '<=', 'or', '||', 'strlit',
                     'and', '&&', '!', 'not', '-',
                     '^', '**', '->', 'for', 'INDENT',
                     'DEDENT', '.', '..', '...', '(', ')',
@@ -98,7 +98,6 @@
                         break;
                     }
                     statements.push(parseStatement());
-                    // console.log(statements);
                     if (at('EOF')) {
                         break;
                     }
@@ -270,16 +269,17 @@
                 if (at('.')) {
                     match();
                     right = parseExp9();
+                    left = new FieldAccess(left, right);
                 } else if (at('[')) {
                     match();
                     right = parseExp3();
                     match(']');
+                    left = new FieldAccess(left, right);
                 } else {
-                    // console.log(tokens[0].lexeme)
                     right = parseArgs();
-                    // console.log(tokens[0].lexeme)                    
+                    left = new FunctionCall(left, right);
                 }
-                left = new FieldAccess(left, right);
+                
             }
             return left;
         },
@@ -288,22 +288,23 @@
             // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
             // console.log("Exp9");
             if (at('id')) {
-                // console.log(tokens[0].lexeme)
                 var id = match();
                 if (at('::')) {
                     parseType();
                 }
                 return new VariableReference(id);
             } else if (at(['yah', 'nah', 'true', 'false'])) {
+                console.log("BOOL")
                 return new BooleanLiteral(match());
             } else if (at('nil')) {
                 return new NilLiteral(match());
             } else if (at('intlit')) {
+                console.log("INTLIT")
                 return new IntegerLiteral(match());
             } else if (at('floatlit')) {
                 return new FloatLiteral(match());
             } else if (at('strlit')) {
-                // console.log(tokens[0].lexeme)
+                console.log("STRLIT")
                 return new StringLiteral(match());
             } else if (at('undefined')) {
                 return new UndefinedLiteral(match());
@@ -460,11 +461,10 @@
             removeDentAndNewlineTokens();
             var expListItems = [];
             removeDentAndNewlineTokens();
-            if (at([']', ')'])) {
-                return expListItems;
-            } else {
+            if (!(at(']') || at(')'))) {
                 expListItems.push(parseExpression());
             }
+            console.log(expListItems)
             while (at(',')) {
                 match();
                 removeDentAndNewlineTokens();
@@ -484,7 +484,7 @@
 
         parseBindList = function() {
             removeDentAndNewlineTokens();
-            var id = match().lexeme;
+            var id = match();
             match(':');
             var exp = parseExpression();
             removeDentAndNewlineTokens();
@@ -541,15 +541,17 @@
                 if (at('.')) {
                     match();
                     field = parseExp8();
+                    id = new FieldAccess(id, field);
                 } else if ('[') {
                     match();
                     field = parseExp3();
                     match(']');
+                    id = new FieldAccess(id, field);
                 } else {
                     field = parseArgs();
+                    id = new FunctionCall(id, field);
                     return parseVarExp();
                 }
-                id = new FieldAccess(id, field);
             }
             return id;
         },
@@ -557,6 +559,7 @@
         parseArgs = function() {
             match('(');
             var args = parseExpList();
+            console.log("HMM")
             match(')');
             return args;
         },
