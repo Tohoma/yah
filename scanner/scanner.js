@@ -4,31 +4,31 @@ var XRegExp = require('xregexp');
 var tokenList = require('./tokens.js');
 var error = require('../error/error');
 
-const LETTER = /[a-zA-Z]/
+const LETTER = /^([a-zA-Z])$/
 const WORD_CHAR = XRegExp('[\\p{L}\\p{Nd}_]');
 const DIGIT = /\d/;
 const RESERVED_WORD = /^(is|be|yah|nah|spit|return|nil|undefined|NaN|print|for|while|in|and|or|if|elif|else|not|eq|neq|gt|lt|geq|leq|class|new|int|float|bool|string|list|tuple|dict|times|by|each)$/;
-const ONE_CHARACTER_TOKENS = /[+%\*{^}?<>|,\.\:\-{!}{(}{)}/\/\]\[]/;
-const TWO_CHARACTER_TOKENS = /\->|&&|\|\||\.\.|\:\:|\*\*|\<\=|\>\=|\=\=/;
-const THREE_CHARACTER_TOKENS = /\.\.\./
+const ONE_CHARACTER_TOKENS = /^([+%\*{^}?<>|,\.\:\-{!}{(}{)}/\/\]\[])$/;
+const TWO_CHARACTER_TOKENS = /^(\-\>|\&\&|\|\||\.\.|\:\:|\*\*|\<\=|\>\=|\=\=)$/;
+const THREE_CHARACTER_TOKENS = /^(\.\.\.)$/;
 
 module.exports = function(filename, callback) {
     var baseStream = fs.createReadStream(filename, {
         encoding: 'utf8'
-    })
+    });
 
     //Current error is a placeholder
     baseStream.on('error', function() {
         console.log("I got an error")
-    })
+    });
 
     var stream = byline(baseStream, {
         keepEmptyLines: true
-    })
-    var tokens = []
-    var linenumber = 0
-    var stack = []
-    var idStack = [0]
+    });
+    var tokens = [];
+    var linenumber = 0;
+    var stack = [];
+    var idStack = [0];
     stream.on('readable', function() {
         scan(stream.read(), linenumber++, tokens, stack, idStack)
     })
@@ -36,8 +36,8 @@ module.exports = function(filename, callback) {
         tokens.push({
             kind: 'EOF',
             lexeme: 'EOF'
-        })
-        callback(tokens)
+        });
+        callback(tokens);
     })
 }
 
@@ -59,7 +59,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
     }
 
     if (!line) {
-        return
+        return;
     }
 
     while (true) {
@@ -86,7 +86,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 }
 
             } else {
-                pos++
+                pos++;
             };
         }
         // Skips over non indent spaces
@@ -95,8 +95,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
             pos++
         }
 
-        start = pos
-
+        start = pos;
 
         //Multi-Line comments
         if (line.substring(pos, pos + 3) === "///" || stack[0] === "///") {
@@ -106,11 +105,11 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
             }
             if (line.substring(pos, pos + 3) != "///") {
                 while (line.substring(pos, pos + 3) != "///" && pos < line.length) {
-                    pos++
+                    pos++;
                 }
                 break;
             } else {
-                stack.pop()
+                stack.pop();
                 break;
             }
         }
@@ -119,7 +118,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
 
 
         if (line[pos] === "/" && line[pos + 1] === "/") {
-            pos = line.length
+            pos = line.length;
             emit("newline", "newline", idLevel, pos + 1, linenumber + 1);
             break;
         }
@@ -127,18 +126,20 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
 
         //Strings
         if (line[pos] == '"') {
-            pos++
+            pos++;
             var stringMode = true;
             while (stringMode) {
                 if (line[pos] == '"') {
                     stringMode = false;
                     var matchedString = line.substring(start + 1, pos);
-                    emit("strlit", matchedString, idLevel, start + 1, linenumber + 1)
-                }
-                pos++
-            }
-            //Three Character tokens
-        } else if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
+                    emit("strlit", matchedString, idLevel, start + 1, linenumber + 1);
+                }                
+                pos++;
+            }   
+        }
+
+        //Three Character tokens
+        if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
             emit(line.substring(pos, pos + 3), line.substring(pos, pos + 3), idLevel, pos + 1, linenumber + 1);
             pos += 2;
             //Two Character tokens
@@ -151,22 +152,20 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
 
         } else if (LETTER.test(line[pos])) {
             while (WORD_CHAR.test(line[pos + 1]) && (pos < line.length)) {
-                pos++
+                pos++;
 
             }
-            var matchedWord = line.substring(start, pos + 1)
+            var matchedWord = line.substring(start, pos + 1);
             if (RESERVED_WORD.test(matchedWord)) {
                 emit(matchedWord, matchedWord, idLevel, start + 1, linenumber + 1);
             } else if (matchedWord) {
-                emit("id", matchedWord, idLevel, start + 1, linenumber + 1)
+                emit("id", matchedWord, idLevel, start + 1, linenumber + 1);
             }
 
-
-            //Digits
-
+        //Digits
         } else if (DIGIT.test(line[pos])) {
             while (DIGIT.test(line[pos + 1]) && (pos < line.length)) {
-                pos++
+                pos++;
             }
             var matchedNumber = line.substring(start, pos + 1);
             emit("intlit", matchedNumber, idLevel, start + 1, linenumber + 1);
@@ -174,13 +173,11 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
 
 
         if (line[pos]) {
-            pos++
+            pos++;
         } else {
-
             emit("newline", "newline", idLevel, pos + 1, linenumber + 1);
 
-
-            break
+            break;
         }
     }
 

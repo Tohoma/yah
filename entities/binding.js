@@ -9,7 +9,7 @@ Binding = (function() {
     }
 
     Binding.prototype.toString = function() {
-        return "(: " + this.key + " " + this.value + ")";
+        return "(: " + this.key.lexeme + " " + this.value + ")";
     };
 
     return Binding;
