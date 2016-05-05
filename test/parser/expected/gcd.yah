@@ -1,0 +1,5 @@
+GCD is (n1, n2) ->
+    if n2 = 0:
+        spit n1
+    else:
+        spit GCD(n2, n1 % n2)
