@@ -1,0 +1,10 @@
+basket is ["banana", "orange", "grapefruit"]
+
+for each fruit in basket:
+  print "stop eating my \(fruit)"
+
+for i in (0 .. basket.length):
+  print "stop eating my \(basket[i])"
+
+times 3:     
+  print "WAT"

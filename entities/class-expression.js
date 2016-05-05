@@ -3,9 +3,12 @@ var ClassExp, Type;
 Type = require('./type');
 
 ClassExp = (function() {
-    function ClassExp(args, body) {
-        this.params = args;
+    function ClassExp(body) {
         this.body = body;
+    }
+
+    ClassExp.prototype.toString = function() {
+    	return "(Class (" + this.body.join(", ") + "))";
     }
 
     return ClassExp;

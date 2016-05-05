@@ -5,6 +5,7 @@
         BinaryExpression = require('../entities/binary-expression'),
         Block = require('../entities/block'),
         BooleanLiteral = require('../entities/boolean-literal'),
+        Class = require('../entities/class-expression'),
         Comprehension = require('../entities/comprehension'),
         DictLiteral = require('../entities/dict-literal'),
         FieldAccess = require('../entities/field-access'),
@@ -41,7 +42,7 @@
                     'false', 'spit', 'return', '==', '>',
                     '<', '>=', '<=', 'or', '||', 'strlit',
                     'and', '&&', '!', 'not', '-',
-                    '^', '**', '->', 'for', 'INDENT',
+                    '^', '**', 'for', 'INDENT',
                     'DEDENT', '.', '..', '...', '(', ')',
                     '[', ']', '{', '}', 'dict', 'tuple',
                     'list', 'string', 'float', 'nil',
@@ -89,7 +90,7 @@
 
         parseBlock = function() {
             var statements = [];
-            while (at(reserved_tokens)) {
+            while (at(reserved_tokens) && !at('EOF')) {
                 if (at(['INDENT', 'newline'])) {
                     match();
                 } else {
@@ -98,16 +99,18 @@
                         break;
                     }
                     statements.push(parseStatement());
-                    if (at('EOF')) {
-                        break;
-                    }
                 }
             }
             return new Block(statements);
         },
 
         parseClassExp = function() {
-            //TODO
+            match('class');
+            match('->');
+            match('newline');
+            var exp = parseExpression();
+            match('newline');
+            return new Class (exp);
         },
 
         parseConditionalExp = function() {
@@ -294,17 +297,14 @@
                 }
                 return new VariableReference(id);
             } else if (at(['yah', 'nah', 'true', 'false'])) {
-                console.log("BOOL")
                 return new BooleanLiteral(match());
             } else if (at('nil')) {
                 return new NilLiteral(match());
             } else if (at('intlit')) {
-                console.log("INTLIT")
                 return new IntegerLiteral(match());
             } else if (at('floatlit')) {
                 return new FloatLiteral(match());
             } else if (at('strlit')) {
-                console.log("STRLIT")
                 return new StringLiteral(match());
             } else if (at('undefined')) {
                 return new UndefinedLiteral(match());
@@ -464,7 +464,6 @@
             if (!(at(']') || at(')'))) {
                 expListItems.push(parseExpression());
             }
-            console.log(expListItems)
             while (at(',')) {
                 match();
                 removeDentAndNewlineTokens();
@@ -559,7 +558,6 @@
         parseArgs = function() {
             match('(');
             var args = parseExpList();
-            console.log("HMM")
             match(')');
             return args;
         },
