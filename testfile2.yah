@@ -5,3 +5,17 @@ while yah:
     spit "Suh"
 
 
+x be 1
+y be 2 - x
+z is 3 - y
+u is 4 - z
+
+
+//if  5 gt 10:
+//  print "amazing"
+//elif gt 6,10:
+//  print "still amazing"
+//else if gt 7,10:
+//  print "still amazinger"
+//else:
+//  print "logical"  

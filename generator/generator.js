@@ -117,6 +117,10 @@ var Generator = (function () {
 			return emit('}');
 		},
 
+		ForStatement: function (s) {
+			
+		}
+
 
 		ReturnStatement: function (s) {
 			return "return";
