@@ -9,12 +9,6 @@ VariableDeclaration = (function() {
         this.id = id;
         this.value = value;
         this.type = type;
-        if (this.value.items) {
-            //console.log("Has items")
-        } else if (this.value.args) {
-            //console.log("Creating new variable declaration")
-        }
-
     }
 
     VariableDeclaration.prototype.toString = function() {
@@ -25,12 +19,6 @@ VariableDeclaration = (function() {
     };
 
     VariableDeclaration.prototype.analyze = function(context) {
-        //console.log("We are analyzing variable declaration")
-        // this.value.args[0].analyze(context);
-        console.log("Analyzing first thingy")
-        console.log(chalk.bgBlue(JSON.stringify(this.value)))
-
-        //console.log(chalk.bgBlue("This is the value of a function " + JSON.stringify(this.value)))
         context.variableMustNotBeAlreadyDeclared(this.id);
         if ((this.value.items)) {
             this.value.analyze(context);
