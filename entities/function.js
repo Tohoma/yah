@@ -13,8 +13,8 @@ FunctionStatement = (function() {
     };
 
     FunctionStatement.prototype.analyze = function (context) {
-        //console.log("We are analying function");
-        //console.log("The return type is " + context.returnType);
+        console.log("We are analying function");
+        console.log("The type is " + JSON.stringify(this.args));
         newReturnType = context.returnType;
     	functionContext = context.createChildContext();
     	this.args.forEach(function(param) {

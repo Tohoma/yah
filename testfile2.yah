@@ -1,3 +1,5 @@
-y is "cattle"
-givenum::int is (x) ->
-   spit y
+givenum is (x::int) ->
+	x is 5
+    spit x
+    
+givenum("Frog")

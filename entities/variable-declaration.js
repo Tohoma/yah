@@ -23,7 +23,9 @@ VariableDeclaration = (function() {
 
         VariableDeclaration.prototype.analyze = function(context) {
         //console.log("We are analyzing variable declaration")
-           //console.log(chalk.bgBlue(JSON.stringify(this.value)))
+         // this.value.args[0].analyze(context);
+          console.log("Analyzing first thingy")
+            console.log(chalk.bgBlue(JSON.stringify(this.value)))
             
              //console.log(chalk.bgBlue("This is the value of a function " + JSON.stringify(this.value)))
             context.variableMustNotBeAlreadyDeclared(this.id);
