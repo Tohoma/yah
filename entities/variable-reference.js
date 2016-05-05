@@ -17,7 +17,7 @@ VariableReference = (function() {
     };
 
     VariableReference.prototype.addVariabletoContext = function(context, entity) {
-        return context.addVariable(this.token.lexeme,entity,Type.ARBITRARY)
+        return context.addVariable(this.token.lexeme, entity, Type.ARBITRARY)
     }
 
     VariableReference.prototype.optimize = function() {

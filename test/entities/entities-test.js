@@ -66,7 +66,9 @@ describe('The entities', function() {
 
     describe('binding', function() {
         it('successfully creates a binding expression', function(done) {
-            var newBinding = new Binding({'lexeme':'trix'}, '4kdz');
+            var newBinding = new Binding({
+                'lexeme': 'trix'
+            }, '4kdz');
             newBinding.toString().should.eql('(: trix 4kdz)');
             done();
         });
@@ -82,7 +84,9 @@ describe('The entities', function() {
 
     describe('boolean-literal', function() {
         it('successfully creates a boolean-literal', function(done) {
-            var newBoolLit = new BooleanLiteral({'lexeme':'yah'});
+            var newBoolLit = new BooleanLiteral({
+                'lexeme': 'yah'
+            });
             newBoolLit.toString().should.eql('yah');
             done();
         });

@@ -13,8 +13,8 @@ Binding = (function() {
     };
 
     Binding.prototype.analyze = function(context) {
-    	console.log("TODO: Binding")
-    	return;
+        console.log("TODO: Binding")
+        return;
     };
 
     return Binding;

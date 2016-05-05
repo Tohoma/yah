@@ -133,9 +133,9 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                     stringMode = false;
                     var matchedString = line.substring(start + 1, pos);
                     emit("strlit", matchedString, idLevel, start + 1, linenumber + 1);
-                }                
+                }
                 pos++;
-            }   
+            }
         }
 
         //Three Character tokens
@@ -162,7 +162,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 emit("id", matchedWord, idLevel, start + 1, linenumber + 1);
             }
 
-        //Digits
+            //Digits
         } else if (DIGIT.test(line[pos])) {
             while (DIGIT.test(line[pos + 1]) && (pos < line.length)) {
                 pos++;

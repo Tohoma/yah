@@ -48,7 +48,7 @@
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
                     'in', 'class', 'new', 'times', 'each'],
-        type_tokens = ['int', 'string', 'float', 'bool', 'list', 
+        type_tokens = ['int', 'string', 'float', 'bool', 'list',
                     'tuple', 'dict'];
 
     error.quiet = true;
@@ -110,7 +110,7 @@
             match('newline');
             var exp = parseExpression();
             match('newline');
-            return new Class (exp);
+            return new Class(exp);
         },
 
         parseConditionalExp = function() {
@@ -282,7 +282,7 @@
                     right = parseArgs();
                     left = new FunctionCall(left, right);
                 }
-                
+
             }
             return left;
         },
