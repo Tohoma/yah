@@ -12,6 +12,11 @@ Binding = (function() {
         return "(: " + this.key.lexeme + " " + this.value + ")";
     };
 
+    Binding.prototype.analyze = function(context) {
+    	console.log("TODO: Binding")
+    	return;
+    };
+
     return Binding;
 
 })();

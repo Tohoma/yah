@@ -9,13 +9,21 @@ ListLiteral = (function() {
     }
 
     ListLiteral.prototype.toString = function() {
-        console.log(this.items)
         return "[" + this.items + "]";
     };
 
-    ListLiteral.prototype.analyze = function() {
-    	console.log(chalk.red("TODO: ListLiteral"));
-    	return;
+    ListLiteral.prototype.analyze = function(context) {
+    	// console.log(chalk.red("TODO: ListLiteral"));
+        this.items.forEach(function(item) { item.analyze(context); })
+    	return this.type = Type.LIST;
+    }
+
+    ListLiteral.prototype.length = function() {
+        return this.items.length;
+    }
+
+    ListLiteral.prototype.optimize = function() {
+        return this;
     }
     return ListLiteral;
 })();
