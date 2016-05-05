@@ -12,10 +12,10 @@ argv = require('yargs')
     .describe('target', 'generate code for JavaScript')
     .demand(1)
     .argv;
-
+// 
 scan = require('./scanner/scanner');
 parse = require('./parser/parser');
-//generate = (require('./generator/generator')); // (argv.target) ;
+generate = (require('./generator/generator')); // (argv.target) ;
 error = require('./error/error');
 error.quiet = false;
 scan(argv._[0], function(tokens) {
@@ -49,6 +49,6 @@ scan(argv._[0], function(tokens) {
         program.showSemanticGraph();
         return;
     }
-    //generate (program);
+    generate (program);
     return "hello";
 });

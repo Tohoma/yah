@@ -105,6 +105,10 @@ var Generator = (function() {
             return emit('}');
         },
 
+        ForStatement: function(f) {
+            console.log("TODO: Generator ForStatement")
+            return;
+        },
 
         ReturnStatement: function(s) {
             return "return " + generate(s.value);
@@ -127,7 +131,7 @@ var Generator = (function() {
         },
 
         TupleLiteral: function(literal) {
-            return;
+            return '[' + literal.items.join(', ') + ']';;
         },
 
         ListLiteral: function(literal) {
