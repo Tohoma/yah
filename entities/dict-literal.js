@@ -10,6 +10,16 @@ DictLiteral = (function() {
     DictLiteral.prototype.toString = function() {
         return "{" + this.items + "}";
     };
+
+    DictLiteral.prototype.analyze = function(context) {
+        // console.log("TODO: DictLiteral")
+        this.items.forEach(function(item) { item.analyze(context); });
+        return this.type = Type.DICT;
+    }
+
+    DictLiteral.prototype.length = function() {
+        return this.items.length;
+    }
     return DictLiteral;
 })();
 

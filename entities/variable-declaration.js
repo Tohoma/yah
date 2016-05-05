@@ -18,6 +18,9 @@ VariableDeclaration = (function() {
         }
 
         VariableDeclaration.prototype.toString = function() {
+            if (this.value === undefined) {
+                return "(is (" + this.id.lexeme + " NONE))";  
+            }
             return "(is (" + this.id.lexeme + " " + this.value + "))";
         };
 

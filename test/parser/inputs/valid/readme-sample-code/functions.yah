@@ -1,0 +1,8 @@
+printParam is (x) -> spit x 
+
+print(printParam("Hello"))
+
+cat is (weight, personality is "cuddly") -> 
+    spit "Free cats available, 
+    weighing \{weight} pounds, 
+    with \{personality} personalities" 
