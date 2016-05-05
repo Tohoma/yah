@@ -20,7 +20,7 @@ TupleLiteral = (function() {
     };
 
     TupleLiteral.prototype.analyze = function(context) {
-    	console.log("TODO: TupleLiteral")
+    	this.items.forEach(function(item) { item.analyze(context); });
     	return this.type = Type.TUPLE;
     }
 
