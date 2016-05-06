@@ -9,8 +9,13 @@ FunctionCall = (function() {
     };
 
     FunctionCall.prototype.toString = function() {
-        return "(FunCall " + this.id + " (" + this.args.join(", ") + ")";
+        return "(FunCall " + this.id + " (" + this.args.join(", ") + "))";
     };
+
+    FunctionCall.prototype.analyze = function() {
+    	console.log("TODO: FunctionCall");
+    	return;
+    }
 
     return FunctionCall;
 

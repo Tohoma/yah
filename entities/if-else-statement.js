@@ -6,8 +6,8 @@ IfElseStatement = (function() {
     function IfElseStatement(condition, thenBody, elseIfBody, elseBody) {
         this.condition = condition;
         this.thenBody = thenBody;
-        this.elseBody = elseBody || "";
-        this.elseIfBody = elseIfBody || [];
+        this.elseBody = elseBody;
+        this.elseIfBody = elseIfBody;
     }
 
     IfElseStatement.prototype.toString = function() {

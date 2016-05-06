@@ -3,6 +3,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     Binding = require('../../entities/binding'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
+    Class = require('../../entities/class-expression'),
     Comprehension = require('../../entities/comprehension'),
     Func = require('../../entities/function'),
     FieldAccess = require('../../entities/field-access'),
@@ -36,7 +37,7 @@ describe('The entities', function() {
     });
 
     describe('binary-expression', function() {
-        it('successfully creates a binary-expression', function(done) {
+        it('successfully creates a binary-expression with addition', function(done) {
             var newBinExp = new BinaryExpression({
                 'lexeme': '+',
                 'kind': '+'
@@ -44,11 +45,28 @@ describe('The entities', function() {
             newBinExp.toString().should.eql('(+ 2 3)');
             done();
         });
+
+        it('successfully creates a binary-expression with a boolean operator', function(done) {
+            var newBinExp = new BinaryExpression({
+                'lexeme': '<=',
+                'kind': '<='
+            }, '2', '3');
+            newBinExp.toString().should.eql('(<= 2 3)');
+            done();
+        });
+        it('successfully throws an error with type mismatch on boolean operators', function(done) {
+            var newBinExp = new BinaryExpression({
+                'lexeme': '<=',
+                'kind': '<='
+            }, 'true', '3');
+            newBinExp.toString().should.eql('(<= true 3)');
+            done();
+        });
     });
 
     describe('binding', function() {
         it('successfully creates a binding expression', function(done) {
-            var newBinding = new Binding('trix', '4kdz');
+            var newBinding = new Binding({'lexeme':'trix'}, '4kdz');
             newBinding.toString().should.eql('(: trix 4kdz)');
             done();
         });
@@ -64,9 +82,7 @@ describe('The entities', function() {
 
     describe('boolean-literal', function() {
         it('successfully creates a boolean-literal', function(done) {
-            var newBoolLit = new BooleanLiteral({
-                'lexeme': 'yah'
-            });
+            var newBoolLit = new BooleanLiteral({'lexeme':'yah'});
             newBoolLit.toString().should.eql('yah');
             done();
         });
@@ -102,16 +118,10 @@ describe('The entities', function() {
 
     describe('for-statement', function() {
         it('successfully creates a for-statement', function(done) {
-            var newForStmt = new ForStatement('name', '["trixie", "peyton", "vic", "adrian", "jb", "chris"]', 'spit name');
+            var newForStmt = new ForStatement({
+                lexeme: 'name'
+            }, '["trixie", "peyton", "vic", "adrian", "jb", "chris"]', 'spit name');
             newForStmt.toString().should.eql('(For name ["trixie", "peyton", "vic", "adrian", "jb", "chris"] spit name)')
-            done();
-        });
-    });
-
-    describe('function', function() {
-        it('successfully creates a function', function(done) {
-            var newFunDec = new Func(['a', 'b'], 'spit true');
-            newFunDec.toString().should.eql('(Function (a, b) spit true)');
             done();
         });
     });
@@ -119,7 +129,7 @@ describe('The entities', function() {
     describe('function-call', function() {
         it('successfully creates a function-call', function(done) {
             var newFunDec = new FunctionCall('x', ['a, b']);
-            newFunDec.toString().should.eql('(FunCall x (a, b)');
+            newFunDec.toString().should.eql('(FunCall x (a, b))');
             done();
         });
     });
@@ -134,7 +144,9 @@ describe('The entities', function() {
 
     describe('integer-literal', function() {
         it('successfully creates an integer-literal', function(done) {
-            var newIntLit = new IntegerLiteral('10000');
+            var newIntLit = new IntegerLiteral({
+                'lexeme': '10000'
+            });
             newIntLit.toString().should.eql('10000');
             done();
         });

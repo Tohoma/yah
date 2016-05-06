@@ -1,4 +1,5 @@
-var VariableReference;
+var VariableReference, Type;
+Type = require('./type');
 
 VariableReference = (function() {
     function VariableReference(token) {
@@ -10,9 +11,14 @@ VariableReference = (function() {
     };
 
     VariableReference.prototype.analyze = function(context) {
+        //console.log("We are in variable Reference");
         this.referent = context.lookupVariable(this.token);
         return this.type = this.referent.type;
     };
+
+    VariableReference.prototype.addVariabletoContext = function(context, entity) {
+        return context.addVariable(this.token.lexeme,entity,Type.ARBITRARY)
+    }
 
     VariableReference.prototype.optimize = function() {
         return this;

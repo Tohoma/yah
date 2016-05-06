@@ -1,6 +1,5 @@
-var FieldAccess, IfElseStatement;
-
-BooleanLiteral = require('./boolean-literal');
+var chalk = require('chalk');
+var FieldAccess;
 
 FieldAccess = (function() {
     function FieldAccess(object, field) {
@@ -11,6 +10,11 @@ FieldAccess = (function() {
     FieldAccess.prototype.toString = function() {
         return "(. " + this.object + " " + this.field + ")";
     };
+
+    FieldAccess.prototype.analyze = function() {
+    	console.log(chalk.red("TODO: FieldAccess"));
+    	return;
+    }
 
     return FieldAccess;
 

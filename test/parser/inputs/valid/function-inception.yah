@@ -1,0 +1,6 @@
+x is (fun) ->
+    y is "fun"
+    g is (x) ->
+            k is 5
+    z is yah
+y is 5
