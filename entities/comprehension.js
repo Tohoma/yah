@@ -17,6 +17,17 @@ Comprehension = (function() {
         return "(" + this.start + " " + this.dots.lexeme + " " + this.end + " by " + this.increment + ")";
     };
 
+    Comprehension.prototype.analyze = function(context) {
+        this.start.analyze(context);
+        this.end.analyze(context);
+    }
+
+    Comprehension.prototype.omptimize = function() {
+        this.start = this.start.optimize();
+        this.end = this.end.optimize();
+        return this;
+    }
+
     return Comprehension;
 
 })();

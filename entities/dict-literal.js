@@ -10,6 +10,7 @@ DictLiteral = (function() {
     DictLiteral.prototype.toString = function() {
         return "{" + this.items + "}";
     };
+
     return DictLiteral;
 })();
 
