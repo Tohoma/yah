@@ -23,8 +23,8 @@ Comprehension = (function() {
     }
 
     Comprehension.prototype.omptimize = function() {
-        this.start = this.start.optimize();
-        this.end = this.end.optimize();
+        this.start.optimize();
+        this.end.optimize();
         return this;
     }
 

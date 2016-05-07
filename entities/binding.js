@@ -14,7 +14,7 @@ Binding = (function() {
 
     Binding.prototype.analyze = function(context) {
         this.key.analyze(context);
-        this.value.analyze(context);
+        return this.value.analyze(context);
     }
 
     Binding.prototype.optimize = function() {

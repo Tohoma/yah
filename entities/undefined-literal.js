@@ -15,6 +15,10 @@ UndefinedLiteral = (function() {
         return this.type = Type.UNDEFINED;
     };
 
+    UndefinedLiteral.prototype.optimize = function() {
+        return this;
+    }
+
     return UndefinedLiteral;
 
 })();
