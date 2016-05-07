@@ -19,7 +19,7 @@ FunctionStatement = (function() {
     	varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
     	param.addVariabletoContext(functionContext, varDec)
 
-    	} )
+    	} );
 
     	return this.body.analyze(functionContext, 1)
     }

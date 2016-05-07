@@ -34,7 +34,7 @@ FieldAccess = (function() {
         if (object.type != Type.ARBITRARY) {
             error("Field not defined in this object");
         }
-        return this = this.object.type
+        return this.type = this.object.type
     }
 
     var mustBeObject = function() {
