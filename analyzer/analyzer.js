@@ -13,7 +13,7 @@ AnalysisContext = (function() {
         this.returnType;
     }
 
-    AnalysisContext.prototype.addGlobal = function (symbolTable) {
+    AnalysisContext.prototype.addGlobal = function(symbolTable) {
         this.funFlag = true
         this.globalSymbolTable = symbolTable;
     };
@@ -33,9 +33,9 @@ AnalysisContext = (function() {
     };
 
     AnalysisContext.prototype.addVariable = function(name, entity) {
-         // console.log(chalk.magenta("Analyzer"))
-         // console.log(chalk.bgBlue("entity"));
-         // console.log(entity);
+        // console.log(chalk.magenta("Analyzer"))
+        // console.log(chalk.bgBlue("entity"));
+        // console.log(entity);
         return this.symbolTable[name] = entity;
     };
 
@@ -46,9 +46,9 @@ AnalysisContext = (function() {
         globalVariable = this.globalSymbolTable[token.lexeme]
         if (variable) {
             return variable;
-        } else if (this.funFlag && globalVariable){
+        } else if (this.funFlag && globalVariable) {
             return globalVariable;
-        }else if (!this.parent) {
+        } else if (!this.parent) {
             error("Variable " + token.lexeme + " not found", token);
             return VariableDeclaration.ARBITRARY;
         } else {

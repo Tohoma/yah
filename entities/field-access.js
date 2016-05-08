@@ -12,8 +12,8 @@ FieldAccess = (function() {
     };
 
     FieldAccess.prototype.analyze = function() {
-    	console.log(chalk.red("TODO: FieldAccess"));
-    	return;
+        console.log(chalk.red("TODO: FieldAccess"));
+        return;
     }
 
     return FieldAccess;

@@ -12,21 +12,21 @@ FunctionStatement = (function() {
 
     };
 
-    FunctionStatement.prototype.analyze = function (context) {
+    FunctionStatement.prototype.analyze = function(context) {
         console.log("We are analying function");
         console.log("The type is " + JSON.stringify(this.args));
         newReturnType = context.returnType;
-    	functionContext = context.createChildContext();
-    	this.args.forEach(function(param) {
-    	varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
-    	param.addVariabletoContext(functionContext, varDec)
+        functionContext = context.createChildContext();
+        this.args.forEach(function(param) {
+            varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
+            param.addVariabletoContext(functionContext, varDec)
 
-    	} )
+        })
         functionContext.addGlobal(context.symbolTable);
         functionContext.returnType = newReturnType;
         //console.log(newReturnType);
 
-    	return this.body.analyze(functionContext)
+        return this.body.analyze(functionContext)
 
     }
 

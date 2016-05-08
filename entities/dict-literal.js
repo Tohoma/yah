@@ -12,8 +12,9 @@ DictLiteral = (function() {
     };
 
     DictLiteral.prototype.analyze = function(context) {
-        // console.log("TODO: DictLiteral")
-        this.items.forEach(function(item) { item.analyze(context); });
+        this.items.forEach(function(item) {
+            item.analyze(context);
+        });
         return this.type = Type.DICT;
     }
 

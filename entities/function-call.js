@@ -13,8 +13,8 @@ FunctionCall = (function() {
     };
 
     FunctionCall.prototype.analyze = function() {
-    	console.log("TODO: FunctionCall");
-    	return;
+        console.log("TODO: FunctionCall");
+        return;
     }
 
     return FunctionCall;

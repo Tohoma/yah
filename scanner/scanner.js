@@ -132,7 +132,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 if (line[pos] == '"') {
                     stringMode = false;
                     var matchedString = line.substring(start + 1, pos);
-                    emit("strlit", matchedString, idLevel, start + 1, linenumber + 1)
+                    emit("strlit", matchedString, idLevel, start + 1, linenumber + 1);
                 }
                 pos++;
                 // console.log(line[pos])
@@ -142,10 +142,10 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                     })
                 }
             }
-
-
-            //Three Character tokens
-        } else if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
+        }
+        
+        //Three Character tokens
+        if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
             emit(line.substring(pos, pos + 3), line.substring(pos, pos + 3), idLevel, pos + 1, linenumber + 1);
             pos += 2;
             //Two Character tokens
@@ -168,7 +168,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 emit("id", matchedWord, idLevel, start + 1, linenumber + 1);
             }
 
-        //Digits
+            //Digits
         } else if (DIGIT.test(line[pos])) {
             while (DIGIT.test(line[pos + 1]) && (pos < line.length)) {
                 pos++;

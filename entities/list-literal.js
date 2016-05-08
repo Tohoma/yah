@@ -13,9 +13,11 @@ ListLiteral = (function() {
     };
 
     ListLiteral.prototype.analyze = function(context) {
-    	// console.log(chalk.red("TODO: ListLiteral"));
-        this.items.forEach(function(item) { item.analyze(context); })
-    	return this.type = Type.LIST;
+        // console.log(chalk.red("TODO: ListLiteral"));
+        this.items.forEach(function(item) {
+            item.analyze(context);
+        })
+        return this.type = Type.LISTn;
     }
 
     ListLiteral.prototype.length = function() {

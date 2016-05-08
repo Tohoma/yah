@@ -19,4 +19,4 @@ while yah: spit x
 
 (x::int) -> spit x
 
-//id("arg", 1).field
+id("arg", 1).field

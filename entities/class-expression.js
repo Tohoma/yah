@@ -8,7 +8,7 @@ ClassExp = (function() {
     }
 
     ClassExp.prototype.toString = function() {
-    	return "(Class (" + this.body.join(", ") + "))";
+        return "(Class (" + this.body.join(", ") + "))";
     }
 
     return ClassExp;

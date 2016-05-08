@@ -48,7 +48,7 @@
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
                     'in', 'class', 'new', 'times', 'each'],
-        type_tokens = ['int', 'string', 'float', 'bool', 'list', 
+        type_tokens = ['int', 'string', 'float', 'bool', 'list',
                     'tuple', 'dict'];
 
     error.quiet = true;
@@ -110,7 +110,7 @@
             match('newline');
             var exp = parseExpression();
             match('newline');
-            return new Class (exp);
+            return new Class(exp);
         },
 
         parseConditionalExp = function() {
@@ -282,13 +282,12 @@
                     right = parseArgs();
                     left = new FunctionCall(left, right);
                 }
-                
+
             }
             return left;
         },
 
-        parseExp9 = function() { // intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
-            // | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
+        parseExp9 = function() {
             // console.log("Exp9");
             if (at('id')) {
                 var id = match();
@@ -315,7 +314,16 @@
             } else if (at('{')) {
                 return parseDictLit();
             } else if (at('(')) {
-                return parseTupLit(); // Missing '(' Exp ')' HOW??? Grammar is ambiguous
+                var t = copyTokens();
+                match('(');
+                var exp = parseExpression();
+
+                if (at(',')) {
+                    tokens = t;
+                    return parseTupLit();
+                }
+                match(')');
+                return exp;
             } else {
                 return error("Illegal start of expression", tokens[0]);
             }
