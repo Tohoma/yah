@@ -143,7 +143,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 }
             }
         }
-
+        
         //Three Character tokens
         if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
             emit(line.substring(pos, pos + 3), line.substring(pos, pos + 3), idLevel, pos + 1, linenumber + 1);
