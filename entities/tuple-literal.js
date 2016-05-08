@@ -14,12 +14,13 @@ TupleLiteral = (function() {
     TupleLiteral.prototype.analyze = function(context) {
         items.analyze(context);
         return this.type = Type.TUPLE;
-    }
+    };
 
     TupleLiteral.prototype.optimize = function() {
         items.optimize();
         return this;
-    }
+    };
+
     return TupleLiteral;
 })();
 
