@@ -32,6 +32,11 @@ FunctionStatement = (function() {
         return "(Function (" + this.args.join(', ') + ") " + this.body + ")";
     };
 
+    FunctionStatement.prototype.optimize = function() {
+        // TODO
+        return this;
+    }
+
     return FunctionStatement;
 
 })();

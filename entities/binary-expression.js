@@ -33,7 +33,7 @@ BinaryExpression = (function() {
                 this.mustHaveIntegerOperands();
                 return this.type = Type.BOOL;
             case '==':
-            case '!eq': // could be token in language revisit FLAG
+            case 'neq': // could be token in language revisit FLAG
                 this.mustHaveCompatibleOperands();
                 return this.type = Type.BOOL;
             case 'and':

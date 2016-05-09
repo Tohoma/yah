@@ -24,6 +24,16 @@ IfElseStatement = (function() {
         return "(If " + this.condition + " " + this.thenBody + " Else " + this.elseBody + ")";
     };
 
+    IfElseStatement.prototype.analyze = function(context) {
+        // TODO
+        return;
+    };
+
+    IfElseStatement.prototype.optimize = function() {
+        // TODO
+        return this;
+    }
+
     return IfElseStatement;
 
 })();

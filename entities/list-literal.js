@@ -16,7 +16,7 @@ ListLiteral = (function() {
         // console.log(chalk.red("TODO: ListLiteral"));
         this.items.forEach(function(item) {
             item.analyze(context);
-        })
+        });
         return this.type = Type.LIST;
     };
 
@@ -25,7 +25,9 @@ ListLiteral = (function() {
     };
 
     ListLiteral.prototype.optimize = function() {
-        items.optimize();
+        this.items.forEach(function(item) {
+            item.optimize();
+        });
         return this;
     };
 

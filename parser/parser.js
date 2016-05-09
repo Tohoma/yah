@@ -48,6 +48,7 @@
                     'list', 'string', 'float', 'nil',
                     'undefined', 'NaN', 'print', 'for',
                     'in', 'class', 'new', 'times', 'each'],
+
         type_tokens = ['int', 'string', 'float', 'bool', 'list',
                     'tuple', 'dict'];
 
@@ -164,7 +165,6 @@
         },
 
         parseExp0 = function() {
-            // console.log("Exp0");
             var left, op, right;
             left = parseExp1();
             while (at(['or', "||"])) {
@@ -176,7 +176,6 @@
         },
 
         parseExp1 = function() {
-            // console.log("Exp1");
             var left, op, right;
             left = parseExp2();
             while (at(['and', '&&'])) {
@@ -188,7 +187,6 @@
         },
 
         parseExp2 = function() {
-            // console.log("Exp2");
             var left, op, right;
             left = parseExp3();
             if (at(['==', '>', '<', '>=', '<='])) {
@@ -201,7 +199,6 @@
         },
 
         parseExp3 = function() {
-            // console.log("Exp3");
             var left, op, right, inc;
             left = parseExp4();
             if (at(['..', '...'])) {
@@ -217,7 +214,6 @@
         },
 
         parseExp4 = function() {
-            // console.log("Exp4");
             var left, op, right;
             left = parseExp5();
             while (at(['+', '-'])) {
@@ -229,7 +225,6 @@
         },
 
         parseExp5 = function() {
-            // console.log("Exp5");
             var left, op, right;
             left = parseExp6();
             while (at(['*', '/'])) {
@@ -241,7 +236,6 @@
         },
 
         parseExp6 = function() {
-            // console.log("Exp6");
             var op, operand;
             if (at(['-', 'not', '!'])) {
                 op = match();
@@ -253,7 +247,6 @@
         },
 
         parseExp7 = function() {
-            // console.log("Exp7");
             var left, op, right;
             left = parseExp8();
             if (at(['^', '**'])) {
@@ -265,7 +258,6 @@
         },
 
         parseExp8 = function() {
-            // console.log("Exp8");
             var left, right;
             left = parseExp9();
             while (at(['.', '[', '('])) {
@@ -288,7 +280,6 @@
         },
 
         parseExp9 = function() {
-            // console.log("Exp9");
             if (at('id')) {
                 var id = match();
                 if (at('::')) {
@@ -346,7 +337,6 @@
         },
 
         parseProgram = function() {
-            // console.log(JSON.stringify(tokens));
             return new Program(parseBlock());
         },
 

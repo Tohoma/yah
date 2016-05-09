@@ -22,7 +22,7 @@ Comprehension = (function() {
         this.end.analyze(context);
     }
 
-    Comprehension.prototype.omptimize = function() {
+    Comprehension.prototype.optimize = function() {
         this.start.optimize();
         this.end.optimize();
         return this;

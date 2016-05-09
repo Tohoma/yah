@@ -14,7 +14,7 @@ AnalysisContext = (function() {
     }
 
     AnalysisContext.prototype.addGlobal = function(symbolTable) {
-        this.funFlag = true
+        this.funFlag = true;
         this.globalSymbolTable = symbolTable;
     };
 
