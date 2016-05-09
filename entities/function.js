@@ -25,10 +25,8 @@ FunctionStatement = (function() {
         functionContext.addGlobal(context.symbolTable);
         functionContext.returnType = newReturnType;
         //console.log(newReturnType);
-
         return this.body.analyze(functionContext)
-
-    }
+    };
 
     FunctionStatement.prototype.toString = function() {
         return "(Function (" + this.args + ") " + this.body + ")";

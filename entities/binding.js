@@ -17,6 +17,17 @@ Binding = (function() {
         return;
     };
 
+    Binding.prototype.analyze = function(context) {
+        this.key.analyze(context);
+        return this.value.analyze(context);
+    };
+
+    Binding.prototype.optimize = function() {
+        this.key.optimize();
+        this.value.optimize();
+        return this;
+    };
+
     return Binding;
 
 })();

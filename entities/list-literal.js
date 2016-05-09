@@ -6,7 +6,7 @@ Type = require('./type');
 ListLiteral = (function() {
     function ListLiteral(items) {
         this.items = items;
-    }
+    };
 
     ListLiteral.prototype.toString = function() {
         return "[" + this.items + "]";
@@ -17,16 +17,18 @@ ListLiteral = (function() {
         this.items.forEach(function(item) {
             item.analyze(context);
         })
-        return this.type = Type.LISTn;
-    }
+        return this.type = Type.LIST;
+    };
 
     ListLiteral.prototype.length = function() {
         return this.items.length;
-    }
+    };
 
     ListLiteral.prototype.optimize = function() {
+        items.optimize();
         return this;
-    }
+    };
+    
     return ListLiteral;
 })();
 

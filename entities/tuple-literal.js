@@ -29,6 +29,12 @@ TupleLiteral = (function() {
     TupleLiteral.prototype.length = function() {
         return this.items.length;
     }
+
+    TupleLiteral.prototype.optimize = function() {
+        items.optimize();
+        return this;
+    };
+
     return TupleLiteral;
 })();
 

@@ -1,6 +1,7 @@
 var AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
     Binding = require('../../entities/binding'),
+    BindList = require('../../entities/bind-list'),
     Block = require('../../entities/block'),
     BooleanLiteral = require('../../entities/boolean-literal'),
     Class = require('../../entities/class-expression'),
@@ -70,6 +71,19 @@ describe('The entities', function() {
                 'lexeme': 'trix'
             }, '4kdz');
             newBinding.toString().should.eql('(: trix 4kdz)');
+            done();
+        });
+    });
+
+    describe('bind-list', function() {
+        it('successfully creates a list of binds', function(done) {
+            var items = [
+                new Binding({'lexeme':'trix'}, '4kdz'),
+                new Binding({'lexeme':'apples'}, 'oranges'),
+                new Binding({'lexeme':'foo'}, 'bar')
+            ];
+            var newBindList = new BindList(items);
+            newBindList.toString().should.eql('((: trix 4kdz) (: apples oranges) (: foo bar))');
             done();
         });
     });

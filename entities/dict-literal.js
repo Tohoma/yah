@@ -21,6 +21,12 @@ DictLiteral = (function() {
     DictLiteral.prototype.length = function() {
         return this.items.length;
     }
+
+    DictLiteral.prototype.optimize = function() {
+        this.items.optimize();
+        return this;
+    }
+
     return DictLiteral;
 })();
 
