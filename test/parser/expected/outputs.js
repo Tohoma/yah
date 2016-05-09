@@ -27,7 +27,7 @@ var astList = {},
         astList.tern_exp = "(Program (Block (If (== x y) yah) (If (== x y) yah Else nah) (If (> x 3) trix Else xirt)))"
         astList.primitives = "(Program (Block (is (a 2)) (is (b what)) (is (c yah)) (is (d nah)) (is (banana undefined)) "
                                 + "(is (apple nil)) (is (orange NaN)) (is (h [1, 2, 3, 4, 5])) (is (i (1, 2, 3, 4, 5))) "
-                                + "(is (j {(: 0 1), (: 2 3)})) (be ((. h 0) 6)) (be ((. i 0) 6)) (be ((. j 2) 5))))"
+                                + "(is (j {(: 0 1), (: 2 3)})) (be ((. h 0) 6)) (be ((. i 0) 6)) (be ((. j 2) 5))))";
 
         return astList;
     }();

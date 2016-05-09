@@ -1,0 +1,5 @@
+sample is (functionvar) -> 
+  functionvar("dog")   
+
+sample((x) -> print(x))    
+// The output would be "dog"  

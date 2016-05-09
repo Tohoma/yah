@@ -1,0 +1,6 @@
+prime is (n) ->             
+    for i in (0...n/2): 
+        if eq n % i, 0: 
+            spit nah 
+        i++                  
+    spit yah  

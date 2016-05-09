@@ -128,13 +128,12 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
             pos++;
             var stringMode = true;
             while (stringMode && line[pos]) {
+                pos++;
                 if (line[pos] === '"') {
                     stringMode = false;
                     var matchedString = line.substring(start + 1, pos);
                     emit("strlit", matchedString, idLevel, start + 1, linenumber + 1);
-                }
-                pos++;
-                if (line[pos] === undefined) {
+                } else if (line[pos] === undefined) {
                     error("Yo homie, you appear to have forgotten to add closing quotes to that string there, it's", {
                         line: linenumber + 1
                     })

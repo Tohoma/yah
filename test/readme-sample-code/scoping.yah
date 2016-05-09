@@ -1,0 +1,12 @@
+i is 5  
+
+bar is () -> 
+    print i 
+
+foo is () -> 
+    i be 10 
+    print i
+
+bar()  
+foo() 
+print i 

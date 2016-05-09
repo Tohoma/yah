@@ -36,7 +36,7 @@ Type = (function() {
 
     Type.prototype.mustBeString = function(message, location) {
         return this.mustBeCompatibleWith(Type.STR, message);
-    }
+    };
 
     Type.prototype.mustBeCompatibleWith = function(otherType, message, location) {
         if (!this.isCompatibleWith(otherType)) {

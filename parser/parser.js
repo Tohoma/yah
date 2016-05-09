@@ -430,7 +430,7 @@
                 return Type.BOOL;
             } else if (type.kind === 'list') {
                 return Type.LIST;
-            } else if (type.kind === 'str') {
+            } else if (type.kind === 'string') {
                 return Type.STR;
             } else if (type.kind === 'float') {
                 return Type.FLOAT;

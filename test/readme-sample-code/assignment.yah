@@ -1,0 +1,10 @@
+x is 1 
+y is 2 - x
+z is 3 - y
+u is 4 - z
+
+dog::int is 5
+cat::string is "furry"
+cat be "hairy"
+
+y be 0
