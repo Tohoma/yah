@@ -1,8 +1,5 @@
 x::int is 5
 
-//f is () -> 
-//  spit yah
-
 l is yah
 
 x be 10
@@ -20,3 +17,17 @@ while yah:
 
 if yah:
     spit 2
+
+if yah == yah:
+    spit "yea!"
+else if nah == 1:
+    spit "meh"
+elif x > 2:
+    z is 2
+    spit 2
+    while yah:
+        s is 2
+        if yah:
+            spit nah
+else:
+    spit "aww"

@@ -475,8 +475,8 @@
 
         parseReturnStatement = function() {
             var exp,
-                parens = []; //TODO: for potentially returning an object, we need to check for ({})
-            match();
+                parens = []; // TODO: for potentially returning an object, we need to check for ({})
+            match();         // TODO2: for when returning nothing
             exp = parseTernaryExp();
             return new ReturnStatement(exp);
         },

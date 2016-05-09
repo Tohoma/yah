@@ -89,7 +89,7 @@ var Generator = (function() {
             results = [];
             for (i = 0, len = ref.length; i < len; i++) {
                 e = ref[i];
-                results.push(emit("alert(" + (generate(e)) + ");"));
+                results.push(emit("console.log(" + (generate(e)) + ");"));
             }
             return results;
         },
@@ -109,9 +109,12 @@ var Generator = (function() {
         IfElseStatement: function(s) {
             emit("if (" + generate(s.condition) + ") {");
             generate(s.thenBody);
-            for (var i = 0; i < s.elseIfBody.length; i++) {
-                
+            for (var i = 0; i < s.elseIfBody.length; i += 2) {
+                emit("} else if (" + generate(s.elseIfBody[i]) + ") \{");
+                generate(s.elseIfBody[i + 1]);
             }
+            emit("} else {");
+            generate(s.elseBody)
             return emit("}");
         },
 
@@ -122,7 +125,7 @@ var Generator = (function() {
         },
 
         ReturnStatement: function(s) {
-            return emit("return " + generate(s.exp));
+            return emit("return " + generate(s.exp) + ";");
         },
 
         IntegerLiteral: function(literal) {
@@ -163,8 +166,49 @@ var Generator = (function() {
 
         BinaryExpression: function(e) {
             return "(" + (generate(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
-        }
+        },
 
+        Function: function(f) {
+            emit("function(" + generate(f.args) + ") {");
+            return emit("}");
+        },
+
+        FunctionCall: function(f) {
+            return f.id + "(" + f.args.join(", ") + ");";
+        },
+
+        FieldAccess: function(f) {
+            //TODO
+            return;
+        },
+
+        UnaryExpression: function(f) {
+            //TODO
+            return;
+        },
+
+        BinaryExpression: function(f) {
+            //TODO
+            return;
+        },
+
+        Print: function(s) {
+            return "console.log(" + generate(s.exp) + ");";
+        },
+
+        ClassExpression: function(s) {
+            //TODO
+            return;
+        },
+
+        Comprehension: function(s) {
+            //TODO
+            return;
+        },
+
+        UndefLiteral: function(literal) {
+            return literal.toString();
+        }
     };
 
     // generator = function (program) {
