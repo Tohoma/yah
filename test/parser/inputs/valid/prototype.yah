@@ -1,0 +1,8 @@
+Meme is Class ->
+    smell is dank
+    volume is loud
+    value is 420
+    datBoy is "o shit waddup"
+
+frog is new meme()
+print(frog.smell)
