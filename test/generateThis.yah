@@ -4,9 +4,9 @@ l is yah
 
 x be 10
 
-lst is [1,2,"three",l]
+lst::list is [1,2,"three",l]
 
-t is (yah, 1, "two")
+t::tuple is (yah, 1, "two")
 
 x be 5 - 2
 
@@ -31,3 +31,5 @@ elif x > 2:
             spit nah
 else:
     spit "aww"
+
+

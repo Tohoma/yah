@@ -23,6 +23,8 @@ var Generator = (function() {
             and: '&&',
             or: '||',
             eq: "===",
+            "==": "===",
+            "!=": "!==",
             neq: '!==',
             yah: 'true',
             nah: 'false',
@@ -182,16 +184,6 @@ var Generator = (function() {
             return;
         },
 
-        UnaryExpression: function(f) {
-            //TODO
-            return;
-        },
-
-        BinaryExpression: function(f) {
-            //TODO
-            return;
-        },
-
         Print: function(s) {
             return "console.log(" + generate(s.exp) + ");";
         },
@@ -206,47 +198,9 @@ var Generator = (function() {
             return;
         },
 
-        UndefLiteral: function(literal) {
+        UndefinedLiteral: function(literal) {
             return literal.toString();
         }
     };
 
-    // generator = function (program) {
-    // 	this.indentLevel = 0;
-
-    // }
-
-    // Generator.prototype.generateBlock = function (block) {
-    // 	this.indentLevel += 1;
-
-    // 	for each (statement in block.statements) {
-    // 		generateStatements(statement);
-    // 	}
-
-    // 	this.indentLevel -= 1;
-    // }
-
-    // Generator.prototype.generateStatement (statement) {
-
-    // }
-
-    // Generator.prototype.generate = function (program) {
-    // 	emit("(function() {");
-    // 	generateBlock(program.getBlock());
-    // 	emit("}())");
-    // }
-
-    // Generator.prototype.synchronized = function (entity) {
-
-    // }
-
-    // Generator.prototype.emit = function (line) {
-    // 	pad = indentPadding * this.indentLevel;
-
-    // 	if (pad == 0) {
-    // 		console.log(line);
-    // 	} else {
-    // 		console.log(" ".repeat(pad) + line);
-    // 	}
-    // }
 }());
