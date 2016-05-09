@@ -9,7 +9,7 @@ ListLiteral = (function() {
     };
 
     ListLiteral.prototype.toString = function() {
-        return "[" + this.items + "]";
+        return "[" + this.items.join(', ') + "]";
     };
 
     ListLiteral.prototype.analyze = function(context) {
@@ -28,7 +28,7 @@ ListLiteral = (function() {
         items.optimize();
         return this;
     };
-    
+
     return ListLiteral;
 })();
 

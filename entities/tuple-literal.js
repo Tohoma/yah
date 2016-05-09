@@ -7,16 +7,9 @@ TupleLiteral = (function() {
     function TupleLiteral(items) {
         this.items = items;
     }
-    TupleLiteral.prototype.analyze = function(context) {
-        this.items.forEach(function(param) {
-            param.analyze(context);
-        })
-        console.log(chalk.bgBlue(JSON.stringify(this.items)))
-        return
-    }
 
     TupleLiteral.prototype.toString = function() {
-        return "(" + this.items + ")";
+        return "(" + this.items.join(', ') + ")";
     };
 
     TupleLiteral.prototype.analyze = function(context) {

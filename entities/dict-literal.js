@@ -8,7 +8,7 @@ DictLiteral = (function() {
     }
 
     DictLiteral.prototype.toString = function() {
-        return "{" + this.items + "}";
+        return "{" + this.items.join(', ') + "}";
     };
 
     DictLiteral.prototype.analyze = function(context) {
