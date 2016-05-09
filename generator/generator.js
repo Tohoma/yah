@@ -143,7 +143,7 @@ var Generator = (function() {
         },
 
         DictLiteral: function(literal) {
-            return '{' + literal.expList.items.join(', ') + '}';
+            return '{' + literal.toString() + '}';
         },
 
         TupleLiteral: function(literal) {
@@ -151,7 +151,7 @@ var Generator = (function() {
         },
 
         ListLiteral: function(literal) {
-            return '[' + literal.expList.items.join(', ') + ']';
+            return literal.toString();
         },
 
         NaNLiteral: function(literal) {

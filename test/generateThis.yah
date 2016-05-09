@@ -18,17 +18,17 @@ while yah:
 if yah:
     spit 2
 
-if yah == yah:
+if yah == (yah == yah):
     spit "yea!"
-else if nah == 1:
+else if nah == 1 && yah:
     spit "meh"
 elif x > 2:
     z is 2
-    spit 2
     while yah:
         s is 2
         if yah:
             spit nah
+    spit 2
 else:
     spit "aww"
 

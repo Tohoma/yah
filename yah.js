@@ -30,7 +30,6 @@ scan(argv._[0], function(tokens) {
         }
         return;
     }
-    console.log("Parsing")
     program = parse(tokens);
     if (error.count > 0) {
         return;

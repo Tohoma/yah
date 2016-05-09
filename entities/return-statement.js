@@ -14,7 +14,7 @@ ReturnStatement = (function() {
     ReturnStatement.prototype.analyze = function(context, num) {
         this.exp.analyze(context);
         //console.log("The return type for the context is " + context.returnType)
-        console.log(context.globalSymbolTable);
+        // console.log(context.globalSymbolTable);
         try {
             this.exp.type.mustBeCompatibleWith(context.returnType, "Return type mismatch");
         } catch (e) {
