@@ -28,92 +28,92 @@ yah is a statically typed programming language with all of the dynamic benefits.
 ## Microsyntax
 
 ```
-newline   -> \s* (\r*\n)+
-letter    -> [a-zA-z]
-digit     -> [0-9]
-keyword   -> 'class' | 'new' | 'for' | 'in' | 'while' 
-          | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
-          | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
-          | 'not' | 'yah' | 'nah' |
-          | 'spit' | 'nil' | 'undefined' | 'NaN'
-          | 'int' | 'bool' | 'string' | 'float' | 'list'
-          | 'tuple' | 'dict' | 'Class'
-id        -> (letter | '_') (letter | digit | '_')*
-intlit    -> digit+
-floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
-declareop -> 'is'
-assignop  -> 'be'
-boolop    -> 'and' | 'or' | '&&' | '||'
-relop     -> '=='  | '<' | '>' | '>=' | '<='
-addop     -> '+'   | '-'
-mulop     -> '*'   | '/' | '%' | '^'
-prefixop  -> '-'   | 'not' | '!'
-boollit   -> 'yah' | 'nah' | 'true' | 'false'
-escape    -> [\\] [rnst'"\\]
-char      -> [^\x00-\x1F'"\\] | escape
-stringlit    -> ('"' char* '"') | (\x27 char* \x27)
-undeflit  -> 'undefined'
-nanlit    -> 'NaN'
-nillit    -> 'nil'
-comment   -> '//' [^\n]* newline
-           | '//\' .*? '\\/'
+newline      ::= \s* (\r*\n)+
+letter       ::= [a-zA-z]
+digit        ::= [0-9]
+keyword      ::= 'class' | 'new' | 'for' | 'in' | 'while' 
+             | 'and' | 'or' | 'is' | 'be' | 'if' | 'else' 
+             | 'eq' | 'neq' | 'gt' | 'lt' | 'geq' | 'leq'
+             | 'not' | 'yah' | 'nah' |
+             | 'spit' | 'nil' | 'undefined' | 'NaN'
+             | 'int' | 'bool' | 'string' | 'float' | 'list'
+             | 'tuple' | 'dict' | 'Class'
+id           ::= (letter | '_') (letter | digit | '_')*
+intlit       ::= digit+
+floatlit     ::= digit+ '.' digit+ ([Ee] [+-]? digit+)?
+declareop    ::= 'is'
+assignop     ::= 'be'
+boolop       ::= 'and' | 'or' | '&&' | '||'
+relop        ::= '=='  | '<' | '>' | '>=' | '<='
+addop        ::= '+'   | '-'
+mulop        ::= '*'   | '/' | '%' | '^'
+prefixop     ::= '-'   | 'not' | '!'
+boollit      ::= 'yah' | 'nah' | 'true' | 'false'
+escape       ::= [\\] [rnst'"\\]
+char         ::= [^\x00-\x1F'"\\] | escape
+stringlit    ::= ('"' char* '"') | (\x27 char* \x27)
+undeflit     ::= 'undefined'
+nanlit       ::= 'NaN'
+nillit       ::= 'nil'
+comment      ::= '//' [^\n]* newline
+             | '//\' .*? '\\/'
 ```
 
 ## Macrosyntax
 
 ```
-Program    -> Block
-Block      -> (Stmt newline)*
+Program       ::= Block
+Block         ::= (Stmt newline)*
 
-Stmt       -> WhileStmt | ForStmt | ReturnStmt | Exp
+Stmt          ::= WhileStmt | ForStmt | ReturnStmt | Exp
 
-WhileStmt  -> 'while' Exp ':' (newline Block | Exp)
-ForStmt    -> 'for' ('each')? id 'in' ListLit ':' (newline Block | Exp)
-            | 'times' int ':' (newline Block | Exp)
+WhileStmt     ::= 'while' Exp ':' (newline Block | Exp)
+ForStmt       ::= 'for' ('each')? id 'in' ListLit ':' (newline Block | Exp)
+              | 'times' int ':' (newline Block | Exp)
 
-ReturnStmt -> ('return' | 'spit') Exp
+ReturnStmt    ::= ('return' | 'spit') Exp
 
-Exp        -> VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
+Exp           ::= VarDeclare | VarAssign | VarExp | TernaryExp | FunExp | ConditionExp | ClassExp
 
-VarDeclare -> (id | TupLit) ('::' Type)? declareop Exp
-            | (id | TupLit) '::' Type
-VarAssign  -> VarExp assignop Exp
-VarExp     -> id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
+VarDeclare    ::= (id | TupLit) ('::' Type)? declareop Exp
+              | (id | TupLit) '::' Type
+VarAssign     ::= VarExp assignop Exp
+VarExp        ::= id ( '.' Exp8 | '[' Exp3 ']' | (Args ('.' Exp8 | '[' Exp3 ']')) )*
 
-Type       -> ('int' | 'string' | 'float' | 'bool' | 'list' | 'tuple' | 'dict') [?!]?
+Type          ::= ('int' | 'string' | 'float' | 'bool' | 'list' | 'tuple' | 'dict') [?!]?
 
-FunBlock   -> Exp | (newline Block)
-FunExp     -> Args '(\s)? ->' FunBlock
+FunBlock      ::= Exp | (newline Block)
+FunExp        ::= Args '(\s)? ->' FunBlock
 
-ConditionExp -> 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
-                | 'if' Exp0 ':' Exp
+ConditionExp  ::= 'if' Exp0 ':' newline Block (('else if' | 'elif') Exp0 ':' newline Block)* ('else:' newline Block)?
+              | 'if' Exp0 ':' Exp
 
-ClassExp   -> 'Class ->' newline (Exp newline)*
+ClassExp      ::= 'Class ->' newline (Exp newline)*
 
-TernaryExp -> Exp0 ('if' Exp0 ( 'else' TernaryExp)?)? | Exp0 ('?' Exp0 ':' TernaryExp)?
-Exp0       -> Exp1 ('or' | '||' Exp1)*
-Exp1       -> Exp2 ('and' | '&&' Exp2)*
-Exp2       -> Exp3 (relop Exp3)?
-Exp3       -> Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
-Exp4       -> Exp5 (addop Exp4)*
-Exp5       -> Exp6 (mulop Exp5)*
-Exp6       -> prefixop? Exp7
-Exp7       -> Exp8 ('^' | '**' Exp8)?
-Exp8       -> Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
-Exp9       -> intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
-            | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
+TernaryExp    ::= Exp0 ('if' Exp0 ( 'else' TernaryExp)?)? | Exp0 ('?' Exp0 ':' TernaryExp)?
+Exp0          ::= Exp1 ('or' | '||' Exp1)*
+Exp1          ::= Exp2 ('and' | '&&' Exp2)*
+Exp2          ::= Exp3 (relop Exp3)?
+Exp3          ::= Exp4 (('..' | '...') Exp4 ('by' Exp4)?)?
+Exp4          ::= Exp5 (addop Exp4)*
+Exp5          ::= Exp6 (mulop Exp5)*
+Exp6          ::= prefixop? Exp7
+Exp7          ::= Exp8 ('^' | '**' Exp8)?
+Exp8          ::= Exp9 ('.' Exp9 | '[' Exp3 ']' | Args)*
+Exp9          ::= intlit | floatlit | boollit | id | '(' Exp ')' | stringlit
+              | undeflit | nanlit | nillit | ListLit | TupLit | DictLit
 
-ExpList    -> newline? Exp (newline? ',' Exp)* newline?
+ExpList       ::= newline? Exp (newline? ',' Exp)* newline?
 
-Args       -> '(' ExpList ')'
+Args          ::= '(' ExpList ')'
 
-ListLit    -> '[' ExpList | Comprehension ']'
-TupLit     -> '(' ExpList ')'
-DictLit    -> '{' BindList '}'
-Bind       -> newline? id ':' Exp newline?
-BindList   -> Bind (',' Bind)*
+ListLit       ::= '[' ExpList | Comprehension ']'
+TupLit        ::= '(' ExpList ')'
+DictLit       ::= '{' BindList '}'
+Bind          ::= newline? id ':' Exp newline?
+BindList      ::= Bind (',' Bind)*
 
-Comprehension -> TernaryExp 'for' ('each')? id 'in' Exp
+Comprehension ::= TernaryExp 'for' ('each')? id 'in' Exp
 ```
 
 # Features
@@ -156,7 +156,7 @@ z is 3 - y                                                  var z = 3 - y;
 u is 4 - z                                                  var u = 4 - z;
 
 dog::int is 5                                                var dog = 5;
-cat::String is "furry"                                       var cat = "furry";
+cat::string is "furry"                                       var cat = "furry";
 cat be 10                                                   // Produces a compile-time error
 
 // Example use of constants
