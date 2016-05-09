@@ -17,7 +17,7 @@ FunctionStatement = (function() {
         console.log("The type is " + JSON.stringify(this.args));
         newReturnType = context.returnType;
         functionContext = context.createChildContext();
-        this.args.forEach(function(param) {
+        this.args.expList.items.forEach(function(param) {
             varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
             param.addVariabletoContext(functionContext, varDec)
 
@@ -29,7 +29,7 @@ FunctionStatement = (function() {
     };
 
     FunctionStatement.prototype.toString = function() {
-        return "(Function (" + this.args.join(', ') + ") " + this.body + ")";
+        return "(Function " + this.args.toString() + " " + this.body + ")";
     };
 
     FunctionStatement.prototype.optimize = function() {

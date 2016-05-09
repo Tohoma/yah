@@ -176,7 +176,7 @@ var Generator = (function() {
         },
 
         FunctionCall: function(f) {
-            return f.id + "(" + f.args.join(", ") + ");";
+            return emit(f.id + "(" + f.args.join(", ") + ");");
         },
 
         FieldAccess: function(f) {
@@ -194,8 +194,11 @@ var Generator = (function() {
         },
 
         Comprehension: function(s) {
-            //TODO
-            return;
+            var result = [];
+            for (var i = s.start; i < s.end; i+= s.inc) {
+                result.push(i);
+            }
+            return result.join(', ');
         },
 
         UndefinedLiteral: function(literal) {

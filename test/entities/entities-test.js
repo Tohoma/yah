@@ -1,4 +1,5 @@
-var AssignmentStatement = require('../../entities/assignment-statement'),
+var Args = require('../../entities/args'),
+    AssignmentStatement = require('../../entities/assignment-statement'),
     BinaryExpression = require('../../entities/binary-expression'),
     Binding = require('../../entities/binding'),
     BindList = require('../../entities/bind-list'),
@@ -7,6 +8,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     Class = require('../../entities/class-expression'),
     Comprehension = require('../../entities/comprehension'),
     DictLiteral = require('../../entities/dict-literal'),
+    ExpList = require('../../entities/expression-list'),
     Func = require('../../entities/function'),
     FieldAccess = require('../../entities/field-access'),
     FunctionCall = require('../../entities/function-call'),
@@ -172,7 +174,10 @@ describe('The entities', function() {
 
     describe('function-call', function() {
         it('successfully creates a function-call', function(done) {
-            var newFunDec = new FunctionCall('x', ['a, b']);
+            var newFunDec = new FunctionCall('x', new Args(new ExpList([
+                new VariableReference({'lexeme':'a'}), 
+                new VariableReference({'lexeme':'b'})
+            ])));
             newFunDec.toString().should.eql('(FunCall x (a, b))');
             done();
         });
@@ -198,11 +203,11 @@ describe('The entities', function() {
 
     describe('list-literal', function() {
         it('successfully creates a list-literal', function(done) {
-            var newListLit = new ListLiteral([
+            var newListLit = new ListLiteral(new ExpList([
                 new IntegerLiteral({'lexeme':'0'}),
                 new IntegerLiteral({'lexeme':'1'}),
                 new IntegerLiteral({'lexeme':'2'})
-            ]);
+            ]));
             newListLit.toString().should.eql('[0, 1, 2]');
             done();
         });
@@ -313,10 +318,10 @@ describe('The entities', function() {
 
     describe('tuple-literal', function() {
         it('successfully creates a tuple literal', function(done) {
-            var newTupleLit = new TupleLiteral([
+            var newTupleLit = new TupleLiteral(new ExpList([
                 new IntegerLiteral({'lexeme':'1'}),
                 new IntegerLiteral({'lexeme': '2'})
-            ]);
+            ]));
             newTupleLit.toString().should.eql('(1, 2)');
             done();
         });

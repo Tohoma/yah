@@ -9,7 +9,7 @@ TupleLiteral = (function() {
     }
 
     TupleLiteral.prototype.toString = function() {
-        return "(" + this.items.join(', ') + ")";
+        return "(" + this.items.toString() + ")";
     };
 
     TupleLiteral.prototype.analyze = function(context) {

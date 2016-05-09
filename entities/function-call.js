@@ -9,7 +9,7 @@ FunctionCall = (function() {
     };
 
     FunctionCall.prototype.toString = function() {
-        return "(FunCall " + this.id + " (" + this.args.join(", ") + "))";
+        return "(FunCall " + this.id + " " + this.args.toString() + ")";
     };
 
     FunctionCall.prototype.analyze = function() {

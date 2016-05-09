@@ -1,6 +1,7 @@
 (function() {
 
-    var AssignmentStatement = require('../entities/assignment-statement'),
+    var Args = require('../entities/args.js'),
+        AssignmentStatement = require('../entities/assignment-statement'),
         Binding = require('../entities/binding'),
         BindList = require('../entities/bind-list'),
         BinaryExpression = require('../entities/binary-expression'),
@@ -9,6 +10,7 @@
         Class = require('../entities/class-expression'),
         Comprehension = require('../entities/comprehension'),
         DictLiteral = require('../entities/dict-literal'),
+        ExpList = require('../entities/expression-list'),
         FieldAccess = require('../entities/field-access'),
         Func = require('../entities/function'),
         FunctionCall = require('../entities/function-call'),
@@ -470,7 +472,7 @@
                 expListItems.push(parseExpression());
             }
             removeDentAndNewlineTokens();
-            return expListItems;
+            return new ExpList(expListItems);
         },
 
         parseReturnStatement = function() {
@@ -559,7 +561,7 @@
             match('(');
             var args = parseExpList();
             match(')');
-            return args;
+            return new Args(args);
         },
 
         parseWhileStatement = function() {
