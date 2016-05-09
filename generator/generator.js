@@ -3,7 +3,7 @@ var Generator = (function() {
     var util = require('util');
     var HashMap = require('hashmap').HashMap;
     module.exports = function(program) {
-        return generate(program)
+        return generate(program);
     }
 
     indentPadding = 4;
@@ -13,6 +13,7 @@ var Generator = (function() {
         var pad;
         pad = indentPadding * indentLevel;
         console.log(Array(pad + 1).join(' ') + line);
+        return;
     }
 
     var makeOperator = function(operator) {
@@ -21,8 +22,8 @@ var Generator = (function() {
             be: '=',
             and: '&&',
             or: '||',
-            eq: "==",
-            neq: '!=',
+            eq: "===",
+            neq: '!==',
             yah: 'true',
             nah: 'false',
             not: '!',
@@ -33,7 +34,7 @@ var Generator = (function() {
         }[operator] || operator;
     };
 
-    makeVariable = (function(lastID, map) {
+    var makeVariable = (function(lastID, map) {
         return function(v) {
             if (!map.has(v)) {
                 map.set(v, ++lastID);
@@ -42,11 +43,11 @@ var Generator = (function() {
         };
     })(0, new HashMap());
 
-    generate = function(e) {
+    var generate = function(e) {
         return generator[e.constructor.name](e);
     }
 
-    generator = {
+    var generator = {
         Program: function(program) {
             indentLevel = 0;
             emit('function() {');

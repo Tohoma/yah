@@ -8,7 +8,7 @@ StringLiteral = (function() {
     }
 
     StringLiteral.prototype.toString = function() {
-        return this.value.lexeme;
+        return '"' + this.value.lexeme + '"';
     };
 
     StringLiteral.prototype.analyze = function(context) {

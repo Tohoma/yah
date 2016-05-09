@@ -101,7 +101,7 @@ describe('The entities', function() {
             var newBoolLit = new BooleanLiteral({
                 'lexeme': 'yah'
             });
-            newBoolLit.toString().should.eql('yah');
+            newBoolLit.toString().should.eql('true');
             done();
         });
     });
@@ -211,7 +211,7 @@ describe('The entities', function() {
             var newStrLit = new StringLiteral({
                 "lexeme": "stringy"
             });
-            newStrLit.toString().should.eql("stringy");
+            newStrLit.toString().should.eql('"stringy"');
             done();
         });
     });

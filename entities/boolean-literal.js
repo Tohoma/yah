@@ -8,7 +8,11 @@ BooleanLiteral = (function() {
     }
 
     BooleanLiteral.prototype.toString = function() {
-        return this.value.lexeme;
+        if (this.value.lexeme === "yah" || this.value.lexeme === "true") {
+            return "true";
+        } else {
+            return "false";
+        }
     };
 
     BooleanLiteral.prototype.analyze = function(context) {
