@@ -6,6 +6,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     BooleanLiteral = require('../../entities/boolean-literal'),
     Class = require('../../entities/class-expression'),
     Comprehension = require('../../entities/comprehension'),
+    DictLiteral = require('../../entities/dict-literal'),
     Func = require('../../entities/function'),
     FieldAccess = require('../../entities/field-access'),
     FunctionCall = require('../../entities/function-call'),
@@ -13,6 +14,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     FloatLiteral = require('../../entities/float-literal'),
     IfElseStatement = require('../../entities/if-else-statement'),
     IntegerLiteral = require('../../entities/integer-literal'),
+    ListLiteral = require('../../entities/list-literal'),
     NanLiteral = require('../../entities/nan-literal'),
     NilLiteral = require('../../entities/nil-literal'),
     Program = require('../../entities/program'),
@@ -20,6 +22,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     ReturnStatement = require('../../entities/return-statement'),
     StringLiteral = require('../../entities/string-literal'),
     Type = require('../../entities/type'),
+    TupleLiteral = require('../../entities/tuple-literal'),
     UnaryExpression = require('../../entities/unary-expression'),
     UndefinedLiteral = require('../../entities/undefined-literal'),
     VariableDeclaration = require('../../entities/variable-declaration'),
@@ -83,7 +86,12 @@ describe('The entities', function() {
                 new Binding({'lexeme':'foo'}, 'bar')
             ];
             var newBindList = new BindList(items);
-            newBindList.toString().should.eql('((: trix 4kdz) (: apples oranges) (: foo bar))');
+            newBindList.toString().should.eql('(BindList (: trix 4kdz) (: apples oranges) (: foo bar))');
+            done();
+        });
+        it('successfully creates an empty bind-list', function(done) {
+            var newEmptyBindList = new BindList([]);
+            newEmptyBindList.toString().should.eql('(BindList )');
             done();
         });
     });
@@ -112,6 +120,25 @@ describe('The entities', function() {
                 'lexeme': '..'
             }, '4', '2');
             newListComp.toString().should.eql('(0 .. 4 by 2)');
+            done();
+        });
+    });
+
+    describe('dict-literal', function() {
+        it('successfully creates a dictionary-literal', function(done) {
+            var items = [
+                new Binding({'lexeme':'trix'}, '4kdz'),
+                new Binding({'lexeme':'apples'}, 'oranges'),
+                new Binding({'lexeme':'foo'}, 'bar')
+            ];
+            var newBindList = new BindList(items);
+            var newDictLit = new DictLiteral(newBindList);
+            newDictLit.toString().should.eql('{trix : 4kdz, apples : oranges, foo : bar}');
+            done();
+        });
+        it('successfully creates an empty dictionary-literal', function(done) {
+            var newDictLit = new DictLiteral(new BindList([]));
+            newDictLit.toString().should.eql('{}');
             done();
         });
     });
@@ -166,6 +193,24 @@ describe('The entities', function() {
                 'lexeme': '10000'
             });
             newIntLit.toString().should.eql('10000');
+            done();
+        });
+    });
+
+    describe('list-literal', function() {
+        it('successfully creates a list-literal', function(done) {
+            var newListLit = new ListLiteral(['0','1','2']);
+            newListLit.toString().should.eql('[0,1,2]');
+            done();
+        });
+        it('successfully creates an empty list-literal', function(done) {
+            var newEmptyList = new ListLiteral([]);
+            newEmptyList.toString().should.eql('[]');
+            done();
+        });
+        it('successfully creates a single element list-literal', function(done) {
+            var newSingleList = new ListLiteral(['1']);
+            newSingleList.toString().should.eql('[1]');
             done();
         });
     });
@@ -274,6 +319,14 @@ describe('The entities', function() {
             Type.ARBITRARY.toString().should.eql('<arbitrary_type>');
             done();
         })
+    });
+
+    describe('tuple-literal', function() {
+        it('successfully creates a tuple literal', function(done) {
+            var newTupleLit = new TupleLiteral(['1', '2']);
+            newTupleLit.toString().should.eql('(1,2)');
+            done();
+        });
     });
 
     describe('unary-expression', function() {

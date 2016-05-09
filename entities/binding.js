@@ -13,11 +13,6 @@ Binding = (function() {
     };
 
     Binding.prototype.analyze = function(context) {
-        console.log("TODO: Binding")
-        return;
-    };
-
-    Binding.prototype.analyze = function(context) {
         this.key.analyze(context);
         return this.value.analyze(context);
     };

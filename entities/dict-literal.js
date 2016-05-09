@@ -8,7 +8,13 @@ DictLiteral = (function() {
     }
 
     DictLiteral.prototype.toString = function() {
-        return "{" + this.items + "}";
+        var bindArray = this.items.items;
+        var result = [];
+        for(var i = 0; i < bindArray.length; i += 1) {
+            var bind = bindArray[i];
+            result.push(bind.key.lexeme + ' : ' + bind.value);
+        }
+        return '{' + result.join(', ') + '}';
     };
 
     DictLiteral.prototype.analyze = function(context) {
