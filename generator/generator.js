@@ -91,7 +91,7 @@ var Generator = (function() {
             results = [];
             for (i = 0, len = ref.length; i < len; i++) {
                 e = ref[i];
-                results.push(emit("console.log(" + (generate(e)) + ");"));
+                results.push(emit("console.log(" + (generate(e)) + "); \n"));
             }
             return results;
         },
@@ -99,13 +99,13 @@ var Generator = (function() {
         WhileStatement: function(s) {
             emit("while (" + (generate(s.condition)) + ") {");
             generate(s.body);
-            return emit('}');
+            return emit("} \n");
         },
 
         IfStatement: function(s) {
             emit("if (" + generate(s.condition) + ") {");
             generate(s.thenBody);
-            return emit("}");
+            return emit("} \n");
         },
 
         IfElseStatement: function(s) {
@@ -117,13 +117,13 @@ var Generator = (function() {
             }
             emit("} else {");
             generate(s.elseBody)
-            return emit("}");
+            return emit("} \n");
         },
 
         ForStatement: function(f) {
             emit("for ");
             console.log("TODO: Generator ForStatement")
-            return emit("}");
+            return emit("} \n");
         },
 
         ReturnStatement: function(s) {
@@ -173,11 +173,11 @@ var Generator = (function() {
         FunctionStatement: function(f) {
             emit("function " + generate(f.args) + " {");
             generate(f.body);
-            return emit("}");
+            return emit("} \n");
         },
 
         FunctionCall: function(f) {
-            return emit(generate(f.id) + "(" + generate(f.args) + ");");
+            return emit(generate(f.id) + "(" + generate(f.args) + "); \n");
         },
 
         Args: function(a) {
@@ -190,7 +190,7 @@ var Generator = (function() {
         },
 
         Print: function(s) {
-            return "console.log(" + generate(s.exp) + ");";
+            return "console.log(" + generate(s.exp) + "); \n";
         },
 
         ClassExpression: function(s) {

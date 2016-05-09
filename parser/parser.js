@@ -454,7 +454,6 @@
         parseFunction = function() {
             var body, args;
             args = parseArgs();
-            console.log(args)
             match('->');
             body = parseBlockOrStatement();
             return new Func(args, body);
