@@ -2,6 +2,7 @@
 
     var AssignmentStatement = require('../entities/assignment-statement'),
         Binding = require('../entities/binding'),
+        BindList = require('../entities/bind-list'),
         BinaryExpression = require('../entities/binary-expression'),
         Block = require('../entities/block'),
         BooleanLiteral = require('../entities/boolean-literal'),
@@ -433,7 +434,8 @@
 
         parseDictLit = function() {
             match('{');
-            var bindList = parseBind();
+            // var bindList = parseBind();
+            var bindList = parseBindList();
             match('}');
             return new DictLiteral(bindList);
         },
@@ -479,7 +481,7 @@
             return new ReturnStatement(exp);
         },
 
-        parseBindList = function() {
+        parseBind = function() {
             removeDentAndNewlineTokens();
             var id = match();
             match(':');
@@ -488,19 +490,19 @@
             return new Binding(id, exp);
         },
 
-        parseBind = function() {
+        parseBindList = function() {
             removeDentAndNewlineTokens();
             var bindings = [];
             if (!at('}')) {
-                bindings.push(parseBindList());
+                bindings.push(parseBind());
             }
             while (at(',')) {
                 match();
                 removeDentAndNewlineTokens();
-                bindings.push(parseBindList());
+                bindings.push(parseBind());
             }
             removeDentAndNewlineTokens();
-            return bindings;
+            return new BindList(bindings);
         },
 
         parseStatement = function() {

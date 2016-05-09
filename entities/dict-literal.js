@@ -3,12 +3,12 @@ var DictLiteral, Type;
 Type = require('./type');
 
 DictLiteral = (function() {
-    function DictLiteral(items) {
-        this.items = items;
+    function DictLiteral(bindList) {
+        this.bindList = bindList;
     }
 
     DictLiteral.prototype.toString = function() {
-        return "{" + this.items.join(', ') + "}";
+        return "{" + this.bindList.toString() + "}";
     };
 
     DictLiteral.prototype.analyze = function(context) {

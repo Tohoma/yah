@@ -13,7 +13,7 @@ BindList = (function() {
         for (var i = 0; i < this.items.length; i += 1) {
             result.push(this.items[i].toString());
         }
-        return '(' + result.join(' ') + ')';
+        return 'BindList (' + result.join(', ') + ')';
     };
 
     BindList.prototype.analyze = function(context) {

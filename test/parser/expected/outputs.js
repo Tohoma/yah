@@ -14,7 +14,7 @@ var astList = {},
         astList.sample1 = "(Program (Block (is (x (/ (* 3 4) 2))) (is (y true)) (is (trix \"4kdz\")) "
                                 + "(is (addOne (Function (p, q) (Block (Return (+ (+ p q) 1)))))) "
                                 + "(is (l [1, 2, x])) (is (t (a, y, trix))) (is (l2 [])) "
-                                + "(is (z {})) (is (d {(: a 10), (: b 2), (: c 3)}))))";
+                                + "(is (z {BindList ()})) (is (d {BindList ((: a 10), (: b 2), (: c 3))}))))";
         astList.simple_for = "(Program (Block (For i (0 .. 5 by 1) (Block (Return i))) "
                                 + "(For i 3 (Block (Return \"WAT\"))) "
                                 + "(For fruit basket (Block (Return fruit)))))";
@@ -27,7 +27,7 @@ var astList = {},
         astList.tern_exp = "(Program (Block (If (== x y) true) (If (== x y) true Else false) (If (> x 3) trix Else xirt)))"
         astList.primitives = "(Program (Block (is (a 2)) (is (b \"what\")) (is (c true)) (is (d false)) (is (banana undefined)) "
                                 + "(is (apple nil)) (is (orange NaN)) (is (h [1, 2, 3, 4, 5])) (is (i (1, 2, 3, 4, 5))) "
-                                + "(is (j {(: 0 1), (: 2 3)})) (be ((. h 0) 6)) (be ((. i 0) 6)) (be ((. j 2) 5))))";
+                                + "(is (j {BindList ((: 0 1), (: 2 3))})) (be ((. h 0) 6)) (be ((. i 0) 6)) (be ((. j 2) 5))))";
 
         return astList;
     }();
