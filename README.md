@@ -44,7 +44,7 @@ floatlit  -> digit+ '.' digit+ ([Ee] [+-]? digit+)?
 declareop -> 'is'
 assignop  -> 'be'
 boolop    -> 'and' | 'or' | '&&' | '||'
-relop     -> '='   | '<' | '>' | '>=' | '<='
+relop     -> '=='  | '<' | '>' | '>=' | '<='
 addop     -> '+'   | '-'
 mulop     -> '*'   | '/' | '%' | '^'
 prefixop  -> '-'   | 'not' | '!'
@@ -193,7 +193,7 @@ print "Hello " * 3                                         console.log("Hello He
 If and Else can be written without parantheses or curly braces. If statements can also use the reserved word then to allow for a one-liner statement.
 
 ```
-if eq x,y,z,u:                                              if (x === y && y === z && z === u) {
+if x === y && y === z and z === u:                          if (x === y && y === z && z === u) {
     spit yah                                                    return true;
 else:                                                       } else {
     spit nah                                                    return false;
@@ -201,20 +201,20 @@ else:                                                       } else {
 
 //Allows for both else if and elif
 
-if gt 5,10:                                                  if (5 > 10) {
+if 5 > 10:                                                  if (5 > 10) {
   print "amazing"                                             console.log("amazing");
-elif gt 6,10:                                                else if (6 > 10) {
+elif 6 > 10:                                                else if (6 > 10) {
   print "still amazing"                                       console.log("still amazing");
-else if gt 7,10:                                             else if (7 > 10) {
+else if 7 > 10:                                             else if (7 > 10) {
   print "still amazinger"                                     console.log("still amazinger");
 else:                                                       } else {
   print "logical"                                             console.log("logical")
                                                             }
 
 //one-liner
-spit yah if eq x,y                                          if (x === y) return true;
+spit yah if x == y                                          if (x === y) return true;
 
-eq x,y ? yah : nah                                          (x === y) ? true : false;
+x == y ? yah : nah                                          (x === y) ? true : false;
 
 ```
 
@@ -291,14 +291,14 @@ A single line comment is created with two foward slash characters. Multiline com
 ```
 //This is a single line comment
 
-//\
+///
 This is a 
 multiline comment
 
 Still multiline
 
 Multiline comment ends below. 
-\\/
+///
 
 ```
 
