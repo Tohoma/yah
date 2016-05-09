@@ -329,7 +329,7 @@ var tokenList = {},
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 7,
-                col: 19,
+                col: 21,
                 idLevel: 7
             },
             {
@@ -483,7 +483,7 @@ var tokenList = {},
                 lexeme: 'newline',
                 kind: 'newline',
                 line: 4,
-                col: 33,
+                col: 18,
                 idLevel: 0
             },
             {

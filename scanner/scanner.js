@@ -63,6 +63,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
     }
 
     while (true) {
+
         //calculates indentation
         while (indentMode) {
             if (!/\s/.test(line[pos])) {
@@ -89,8 +90,8 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 pos++;
             };
         }
-        // Skips over non indent spaces
 
+        // Skips over non indent spaces
         while (/\s/.test(line[pos]) && !indentMode) {
             pos++
         }
@@ -115,29 +116,26 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
         }
 
         //Single line comments
-
-
         if (line[pos] === "/" && line[pos + 1] === "/") {
+            var linePos = pos;
             pos = line.length;
-            emit("newline", "newline", idLevel, pos + 1, linenumber + 1);
+            emit("newline", "newline", idLevel, linePos + 1, linenumber + 1);
             break;
         }
 
-
         //Strings
-        if (line[pos] == '"') {
+        if (line[pos] === '"') {
             pos++;
             var stringMode = true;
             while (stringMode && line[pos]) {
-                if (line[pos] == '"') {
+                if (line[pos] === '"') {
                     stringMode = false;
                     var matchedString = line.substring(start + 1, pos);
                     emit("strlit", matchedString, idLevel, start + 1, linenumber + 1);
                 }
                 pos++;
-                // console.log(line[pos])
                 if (line[pos] === undefined) {
-                    error("Yo homie, you appear to have forgotten to add closing quotes to that string there, you should fix that. Have a fantastic day.", {
+                    error("Yo homie, you appear to have forgotten to add closing quotes to that string there, it's", {
                         line: linenumber + 1
                     })
                 }
@@ -148,11 +146,13 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
         if (THREE_CHARACTER_TOKENS.test(line.substring(pos, pos + 3))) {
             emit(line.substring(pos, pos + 3), line.substring(pos, pos + 3), idLevel, pos + 1, linenumber + 1);
             pos += 2;
-            //Two Character tokens
+
+        //Two Character tokens
         } else if (TWO_CHARACTER_TOKENS.test(line.substring(pos, pos + 2))) {
             emit(line.substring(pos, pos + 2), line.substring(pos, pos + 2), idLevel, pos + 1, linenumber + 1);
             pos++;
-            //One Character tokens
+
+        //One Character tokens
         } else if (ONE_CHARACTER_TOKENS.test(line[pos])) {
             emit(line[pos], line[pos], idLevel, pos + 1, linenumber + 1);
 
@@ -168,7 +168,7 @@ var scan = function(line, linenumber, tokens, stack, idStack) {
                 emit("id", matchedWord, idLevel, start + 1, linenumber + 1);
             }
 
-            //Digits
+        //Digits
         } else if (DIGIT.test(line[pos])) {
             while (DIGIT.test(line[pos + 1]) && (pos < line.length)) {
                 pos++;
