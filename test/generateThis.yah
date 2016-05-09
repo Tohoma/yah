@@ -1,0 +1,22 @@
+x::int is 5
+
+//f is () -> 
+//  spit yah
+
+l is yah
+
+x be 10
+
+lst is [1,2,"three",l]
+
+t is (yah, 1, "two")
+
+x be 5 - 2
+
+while yah:
+  x be 1
+  while nah:
+    x be x + 1
+
+if yah:
+    spit 2

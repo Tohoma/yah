@@ -216,19 +216,6 @@ describe('The entities', function() {
         });
     });
 
-    // describe('read-statement', function () {
-    //     it('successfully creates read-statement', function (done) {
-
-    //         done();
-    //     });
-    // });
-
-    // describe('tuple-literal', function() {
-    //     it('successfully creates an tuple-literal', function(done) {
-    //         done();
-    //     });
-    // });
-
     describe('type', function() {
         it('successfully creates an INT type', function(done) {
             Type.INT.toString().should.eql('int');
@@ -326,12 +313,5 @@ describe('The entities', function() {
             done();
         });
     });
-
-    // describe('write-statement', function () {
-    //     it('successfully creates a write-statement', function(done){
-
-    //         done();
-    //     });
-    // });
 
 });

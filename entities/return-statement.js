@@ -23,8 +23,13 @@ ReturnStatement = (function() {
 
 
 
-        return
-    }
+        return;
+    };
+
+    ReturnStatement.prototype.optimize = function() {
+        this.exp.optimize();
+        return this;
+    };
 
     return ReturnStatement;
 })();

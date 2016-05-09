@@ -101,18 +101,28 @@ var Generator = (function() {
         },
 
         IfStatement: function(s) {
-            emit("if (" + (generate(s.condition)) + ") {");
-            generate(s.body);
-            return emit('}');
+            emit("if (" + generate(s.condition) + ") {");
+            generate(s.thenBody);
+            return emit("}");
+        },
+
+        IfElseStatement: function(s) {
+            emit("if (" + generate(s.condition) + ") {");
+            generate(s.thenBody);
+            for (var i = 0; i < s.elseIfBody.length; i++) {
+                
+            }
+            return emit("}");
         },
 
         ForStatement: function(f) {
+            emit("for ");
             console.log("TODO: Generator ForStatement")
-            return;
+            return emit("}");
         },
 
         ReturnStatement: function(s) {
-            return "return " + generate(s.value);
+            return emit("return " + generate(s.exp));
         },
 
         IntegerLiteral: function(literal) {
@@ -124,15 +134,15 @@ var Generator = (function() {
         },
 
         StringLiteral: function(literal) {
-            return '"' + literal.toString() + '"';
+            return literal.toString();
         },
 
         DictLiteral: function(literal) {
-            return '{' + literal.items + '}';
+            return '{' + literal.items.join(', ') + '}';
         },
 
         TupleLiteral: function(literal) {
-            return '[' + literal.items.join(', ') + ']';;
+            return '[' + literal.items.join(', ') + ']';
         },
 
         ListLiteral: function(literal) {
@@ -140,7 +150,7 @@ var Generator = (function() {
         },
 
         NaNLiteral: function(literal) {
-            return literal.toString;
+            return literal.toString();
         },
 
         VariableReference: function(v) {
