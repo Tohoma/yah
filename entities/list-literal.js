@@ -4,17 +4,17 @@ var ListLiteral, Type;
 Type = require('./type');
 
 ListLiteral = (function() {
-    function ListLiteral(items) {
-        this.items = items;
+    function ListLiteral(expList) {
+        this.expList = expList;
     };
 
     ListLiteral.prototype.toString = function() {
-        return "[" + this.items.toString() + "]";
+        return "[" + this.expList.toString() + "]";
     };
 
     ListLiteral.prototype.analyze = function(context) {
         // console.log(chalk.red("TODO: ListLiteral"));
-        this.items.forEach(function(item) {
+        this.expList.items.forEach(function(item) {
             item.analyze(context);
         });
         return this.type = Type.LIST;

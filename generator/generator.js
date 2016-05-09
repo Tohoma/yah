@@ -70,10 +70,10 @@ var Generator = (function() {
 
         VariableDeclaration: function(variable) {
             var initializer = {
-                'int': '0',
-                'bool': 'false',
-                'String': '',
-                'float': '0.0',
+                int: '0',
+                bool: 'false',
+                string: '',
+                float: '0.0',
                 list: '[]',
                 tuple: '[]',
                 dict: '{}'
@@ -143,15 +143,15 @@ var Generator = (function() {
         },
 
         DictLiteral: function(literal) {
-            return '{' + literal.items.join(', ') + '}';
+            return '{' + literal.expList.items.join(', ') + '}';
         },
 
         TupleLiteral: function(literal) {
-            return '[' + literal.items.join(', ') + ']';
+            return '[' + literal.expList.items.join(', ') + ']';
         },
 
         ListLiteral: function(literal) {
-            return '[' + literal.items.join(', ') + ']';
+            return '[' + literal.expList.items.join(', ') + ']';
         },
 
         NaNLiteral: function(literal) {
@@ -170,13 +170,18 @@ var Generator = (function() {
             return "(" + (generate(e.left)) + " " + (makeOperator(e.op.lexeme)) + " " + (generate(e.right)) + ")";
         },
 
-        Function: function(f) {
-            emit("function(" + generate(f.args) + ") {");
+        FunctionStatement: function(f) {
+            emit("function " + generate(f.args) + " {");
+            generate(f.body);
             return emit("}");
         },
 
         FunctionCall: function(f) {
-            return emit(f.id + "(" + f.args.join(", ") + ");");
+            return emit(generate(f.id) + "(" + generate(f.args) + ");");
+        },
+
+        Args: function(a) {
+            return a.toString();
         },
 
         FieldAccess: function(f) {

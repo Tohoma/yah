@@ -4,16 +4,16 @@ var chalk = require('chalk');
 Type = require('./type');
 
 TupleLiteral = (function() {
-    function TupleLiteral(items) {
-        this.items = items;
+    function TupleLiteral(expList) {
+        this.expList = expList;
     }
 
     TupleLiteral.prototype.toString = function() {
-        return "(" + this.items.toString() + ")";
+        return "(" + this.expList.toString() + ")";
     };
 
     TupleLiteral.prototype.analyze = function(context) {
-        this.items.forEach(function(item) {
+        this.expList.items.forEach(function(item) {
             item.analyze(context);
         });
         return this.type = Type.TUPLE;

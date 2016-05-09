@@ -310,7 +310,17 @@
             } else if (at('(')) {
                 var t = copyTokens();
                 match('(');
-                var exp = parseExpression();
+                if (!at(')')) {
+                    var exp = parseExpression();
+                } else {
+                    match(')');
+                    if (at('->')) {
+                        tokens = t;
+                        return parseFunction();
+                    }
+                    tokens = t;
+                    return parseTupLit();
+                }
 
                 if (at(',')) {
                     tokens = t;
@@ -436,7 +446,6 @@
 
         parseDictLit = function() {
             match('{');
-            // var bindList = parseBind();
             var bindList = parseBindList();
             match('}');
             return new DictLiteral(bindList);
@@ -445,6 +454,7 @@
         parseFunction = function() {
             var body, args;
             args = parseArgs();
+            console.log(args)
             match('->');
             body = parseBlockOrStatement();
             return new Func(args, body);
@@ -463,7 +473,7 @@
             removeDentAndNewlineTokens();
             var expListItems = [];
             removeDentAndNewlineTokens();
-            if (!(at(']') || at(')'))) {
+            if (!at([']', ')'])) {
                 expListItems.push(parseExpression());
             }
             while (at(',')) {
