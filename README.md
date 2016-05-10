@@ -156,13 +156,13 @@ y is 2 - x                                                  var y = 2 - x;
 z is 3 - y                                                  var z = 3 - y;
 u is 4 - z                                                  var u = 4 - z;
 
-dog::int is 5                                                var dog = 5;
-cat::string is "furry"                                       var cat = "furry";
+dog::int is 5                                               var dog = 5;
+cat::string is "furry"                                      var cat = "furry";
 cat be 10                                                   // Produces a compile-time error
 
 // Example use of constants
-swag dog is 2                                              const dog = 2;
-dog be 3                                                   // Produces a compile-time error
+swag dog is 2                                               const dog = 2;
+dog be 3                                                    // Produces a compile-time error
 
 ```
 ### Strings
@@ -177,15 +177,15 @@ stringThree is "sup \(StringTwo)                            var stringThree = "s
     here's \(banana) dollars"                                   stringTwo + " here's " + 
                                                                 banana + " dollars";
                                                                 
-print stringThree                                          console.log(stringThree);       
+print stringThree                                           console.log(stringThree);       
 ```
 
 The following are some string operations.
 
 ```
-greeting is "Hello " + "World"                             var greeting = "Hello " + "World";
-greeting.uppercase()                                       greeting.toUpperCase()
-print "Hello " * 3                                         console.log("Hello Hello Hello ");
+greeting is "Hello " + "World"                              var greeting = "Hello " + "World";
+greeting.uppercase()                                        greeting.toUpperCase();
+print "Hello " * 3                                          console.log("Hello Hello Hello ");
 
 
 ```
@@ -245,7 +245,7 @@ yah provides multiple ways to perform a set of statements multiple times. there 
 ```
 //All three iterations will output the same values
 
-basket is ["banana", "orange", "grapefruit"]                 var basket = ["banana", "orange", "grapefruit"];
+basket is ["banana", "orange", "grapefruit"]                var basket = ["banana", "orange", "grapefruit"];
 
 for each fruit in basket:                                   for each (var fruit in basket) {
   print "stop eating my \(fruit)"                               console.log("stop eating my " + fruit);
