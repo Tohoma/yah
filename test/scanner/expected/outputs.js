@@ -47,7 +47,7 @@ var tokenList = {},
             },
             {
                 lexeme: 'eq',
-                kind: 'eq',
+                kind: 'id',
                 line: 2,
                 col: 7,
                 idLevel: 3
@@ -313,7 +313,7 @@ var tokenList = {},
             },
             {
                 lexeme: 'print',
-                kind: 'print',
+                kind: 'id',
                 line: 7,
                 col: 8,
                 idLevel: 7
@@ -341,7 +341,7 @@ var tokenList = {},
             },
             {
                 lexeme: 'print',
-                kind: 'print',
+                kind: 'id',
                 line: 8,
                 col: 5,
                 idLevel: 4
@@ -852,7 +852,7 @@ var tokenList = {},
             },
             {
                 lexeme: 'print',
-                kind: 'print',
+                kind: 'id',
                 line: 16,
                 col: 15,
                 idLevel: 0

@@ -35,3 +35,5 @@ else:
 () ->
     x be 2
     x be 10
+
+print("Yo, World")

@@ -109,8 +109,8 @@ ExpList       ::= newline? Exp (newline? ',' Exp)* newline?
 Args          ::= '(' ExpList ')'
 
 ListLit       ::= '[' ExpList | Comprehension ']'
-TupLit        ::= '(' ExpList ')'
-DictLit       ::= '{' BindList '}'
+TupLit        ::= '(' ExpList? ')'
+DictLit       ::= '{' BindList? '}'
 Bind          ::= newline? id ':' Exp newline?
 BindList      ::= Bind (',' Bind)*
 

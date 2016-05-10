@@ -2,6 +2,7 @@ var Generator = (function() {
 
     var util = require('util');
     var HashMap = require('hashmap').HashMap;
+    var BuiltIn = require('../entities/built-in');
     module.exports = function(program) {
         return generate(program);
     }
@@ -177,7 +178,10 @@ var Generator = (function() {
         },
 
         FunctionCall: function(f) {
-            return emit(generate(f.id) + "(" + generate(f.args) + "); \n");
+            if (f.id.referent) {
+                return emit(f.id.referent.generateCode(f.args))
+            }
+            return emit(generate(f.id) + generate(f.args) + "; \n");
         },
 
         Args: function(a) {
@@ -187,10 +191,6 @@ var Generator = (function() {
         FieldAccess: function(f) {
             //TODO
             return;
-        },
-
-        Print: function(s) {
-            return "console.log(" + generate(s.exp) + "); \n";
         },
 
         ClassExpression: function(s) {

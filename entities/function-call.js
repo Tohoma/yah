@@ -12,9 +12,13 @@ FunctionCall = (function() {
         return "(FunCall " + this.id + " " + this.args.toString() + ")";
     };
 
-    FunctionCall.prototype.analyze = function() {
-        console.log("TODO: FunctionCall");
-        return;
+    FunctionCall.prototype.analyze = function(context) {
+        // console.log("TODO: FunctionCall");
+        this.id.analyze(context);
+        this.args.expList.items.forEach(function(item) {
+            item.analyze(context);
+        });
+        return this.type = Type.ARBITRARY;
     };
 
     FunctionCall.prototype.optimize = function() {

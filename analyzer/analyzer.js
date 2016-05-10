@@ -1,13 +1,14 @@
-var AnalysisContext, VariableDeclaration, error;
+var AnalysisContext, VariableDeclaration, error, BuiltIn;
 var chalk = require('chalk');
 error = require('../error/error');
 
+BuiltIn = require('../entities/built-in'),
 VariableDeclaration = require('../entities/variable-declaration');
 
 AnalysisContext = (function() {
-    function AnalysisContext(parent) {
+    function AnalysisContext(parent, symbolTable) {
         this.parent = parent;
-        this.symbolTable = {};
+        this.symbolTable = symbolTable || {};
         this.globalSymbolTable = {};
         this.funFlag = false;
         this.returnType;
@@ -19,7 +20,7 @@ AnalysisContext = (function() {
     };
 
     AnalysisContext.initialContext = function() {
-        return new AnalysisContext(null);
+        return new AnalysisContext(null, BuiltIn.entities);
     };
 
     AnalysisContext.prototype.createChildContext = function() {

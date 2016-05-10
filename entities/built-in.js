@@ -12,7 +12,7 @@ BuiltIn = (function() {
             },
             return: Type.ARBITRARY,
             generateCode: function(args) {
-                return 'console.log(' + args + ');';
+                return 'console.log ' + args + ';';
             }
         },
 

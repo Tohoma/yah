@@ -49,7 +49,7 @@
                     'DEDENT', '.', '..', '...', '(', ')',
                     '[', ']', '{', '}', 'dict', 'tuple',
                     'list', 'string', 'float', 'nil',
-                    'undefined', 'NaN', 'print', 'for',
+                    'undefined', 'NaN', 'for',
                     'in', 'class', 'new', 'times', 'each'],
 
         type_tokens = ['int', 'string', 'float', 'bool', 'list',
