@@ -108,14 +108,15 @@
             return new Block(statements);
         },
 
-        parseClassExp = function() {
-            match('class');
-            match('->');
-            match('newline');
-            var exp = parseExpression();
-            match('newline');
-            return new Class(exp);
-        },
+        // parseClassExp = function() {
+        //     match('class');
+        //     match('->');
+        //     match('newline');
+        //     match('INDENT');
+        //     var exp = parseExpression();
+        //     match('newline');
+        //     return new Class(exp);
+        // },
 
         parseConditionalExp = function() {
             var condition, thenBody, elseBody, elseifs;

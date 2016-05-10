@@ -6,7 +6,7 @@ var scan = require('../../scanner/scanner'),
 
 describe('The analyzer', function() {
     //FAILING TEST SECTION!!!!!!!!!!!!!!!!!!!!!!!
-    it('Analyzer detects Type Mismatch', function(done) {
+    it('detects Type Mismatch', function(done) {
         scan('./test/analyzer/inputs/invalid/type-mismatch.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -16,7 +16,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzer detects Undeclared Variable', function(done) {
+    it('detects Undeclared Variable', function(done) {
         scan('./test/analyzer/inputs/invalid/undeclared-variable.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -26,7 +26,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzer detects Reserved Word misuse', function(done) {
+    it('detects Reserved Word misuse', function(done) {
         scan('./test/analyzer/inputs/invalid/reserved-word.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -36,7 +36,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzer detects multiple Declarations', function(done) {
+    it('detects Multiple Declarations', function(done) {
         scan('./test/analyzer/inputs/invalid/multi-decs.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -46,7 +46,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzer detects Out of scope', function(done) {
+    it('detects Out of scope', function(done) {
         scan('./test/analyzer/inputs/invalid/out-of-scope.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -56,7 +56,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it.skip('Analyzer detects Parameter Mismatch', function(done) {
+    it('detects Parameter Mismatch', function(done) {
         scan('./test/analyzer/inputs/invalid/params-mismatch.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -76,7 +76,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzes no error declared Variables', function(done) {
+    it('detects no error for good declared Variables', function(done) {
         scan('./test/analyzer/inputs/valid/good-declared-variables.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -86,7 +86,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzes no error reserved usage', function(done) {
+    it('detects no error for good reserved usage', function(done) {
         scan('./test/analyzer/inputs/valid/good-reserved-word.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -96,7 +96,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzes no error single delcartion in scope', function(done) {
+    it('detects no error for single delcartion in scope', function(done) {
         scan('./test/analyzer/inputs/valid/good-single-dec.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -106,7 +106,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzes no error everything in scope', function(done) {
+    it('detects no error when everything is in scope', function(done) {
         scan('./test/analyzer/inputs/valid/good-scope.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);
@@ -116,7 +116,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('Analyzes no error parameter match', function(done) {
+    it('detects no error for good parameter match', function(done) {
         scan('./test/analyzer/inputs/valid/good-parameter-match.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);

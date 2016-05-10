@@ -23,3 +23,10 @@ id("arg", 1).field
 
 () ->
     spit yah
+
+y::bool is yah
+s::string is "str"
+t::tuple is (1, "two")
+d::dict is {one: 1, two: 2}
+
+t be ()

@@ -10,7 +10,9 @@ var astList = {},
         astList.expressions = "(Program (Block (or true false) (and true false) (|| true false) (&& true false) (> 3 3) "
                                 + "(+ (+ 5 10) 1) (/ 100 20) (! true) (^ 4 2) (is (x [1, 2, 3])) (. (. x y) 2) "
                                 + "(10 .. 40 by 2) (FunCall f (1, 2)) (While (true) (Return x)) (Function (x) (Return x)) "
-                                + "(. (FunCall id (\"arg\", 1)) field) (Function () (Block (Return true)))))";
+                                + "(. (FunCall id (\"arg\", 1)) field) (Function () (Block (Return true))) " 
+                                + "(is (y true)) (is (s \"str\")) (is (t (1, \"two\"))) (is (d {BindList ((: one 1), (: two 2))})) "
+                                + "(be (t ()))))";
         astList.sample1 = "(Program (Block (is (x (/ (* 3 4) 2))) (is (y true)) (is (trix \"4kdz\")) "
                                 + "(is (addOne (Function (p, q) (Block (Return (+ (+ p q) 1)))))) "
                                 + "(is (l [1, 2, x])) (is (t (a, y, trix))) (is (l2 [])) "

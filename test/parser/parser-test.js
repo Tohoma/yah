@@ -169,4 +169,13 @@ describe('The parser', function() {
             done();
         });
     });
+
+    it('throws an error when parsing incorrect type', function(done) {
+        scan('./test/parser/inputs/invalid/invalid-type.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
 });
