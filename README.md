@@ -202,9 +202,9 @@ else:                                                       } else {
 
 //Allows for both else if and elif
 
-if 5 > 10:                                                  if (5 > 10) {
+if gt(5, 10):                                               if (5 > 10) {
   print "amazing"                                             console.log("amazing");
-elif 6 > 10:                                                else if (6 > 10) {
+elif lt(4,5,6):                                             else if ((4 < 5) && (5 < 6)) {
   print "still amazing"                                       console.log("still amazing");
 else if 7 > 10:                                             else if (7 > 10) {
   print "still amazinger"                                     console.log("still amazinger");
