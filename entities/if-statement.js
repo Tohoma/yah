@@ -14,14 +14,16 @@ IfStatement = (function() {
     };
 
     IfStatement.prototype.analyze = function(context) {
-    	this.condition.analyze().mustBeBoolean();
-    	// this.thenBody.analyze();
-    	// return;
+        this.condition.analyze(context).mustBeBoolean();
+        this.thenBody.analyze(context);
+        // this.thenBody.analyze();
+        // return;
+        return this.type = Type.ARBITRARY;
     };
 
     IfStatement.prototype.optimize = function() {
-    	// TODO
-    	return this;
+        // TODO
+        return this;
     }
 
     return IfStatement;

@@ -16,21 +16,21 @@ while yah:
     x be x + 1
 
 if yah:
-    spit 2
+    print(2)
 
 if yah == (yah == yah):
-    spit "yea!"
-else if nah == 1 && yah:
-    spit "meh"
+    print("yea!")
+else if 1 == 1 && yah:
+    print("meh")
 elif x > 2:
     z is 2
     while yah:
         s is 2
         if yah:
-            spit nah
-    spit 2
+            print(nah)
+    print(2)
 else:
-    spit "aww"
+    print("aww")
 
 () ->
     x be 2

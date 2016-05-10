@@ -21,7 +21,7 @@ ForStatement = (function() {
         return this.body.analyze(context);
     };
 
-    ForStatement.prototype.optimize = function () {
+    ForStatement.prototype.optimize = function() {
         this.id.optimize();
         this.iterable.optimize();
         if (this.iterable instanceof BooleanLiteral && this.iterable.value() === false) {

@@ -25,8 +25,12 @@ IfElseStatement = (function() {
     };
 
     IfElseStatement.prototype.analyze = function(context) {
-        // TODO
-        return;
+        this.condition.analyze(context);
+        this.thenBody.analyze(context);
+        this.elseIfBody.forEach(function(item) {
+            item.analyze(context);
+        })
+        this.elseBody.analyze(context);
     };
 
     IfElseStatement.prototype.optimize = function() {

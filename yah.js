@@ -49,6 +49,6 @@ scan(argv._[0], function(tokens) {
         program.showSemanticGraph();
         return;
     }
-    generate (program);
+    generate(program);
     return "hello";
 });

@@ -16,7 +16,9 @@ ExpList = (function() {
     };
 
     ExpList.prototype.analyze = function(context) {
-        this.items.forEach(function(item) { item.analyze(context); });
+        this.items.forEach(function(item) {
+            item.analyze(context);
+        });
         return;
     };
 

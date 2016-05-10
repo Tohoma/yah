@@ -9,7 +9,7 @@ ClassExp = (function() {
 
     ClassExp.prototype.toString = function() {
         return "(Class (" + this.body.join(", ") + "))";
-	}
+    }
 
     ClassExp.prototype.analyze = function(context) {
         this.args.analyze(context);

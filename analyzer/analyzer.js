@@ -3,7 +3,7 @@ var chalk = require('chalk');
 error = require('../error/error');
 
 BuiltIn = require('../entities/built-in'),
-VariableDeclaration = require('../entities/variable-declaration');
+    VariableDeclaration = require('../entities/variable-declaration');
 
 AnalysisContext = (function() {
     function AnalysisContext(parent, symbolTable) {

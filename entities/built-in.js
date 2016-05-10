@@ -8,7 +8,11 @@ BuiltIn = (function() {
     BuiltIn.entities = {
         print: {
             value: {
-                params: [{ value: { token: 'str' }}]
+                params: [{
+                    value: {
+                        token: 'str'
+                    }
+                }]
             },
             return: Type.ARBITRARY,
             generateCode: function(args) {
@@ -18,7 +22,11 @@ BuiltIn = (function() {
 
         gt: {
             value: {
-                params: [{ value: { token: 'int' }}]
+                params: [{
+                    value: {
+                        token: 'int'
+                    }
+                }]
             },
             return: Type.BOOL,
             generateCode: function(args) {
@@ -33,7 +41,11 @@ BuiltIn = (function() {
 
         lt: {
             value: {
-                params: [{ value: { token: 'int' }}]
+                params: [{
+                    value: {
+                        token: 'int'
+                    }
+                }]
             },
             return: Type.BOOL,
             generateCode: function(args) {
@@ -48,7 +60,11 @@ BuiltIn = (function() {
 
         eq: {
             value: {
-                params: [{ value: { token: 'int' }}]
+                params: [{
+                    value: {
+                        token: 'int'
+                    }
+                }]
             },
             return: Type.BOOL,
             generateCode: function(args) {
@@ -63,7 +79,11 @@ BuiltIn = (function() {
 
         leq: {
             value: {
-                params: [{ value: { token: 'int' }}]
+                params: [{
+                    value: {
+                        token: 'int'
+                    }
+                }]
             },
             return: Type.BOOL,
             generateCode: function(args) {
@@ -78,7 +98,11 @@ BuiltIn = (function() {
 
         geq: {
             value: {
-                params: [{ value: { token: 'int' }}]
+                params: [{
+                    value: {
+                        token: 'int'
+                    }
+                }]
             },
             return: Type.BOOL,
             generateCode: function(args) {
@@ -93,7 +117,11 @@ BuiltIn = (function() {
 
         neq: {
             value: {
-                params: [{ value: { token: 'int' }}]
+                params: [{
+                    value: {
+                        token: 'int'
+                    }
+                }]
             },
             return: Type.BOOL,
             generateCode: function(args) {

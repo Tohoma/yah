@@ -83,9 +83,15 @@ describe('The entities', function() {
     describe('bind-list', function() {
         it('successfully creates a list of binds', function(done) {
             var items = [
-                new Binding({'lexeme':'trix'}, '4kdz'),
-                new Binding({'lexeme':'apples'}, 'oranges'),
-                new Binding({'lexeme':'foo'}, 'bar')
+                new Binding({
+                    'lexeme': 'trix'
+                }, '4kdz'),
+                new Binding({
+                    'lexeme': 'apples'
+                }, 'oranges'),
+                new Binding({
+                    'lexeme': 'foo'
+                }, 'bar')
             ];
             var newBindList = new BindList(items);
             newBindList.toString().should.eql('BindList ((: trix 4kdz), (: apples oranges), (: foo bar))');
@@ -129,9 +135,15 @@ describe('The entities', function() {
     describe('dict-literal', function() {
         it('successfully creates a dictionary-literal', function(done) {
             var items = [
-                new Binding({'lexeme':'trix'}, '4kdz'),
-                new Binding({'lexeme':'apples'}, 'oranges'),
-                new Binding({'lexeme':'foo'}, 'bar')
+                new Binding({
+                    'lexeme': 'trix'
+                }, '4kdz'),
+                new Binding({
+                    'lexeme': 'apples'
+                }, 'oranges'),
+                new Binding({
+                    'lexeme': 'foo'
+                }, 'bar')
             ];
             var newDictLit = new DictLiteral(new BindList(items));
             newDictLit.toString().should.eql('{BindList ((: trix 4kdz), (: apples oranges), (: foo bar))}');
@@ -175,8 +187,12 @@ describe('The entities', function() {
     describe('function-call', function() {
         it('successfully creates a function-call', function(done) {
             var newFunDec = new FunctionCall('x', new Args(new ExpList([
-                new VariableReference({'lexeme':'a'}), 
-                new VariableReference({'lexeme':'b'})
+                new VariableReference({
+                    'lexeme': 'a'
+                }),
+                new VariableReference({
+                    'lexeme': 'b'
+                })
             ])));
             newFunDec.toString().should.eql('(FunCall x (a, b))');
             done();
@@ -204,9 +220,15 @@ describe('The entities', function() {
     describe('list-literal', function() {
         it('successfully creates a list-literal', function(done) {
             var newListLit = new ListLiteral(new ExpList([
-                new IntegerLiteral({'lexeme':'0'}),
-                new IntegerLiteral({'lexeme':'1'}),
-                new IntegerLiteral({'lexeme':'2'})
+                new IntegerLiteral({
+                    'lexeme': '0'
+                }),
+                new IntegerLiteral({
+                    'lexeme': '1'
+                }),
+                new IntegerLiteral({
+                    'lexeme': '2'
+                })
             ]));
             newListLit.toString().should.eql('[0, 1, 2]');
             done();
@@ -319,8 +341,12 @@ describe('The entities', function() {
     describe('tuple-literal', function() {
         it('successfully creates a tuple literal', function(done) {
             var newTupleLit = new TupleLiteral(new ExpList([
-                new IntegerLiteral({'lexeme':'1'}),
-                new IntegerLiteral({'lexeme': '2'})
+                new IntegerLiteral({
+                    'lexeme': '1'
+                }),
+                new IntegerLiteral({
+                    'lexeme': '2'
+                })
             ]));
             newTupleLit.toString().should.eql('(1, 2)');
             done();

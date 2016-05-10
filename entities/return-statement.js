@@ -11,7 +11,7 @@ ReturnStatement = (function() {
         return "(Return " + this.exp + ")";
     };
 
-    ReturnStatement.prototype.analyze = function(context, num) {
+    ReturnStatement.prototype.analyze = function(context) {
         this.exp.analyze(context);
         //console.log("The return type for the context is " + context.returnType)
         // console.log(context.globalSymbolTable);

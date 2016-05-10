@@ -199,7 +199,7 @@ var Generator = (function() {
 
         Comprehension: function(s) {
             var result = [];
-            for (var i = s.start; i < s.end; i+= s.inc) {
+            for (var i = s.start; i < s.end; i += s.inc) {
                 result.push(i);
             }
             return result.join(', ');

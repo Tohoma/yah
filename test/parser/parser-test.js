@@ -134,8 +134,35 @@ describe('The parser', function() {
         });
     });
 
-    it.skip('throws an error when parsing incorrect expressions', function(done) {
-        scan('./test/parser/inputs/invalid/bad-expressions.yah', function(tokens) {
+    it('throws an error when parsing expression with missing semicolon', function(done) {
+        scan('./test/parser/inputs/invalid/missing-semicolon.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
+
+    it('throws an error when parsing mixed keywords', function(done) {
+        scan('./test/parser/inputs/invalid/while-for.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
+
+    it('throws an error when parsing both spit and return', function(done) {
+        scan('./test/parser/inputs/invalid/spit-return.yah', function(tokens) {
+            var priorErrorCount = error.count;
+            parse(tokens);
+            error.count.should.be.above(priorErrorCount);
+            done();
+        });
+    });
+
+    it('throws an error when parsing incorrect expressions', function(done) {
+        scan('./test/parser/inputs/invalid/bad-expression.yah', function(tokens) {
             var priorErrorCount = error.count;
             parse(tokens);
             error.count.should.be.above(priorErrorCount);
