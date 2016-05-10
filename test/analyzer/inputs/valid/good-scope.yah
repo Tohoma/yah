@@ -1,1 +1,6 @@
+x is 2
+() ->
+	x be 1
 
+() ->
+	x is "doggy"
