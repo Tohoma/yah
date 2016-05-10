@@ -26,6 +26,7 @@ yah is a statically typed programming language with all of the dynamic benefits.
 # Grammar
 
 ## Microsyntax
+<a href="http://trixr4kdz.github.io/yah/micro-railroad-diagram/">Microsyntax Railroad Diagram</a>
 
 ```
 newline      ::= \s* (\r*\n)+
@@ -51,15 +52,15 @@ prefixop     ::= '-'   | 'not' | '!'
 boollit      ::= 'yah' | 'nah' | 'true' | 'false'
 escape       ::= [\\] [rnst'"\\]
 char         ::= [^\x00-\x1F'"\\] | escape
-stringlit    ::= ('"' char* '"') | (\x27 char* \x27)
+stringlit    ::= ('"' char* '"') |  '\x27' char* '\x27'
 undeflit     ::= 'undefined'
 nanlit       ::= 'NaN'
 nillit       ::= 'nil'
-comment      ::= '//' [^\n]* newline
-             | '//\' .*? '\\/'
+comment      ::= '//' [^\n]* newline | '///' .* '///'
 ```
 
 ## Macrosyntax
+<a href="http://trixr4kdz.github.io/yah/macro-railroad-diagram/">Macrosyntax Railroad Diagram</a>
 
 ```
 Program       ::= Block
