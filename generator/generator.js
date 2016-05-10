@@ -184,7 +184,11 @@ var Generator = (function() {
         },
 
         Args: function(a) {
-            return a.toString();
+            var result = [];
+            a.expList.items.forEach(function(item) {
+                result.push(makeVariable(item));
+            })
+            return "(" + result.join(', ') + ")";
         },
 
         FieldAccess: function(f) {
