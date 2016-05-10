@@ -22,13 +22,12 @@ BuiltIn = (function() {
             },
             return: Type.BOOL,
             generateCode: function(args) {
-                var str = "(";
-                for (var i = 1; i < args.length; i++) {
-                    str += "(" + args[i - 1] + " > " + args[i] + ") ";
+                var result = []
+                for (var i = 1; i < args.expList.items.length; i++) {
+                    result.push("(" + args.expList.items[i - 1] + " > " + args.expList.items[i] + ")");
                 }
 
-                str += ")";
-                return str;
+                return "(" + result.join(" && ") + ")";
             }
         },
 
@@ -38,13 +37,12 @@ BuiltIn = (function() {
             },
             return: Type.BOOL,
             generateCode: function(args) {
-                var str = "(";
-                for (var i = 1; i < args.length; i++) {
-                    str += "(" + args[i - 1] + " < " + args[i] + ") ";
+                var result = []
+                for (var i = 1; i < args.expList.items.length; i++) {
+                    result.push("(" + args.expList.items[i - 1] + " < " + args.expList.items[i] + ")");
                 }
 
-                str += ")";
-                return str;
+                return "(" + result.join(" && ") + ")";
             }
         },
 
@@ -54,13 +52,12 @@ BuiltIn = (function() {
             },
             return: Type.BOOL,
             generateCode: function(args) {
-                var str = "(";
-                for (var i = 1; i < args.length; i++) {
-                    str += "(" + args[i - 1] + " === " + args[i] + ") ";
+                var result = []
+                for (var i = 1; i < args.expList.items.length; i++) {
+                    result.push("(" + args.expList.items[i - 1] + " === " + args.expList.items[i] + ")");
                 }
 
-                str += ")";
-                return str;
+                return "(" + result.join(" && ") + ")";
             }
         },
 
@@ -70,13 +67,12 @@ BuiltIn = (function() {
             },
             return: Type.BOOL,
             generateCode: function(args) {
-                var str = "(";
-                for (var i = 1; i < args.length; i++) {
-                    str += "(" + args[i - 1] + " <= " + args[i] + ") ";
+                var result = []
+                for (var i = 1; i < args.expList.items.length; i++) {
+                    result.push("(" + args.expList.items[i - 1] + " <= " + args.expList.items[i] + ")");
                 }
 
-                str += ")";
-                return str;
+                return "(" + result.join(" && ") + ")";
             }
         },
 
@@ -86,13 +82,12 @@ BuiltIn = (function() {
             },
             return: Type.BOOL,
             generateCode: function(args) {
-                var str = "(";
-                for (var i = 1; i < args.length; i++) {
-                    str += "(" + args[i - 1] + " >= " + args[i] + ") ";
+                var result = []
+                for (var i = 1; i < args.expList.items.length; i++) {
+                    result.push("(" + args.expList.items[i - 1] + " >= " + args.expList.items[i] + ")");
                 }
 
-                str += ")";
-                return str;
+                return "(" + result.join(" && ") + ")";
             }
         },
 
@@ -102,13 +97,12 @@ BuiltIn = (function() {
             },
             return: Type.BOOL,
             generateCode: function(args) {
-                var str = "(";
-                for (var i = 1; i < args.length; i++) {
-                    str += "(" + args[i - 1] + " !== " + args[i] + ") ";
+                var result = []
+                for (var i = 1; i < args.expList.items.length; i++) {
+                    result.push("(" + args.expList.items[i - 1] + " !== " + args.expList.items[i] + ")");
                 }
 
-                str += ")";
-                return str;
+                return "(" + result.join(" && ") + ")";
             }
         }
     }
