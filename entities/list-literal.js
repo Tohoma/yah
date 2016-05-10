@@ -21,11 +21,11 @@ ListLiteral = (function() {
     };
 
     ListLiteral.prototype.length = function() {
-        return this.items.length;
+        return this.expList.items.length;
     };
 
     ListLiteral.prototype.optimize = function() {
-        this.items.forEach(function(item) {
+        this.expList.items.forEach(function(item) {
             item.optimize();
         });
         return this;

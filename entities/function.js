@@ -9,16 +9,15 @@ FunctionStatement = (function() {
         this.args = args;
         this.body = body;
         this.type = type;
-
     };
 
     FunctionStatement.prototype.analyze = function(context) {
         // console.log("We are analying function");
         // console.log("The type is " + JSON.stringify(this.args));
-        newReturnType = context.returnType;
-        functionContext = context.createChildContext();
+        var newReturnType = context.returnType;
+        var functionContext = context.createChildContext();
         this.args.expList.items.forEach(function(param) {
-            varDec = new VariableDeclaration(param.token.lexeme, " ", Type.ARBITRARY)
+            varDec = new VariableDeclaration(param.token, {}, Type.ARBITRARY)
             param.addVariabletoContext(functionContext, varDec)
 
         })

@@ -12,7 +12,7 @@ argv = require('yargs')
     .describe('target', 'generate code for JavaScript')
     .demand(1)
     .argv;
-// 
+
 scan = require('./scanner/scanner');
 parse = require('./parser/parser');
 generate = (require('./generator/generator')); // (argv.target) ;

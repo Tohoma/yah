@@ -6,7 +6,7 @@ var AssignmentStatement = require('../../entities/assignment-statement'),
     should = require("should");
 
 describe('The optimizer', function() {
-    describe('binary-expressions', function() {
+    describe('for binary-expressions', function() {
         it('successfully optimizes a binary addition expression', function(done) {
             var newBinaryAssignment = new BinaryExpression({
                 'lexeme': '+',
@@ -51,5 +51,4 @@ describe('The optimizer', function() {
             done();
         });
     });
-
 });

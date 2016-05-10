@@ -12,15 +12,12 @@ VariableDeclaration = (function() {
     }
 
     VariableDeclaration.prototype.toString = function() {
-        if (this.value === undefined) {
-            return "(is (" + this.id.lexeme + " NONE))";
-        }
         return "(is (" + this.id.lexeme + " " + this.value + "))";
     };
 
     VariableDeclaration.prototype.analyze = function(context) {
         context.variableMustNotBeAlreadyDeclared(this.id);
-        if ((this.value.items)) {
+        if (this.value.items) {
             this.value.analyze(context);
             this.value.type = Type.ARBITRARY
                 //console.log(this.value.type)
@@ -43,6 +40,7 @@ VariableDeclaration = (function() {
     };
 
     VariableDeclaration.prototype.optimize = function() {
+        this.value.optimize();
         return this;
     };
 

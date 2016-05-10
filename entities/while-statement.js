@@ -21,7 +21,7 @@ WhileStatement = (function() {
     WhileStatement.prototype.optimize = function() {
         this.condition = this.condition.optimize();
         this.body = this.body.optimize();
-        if (this.condition instanceof BooleanLiteral && this.condition.value() === false) {
+        if (this.condition instanceof BooleanLiteral && this.condition.value === false) {
             return null;
         }
         return this;

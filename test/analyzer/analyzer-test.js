@@ -56,7 +56,7 @@ describe('The analyzer', function() {
         });
     });
 
-    it('detects Parameter Mismatch', function(done) {
+    it.skip('detects Parameter Mismatch', function(done) {
         scan('./test/analyzer/inputs/invalid/params-mismatch.yah', function(tokens) {
             error.count = 0;
             var program = parse(tokens);

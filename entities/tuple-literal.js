@@ -20,11 +20,13 @@ TupleLiteral = (function() {
     }
 
     TupleLiteral.prototype.length = function() {
-        return this.items.length;
+        return this.expList.items.length;
     }
 
     TupleLiteral.prototype.optimize = function() {
-        items.optimize();
+        this.expList.items.forEach(function(item) {
+            item.optimize();
+        });
         return this;
     };
 
